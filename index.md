@@ -41,11 +41,10 @@ We are currently at the planning stage of our project. While we are going to sug
 ```markdown
 ## Goals
 
-**Milestone 1 (Realistic):**
+**Milestone 1 (Minimum):**
 
 1) Be able to fight and kill zombies
 2) Use melee and ranged weapons to kill zombies
-3) Kill ten easy zombies
 
 **Milestone 2 (Realistic):**
 
@@ -54,8 +53,7 @@ We are currently at the planning stage of our project. While we are going to sug
 
 **Milestone 3 (Ambitious):**
 
-1) Be able to build weapons and gather resources at day time
-2) Survive against zombies at night by using the resources gathered at day time
+1) Be able to build weapons and gather resources at day time to prepare against surviving against zombies at night
 
 ```
 
