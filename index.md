@@ -1,4 +1,4 @@
-## Welcome to GitHub Pages
+## Minecraft: Zombie Killer 
 
 You can use the [editor on GitHub](https://github.com/bgunaman/MinecraftZombieKillerRL/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
 
