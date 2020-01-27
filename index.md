@@ -14,7 +14,7 @@ Team Members: Bryant Gunaman (21268398), Rafael Tuazon (31238954),  George Zhong
 
 ### Evaluation Plan
 
-	We are currently at the planning stage of our project. While we are going to suggest several metrics to evaluate our project, they are subject to change depending on how our project progresses. For now the basic rewards should be given as the agent had maintained/improved his health status for a certain amount of time (say 1 hour in the game), had killed a zombie; possible actions for the agent should be movements to 8 directions, searching through the toolbar and using/consuming items (attacking or eating foods); we will keep tracking the agent’s health status and the number of zombies.
+We are currently at the planning stage of our project. While we are going to suggest several metrics to evaluate our project, they are subject to change depending on how our project progresses. For now the basic rewards should be given as the agent had maintained/improved his health status for a certain amount of time (say 1 hour in the game), had killed a zombie; possible actions for the agent should be movements to 8 directions, searching through the toolbar and using/consuming items (attacking or eating foods); we will keep tracking the agent’s health status and the number of zombies.
 
 
 ```markdown
