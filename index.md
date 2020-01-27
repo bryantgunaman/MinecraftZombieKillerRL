@@ -1,6 +1,6 @@
 ## Minecaft: Zombie Killer RL
 
-Team Members: Bryant Gunaman, Rafael Tuazon,  George Zhong 
+Team Members: Bryant Gunaman (21268398), Rafael Tuazon (31238954),  George Zhong (17744349) 
 
 ### Project Summary
 
@@ -8,11 +8,14 @@ Team Members: Bryant Gunaman, Rafael Tuazon,  George Zhong
 
   Furthermore, we will also iteratively increase the area of the environment and place obstacles. To prevent our bot from jumping into water bodies to kill zombies, we decided to start with environments that contain no water bodies. 
   
-  Ultimately, we are committed to training a bot that is capable of killing any number of zombies given any environments. If our bot learns faster than expected, we will extend to having our bot start with no weapon and train him to build weapons that will help him kill zombies. 
+  Ultimately, we are committed to training a bot that is capable of killing any number of zombies given any environments. If our bot learns faster than expected, we will extend to having our bot start with no weapon and train him to build weapons that will help him kill zombies.
   
+  The main tools we will use are Minecraft, Malmo and Curriculum Learning.
+
 ### Evaluation Plan
 
-We are currently at the planning stage of our project. While we are going to suggest several metrics to evaluate our project, they are subject to change depending on how our project progresses. 
+	We are currently at the planning stage of our project. While we are going to suggest several metrics to evaluate our project, they are subject to change depending on how our project progresses. For now the basic rewards should be given as the agent had maintained/improved his health status for a certain amount of time (say 1 hour in the game), had killed a zombie; possible actions for the agent should be movements to 8 directions, searching through the toolbar and using/consuming items (attacking or eating foods); we will keep tracking the agent’s health status and the number of zombies.
+
 
 ```markdown
 ## Quantitative Evaluation:
@@ -54,7 +57,6 @@ We are currently at the planning stage of our project. While we are going to sug
 **Milestone 3 (Ambitious):**
 
 1) Be able to build weapons and gather resources at day time to prepare against surviving against zombies at night
-
 ```
 
 ## Appointment with Instructor
