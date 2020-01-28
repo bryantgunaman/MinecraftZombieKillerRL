@@ -26,9 +26,6 @@ We are currently at the planning stage of our project. While we are going to sug
 - To assess the ability to fight:
 	We will start with one easy zombie, then iteratively increase the difficulty to hard. When our bot can kill three hard zombies, we will conclude that our bot is capable of fighting.
 
-- To assess the ability to use different types of weapons:
-	We will start to train our bot with a diamond ax, then move to ranged weapons such as bow and arrow. When our bot can use one melee and one ranged weapon, we will conclude that our bot is capable of short and long-distance fighting.
-  
 ## Qualitative Analysis:
 
 - To assess the ability to fight and kill:
@@ -57,6 +54,7 @@ We are currently at the planning stage of our project. While we are going to sug
 **Milestone 3 (Ambitious):**
 
 1) Be able to build weapons and gather resources at day time to prepare against surviving against zombies at night
+2) Be able to use ranged typed weapons.
 ```
 
 ## Appointment with Instructor
