@@ -21,73 +21,6 @@ else:
 ARENA_WIDTH = 10
 ARENA_BREADTH = 10
 
-missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-            <Mission xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            
-              <About>
-                <Summary>Hello world!</Summary>
-              </About>
-              
-              <ServerSection>
-                <ServerInitialConditions>
-                    <Time>
-                        <StartTime>15000</StartTime>
-                        <AllowPassageOfTime>true</AllowPassageOfTime>
-                    </Time>
-                </ServerInitialConditions>
-                <ServerHandlers>
-                  <FlatWorldGenerator generatorString="3;7,2*3,2;1;"/>
-                  <DrawingDecorator>
-                    <DrawLine x1="2" y1="4" z1="-2" x2="2" y2="4" z2="8" type="fence"/>
-                    <DrawLine x1="2" y1="4" z1="8" x2="-8" y2="4" z2="8" type="fence"/>
-                    <DrawLine x1="-8" y1="4" z1="8" x2="-8" y2="4" z2="-2" type="fence"/>
-                    <DrawLine x1="2" y1="4" z1="-2" x2="-8" y2="4" z2="-2" type="fence"/>
-                    <DrawEntity x="-7" y="4" z="7" type="Zombie"/>
-                  </DrawingDecorator>
-                  <ServerQuitFromTimeUp timeLimitMs="120000"/>
-                  <ServerQuitWhenAnyAgentFinishes/>
-                </ServerHandlers>
-              </ServerSection>
-              
-              <AgentSection mode="Survival">
-                <Name>MalmoTutorialBot</Name>
-                <AgentStart>
-                    <Placement x="0" y="4" z="0" yaw="30"/>
-                    <Inventory>
-                        <InventoryItem slot="0" type="diamond_sword"/>
-                    </Inventory>
-                </AgentStart>
-                <AgentHandlers>
-                <ContinuousMovementCommands turnSpeedDegs="420"/>
-                <DiscreteMovementCommands> 
-
-                    <ModifierList type="deny-list"> 
-                        <command>attack</command> 
-                        <command>turn</command> 
-                        <command>move</command> 
-                    </ModifierList> 
-                </DiscreteMovementCommands> 
-                <ContinuousMovementCommands> 
-                    
-                    <ModifierList type="allow-list">
-                     <command>attack</command> 
-                     
-                    </ModifierList> 
-                   
-                </ContinuousMovementCommands>
-          
-                <ObservationFromRay/>
-                 <RewardForDamagingEntity>
-                    <Mob type="Zombie" reward="1"/>
-                </RewardForDamagingEntity>
-                <ObservationFromNearbyEntities>
-                    <Range name="entities" xrange="'''+str(ARENA_WIDTH)+'''" yrange="2" zrange="'''+str(ARENA_BREADTH)+'''" />
-                </ObservationFromNearbyEntities>
-                <ObservationFromFullStats/>
-                </AgentHandlers>
-              </AgentSection>
-            </Mission>'''
-
 # Create default Malmo objects:
 
 agent_host = MalmoPython.AgentHost()
@@ -101,7 +34,11 @@ if agent_host.receivedArgument("help"):
     print(agent_host.getUsage())
     exit(0)
 
-my_mission = MalmoPython.MissionSpec(missionXML, True)
+mission_file = './zombie_killer.xml'
+with open(mission_file, 'r') as f:
+    print("Loading mission from %s" % mission_file)
+    mission_xml = f.read()
+    my_mission = MalmoPython.MissionSpec(mission_xml, True)
 my_mission_record = MalmoPython.MissionRecordSpec()
 
 # Attempt to start a mission:
