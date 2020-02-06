@@ -51,7 +51,7 @@ class TabQAgent(object):
         self.logger.addHandler(logging.StreamHandler(sys.stdout))
 
         #self.actions = ["attack 0", "attack 1", "turn 0.3", "turn -0.3", "move 0.5", "move -0.5"]
-        self.actions = ["towards_zombies", "away_from_zombies", "attack"]
+        self.actions = ["towards_zombies", "away_from_zombies", "attack once"]
         self.q_table = {}
         self.canvas = None
         self.root = None
@@ -387,8 +387,6 @@ if agent_host.receivedArgument("help"):
     print(agent_host.getUsage())
     exit(0)
 
-my_mission = MalmoPython.MissionSpec(missionXML, True)
-
 # Attempt to start a mission:
 max_retries = 3
 num_repeats = 150
@@ -396,7 +394,7 @@ cumulative_rewards = []
 for i in range(num_repeats):
     print()
     print('Repeat %d of %d' % ( i+1, num_repeats))
-
+    my_mission = MalmoPython.MissionSpec(missionXML, True)
     my_mission_record = MalmoPython.MissionRecordSpec()
 
     for retry in range(max_retries):
