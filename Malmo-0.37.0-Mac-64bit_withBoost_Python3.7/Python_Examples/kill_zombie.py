@@ -174,7 +174,6 @@ class TabQAgent(object):
         if self.prev_s is not None and self.prev_a is not None:
             self.updateQTable( current_r, current_s )
 
-        self.drawQ( curr_x = int(obs[u'XPos']), curr_y = int(obs[u'ZPos']) )
 
         # select the next action
         rnd = random.random()
@@ -265,51 +264,8 @@ class TabQAgent(object):
         if self.prev_s is not None and self.prev_a is not None:
             self.updateQTableFromTerminatingState( current_r )
             
-        self.drawQ()
     
         return total_reward
-        
-    def drawQ( self, curr_x=None, curr_y=None ):
-        scale = 40
-        world_x = 10
-        world_y = 10
-        if self.canvas is None or self.root is None:
-            self.root = tk.Tk()
-            self.root.wm_title("Q-table")
-            self.canvas = tk.Canvas(self.root, width=world_x*scale, height=world_y*scale, borderwidth=0, highlightthickness=0, bg="black")
-            self.canvas.grid()
-            self.root.update()
-        self.canvas.delete("all")
-        action_inset = 0.1
-        action_radius = 0.1
-        curr_radius = 0.2
-        action_positions = [ ( 0.5, action_inset ), ( 0.5, 1-action_inset ), ( action_inset, 0.5 ), ( 1-action_inset, 0.5 ) ]
-        # (NSWE to match action order)
-        min_value = -20
-        max_value = 20
-        for x in range(world_x):
-            for y in range(world_y):
-                s = "%d:%d" % (x,y)
-                self.canvas.create_rectangle( x*scale, y*scale, (x+1)*scale, (y+1)*scale, outline="#fff", fill="#000")
-                for action in range(4):
-                    if not s in self.q_table:
-                        continue
-                    value = self.q_table[s][action]
-                    color = int( 255 * ( value - min_value ) / ( max_value - min_value )) # map value to 0-255
-                    color = max( min( color, 255 ), 0 ) # ensure within [0,255]
-                    color_string = '#%02x%02x%02x' % (255-color, color, 0)
-                    self.canvas.create_oval( (x + action_positions[action][0] - action_radius ) *scale,
-                                             (y + action_positions[action][1] - action_radius ) *scale,
-                                             (x + action_positions[action][0] + action_radius ) *scale,
-                                             (y + action_positions[action][1] + action_radius ) *scale, 
-                                             outline=color_string, fill=color_string )
-        if curr_x is not None and curr_y is not None:
-            self.canvas.create_oval( (curr_x + 0.5 - curr_radius ) * scale, 
-                                     (curr_y + 0.5 - curr_radius ) * scale, 
-                                     (curr_x + 0.5 + curr_radius ) * scale, 
-                                     (curr_y + 0.5 + curr_radius ) * scale, 
-                                     outline="#fff", fill="#fff" )
-        self.root.update()
 ########
 
 if sys.version_info[0] == 2:
@@ -362,7 +318,7 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
                   <ContinuousMovementCommands turnSpeedDegs="360"/>
                   <ObservationFromRay/>
                   <RewardForDamagingEntity>
-                    <Mob type="Zombie" reward="1000"/>
+                    <Mob type="Zombie" reward="100"/>
                   </RewardForDamagingEntity>
                   <RewardForSendingCommand reward="-1" />
                   <ObservationFromNearbyEntities>
