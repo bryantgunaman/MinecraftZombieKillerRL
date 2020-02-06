@@ -50,65 +50,87 @@ class TabQAgent(object):
         self.logger.handlers = []
         self.logger.addHandler(logging.StreamHandler(sys.stdout))
 
-        self.actions = ["attack 0", "attack 1", "turn 0.3", "turn -0.3", "move 0.5", "move -0.5"]
-        #self.actions = ["towards_zombies", "away_from_zombies", "attack 0", "attack 1"]
+        #self.actions = ["attack 0", "attack 1", "turn 0.3", "turn -0.3", "move 0.5", "move -0.5"]
+        self.actions = ["towards_zombies", "away_from_zombies", "attack 0", "attack 1"]
         self.q_table = {}
         self.canvas = None
         self.root = None
+        self.num_zombie = 0
+        self.zombie_population = 0
 
-    # def send_command(agent_host, a, ):
-    #     """ based on random integer a and the observation send customized actions"""
-    #     world_state = agent_host.getWorldState()
-    #     if a == 0: # case "towards_zombies"
-    #         try: 
-    #             if world_state.number_of_observations_since_last_state > 0:
-    #                 msg = world_state.observations[-1].text
-    #                 ob = json.loads(msg)
-    #                 print(f"OBSERVATIONS: {ob}")
-    #                 # Get our position/orientation:
-    #                 if u'Yaw' in ob:
-    #                     current_yaw = ob[u'Yaw']
-    #                 if u'XPos' in ob:
-    #                     self_x = ob[u'XPos']
-    #                 if u'ZPos' in ob:
-    #                     self_z = ob[u'ZPos']
-    #                 # Use the nearby-entities observation to decide which way to move, and to keep track
-    #                 # of population sizes - allows us some measure of "progress".
-    #                 if u'entities' in ob:
-    #                     print('entities in ob')
-    #                     entities = ob["entities"]
-    #                     num_zombie = 0
-    #                     x_pull = 0
-    #                     z_pull = 0
-    #                     for e in entities:
-    #                         if e["name"] == "Zombie":
-    #                             num_zombie += 1
-    #                             # Each zombie contributes to the direction we should head in...
-    #                             dist = max(0.0001, (e["x"] - self_x) * (e["x"] - self_x) + (e["z"] - self_z) * (e["z"] - self_z))
-    #                             # Prioritise going after wounded sheep. Max zombie health is 20, according to Minecraft wiki...
-    #                             weight = 21.0 - e["life"]
-    #                             x_pull += weight * (e["x"] - self_x) / dist
-    #                             z_pull += weight * (e["z"] - self_z) / dist
-    #                         elif e["name"] == "Zombie":
-    #                             num_zombie += 1
-    #                 # Determine the direction we need to turn in order to head towards the "zombiest" point:
-    #                 yaw = -180 * math.atan2(x_pull, z_pull) / math.pi
-    #                 difference = yaw - current_yaw
-    #                 while difference < -180:
-    #                     difference += 360
-    #                 while difference > 180:
-    #                     difference -= 360
-    #                 difference /= 180.0
-    #                 print('TURNING')
-    #                 agent_host.sendCommand("turn " + str(difference))
-    #                 move_speed = 1.0 if abs(difference) < 0.5 else 0  # move slower when turning faster - helps with "orbiting" problem
-    #                 print('MOVING')
-    #                 agent_host.sendCommand("move " + str(move_speed))
-    #                 if num_zombie != zombie_population:
-    #                     # Print an update of our "progress":
-    #                     zombie_population = num_zombie
-    #                     if zombie_population:
-    #                         print(f'zombie_population: {zombie_population}')
+    def calculate_turning_difference(self,agent_host):
+        """ calculate turning difference based on where zombies are """
+        world_state = agent_host.getWorldState()
+        difference = 0
+        if world_state.number_of_observations_since_last_state > 0:
+            msg = world_state.observations[-1].text
+            ob = json.loads(msg)
+            print(f"OBSERVATIONS: {ob}")
+            # Get our position/orientation:
+            if u'Yaw' in ob:
+                current_yaw = ob[u'Yaw']
+            if u'XPos' in ob:
+                self_x = ob[u'XPos']
+            if u'ZPos' in ob:
+                self_z = ob[u'ZPos']
+            # Use the nearby-entities observation to decide which way to move, and to keep track
+            # of population sizes - allows us some measure of "progress".
+            if u'entities' in ob:
+                print('entities in ob')
+                entities = ob["entities"]
+                num_zombie = 0
+                x_pull = 0
+                z_pull = 0
+                for e in entities:
+                    if e["name"] == "Zombie":
+                        num_zombie += 1
+                        # Each zombie contributes to the direction we should head in...
+                        dist = max(0.0001, (e["x"] - self_x) * (e["x"] - self_x) + (e["z"] - self_z) * (e["z"] - self_z))
+                        # Prioritise going after wounded sheep. Max zombie health is 20, according to Minecraft wiki...
+                        weight = 21.0 - e["life"]
+                        x_pull += weight * (e["x"] - self_x) / dist
+                        z_pull += weight * (e["z"] - self_z) / dist
+                    elif e["name"] == "Zombie":
+                        num_zombie += 1
+            # Determine the direction we need to turn in order to head towards the "zombiest" point:
+            yaw = -180 * math.atan2(x_pull, z_pull) / math.pi
+            difference = yaw - current_yaw
+            while difference < -180:
+                difference += 360
+            while difference > 180:
+                difference -= 360
+            difference /= 180.0
+        return difference
+
+    def send_command(self,agent_host, a):
+        """ based on random integer a and the observation send customized actions"""
+        if a == 0: # case "towards_zombies"
+            difference = self.calculate_turning_difference(agent_host)
+            print('TURNING')
+            agent_host.sendCommand("turn " + str(difference))
+            move_speed = 1.0 if abs(difference) < 0.5 else 0  # move slower when turning faster - helps with "orbiting" problem
+            print('MOVING')
+            agent_host.sendCommand("move " + str(move_speed))
+            if self.num_zombie != self.zombie_population:
+                # Print an update of our "progress":
+                self.zombie_population = self.num_zombie
+                if self.zombie_population:
+                    print(f'self.zombie_population: {self.zombie_population}')
+        elif a == 1:
+            difference = self.calculate_turning_difference(agent_host)
+            print('TURNING')
+            agent_host.sendCommand("turn " + str(difference))
+            move_speed = 1.0 if abs(difference) < 0.5 else 0  # move slower when turning faster - helps with "orbiting" problem
+            print('MOVING')
+            agent_host.sendCommand("move -" + str(move_speed)) # moving backwards
+            if self.num_zombie != self.zombie_population:
+                # Print an update of our "progress":
+                self.zombie_population = self.num_zombie
+                if self.zombie_population:
+                    print(f'self.zombie_population: {self.zombie_population}')
+        else:
+            agent_host.sendCommand(self.actions[a])
+            
     def updateQTable( self, reward, current_state ):
         """Change q_table to reflect what we have learnt."""
         
@@ -171,7 +193,7 @@ class TabQAgent(object):
 
         # try to send the selected action, only update prev_s if this succeeds
         try:
-            agent_host.sendCommand(self.actions[a])
+            self.send_command(agent_host,a)
             self.prev_s = current_s
             self.prev_a = a
 
@@ -350,6 +372,7 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
               </AgentSection>
             </Mission>'''
 
+# Final state: no zombies -- big rewards
 # Create default Malmo objects:
 agent = TabQAgent()
 agent_host = MalmoPython.AgentHost()
