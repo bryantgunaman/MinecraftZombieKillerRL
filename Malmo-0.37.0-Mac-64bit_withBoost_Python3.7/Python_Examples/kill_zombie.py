@@ -109,6 +109,7 @@ class TabQAgent(object):
             while difference > 180:
                 difference -= 360
             difference /= 180.0
+        print("turn differece: ", difference)
         return difference
 
     def send_command(self,agent_host, a):
@@ -355,7 +356,7 @@ if agent_host.receivedArgument("help"):
 # Attempt to start a mission:
 my_mission = MalmoPython.MissionSpec(missionXML, True)
 max_retries = 3
-num_repeats = 25
+num_repeats = 10
 cumulative_rewards = []
 for i in range(num_repeats):
     print()
@@ -364,7 +365,7 @@ for i in range(num_repeats):
 
     for retry in range(max_retries):
         try:
-            my_mission_record.forceWorldReset()	
+            my_mission.forceWorldReset() # force world to reset for each iteration
             agent_host.startMission( my_mission, my_mission_record )
             break
         except RuntimeError as e:
