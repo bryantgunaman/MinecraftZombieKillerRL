@@ -51,7 +51,7 @@ class TabQAgent(object):
         self.logger.addHandler(logging.StreamHandler(sys.stdout))
 
         #self.actions = ["attack 0", "attack 1", "turn 0.3", "turn -0.3", "move 0.5", "move -0.5"]
-        self.actions = ["towards_zombies", "away_from_zombies", "attack 0", "attack 1"]
+        self.actions = ["towards_zombies", "away_from_zombies", "attack"]
         self.q_table = {}
         self.canvas = None
         self.root = None
@@ -129,7 +129,8 @@ class TabQAgent(object):
                 if self.zombie_population:
                     print(f'self.zombie_population: {self.zombie_population}')
         else:
-            agent_host.sendCommand(self.actions[a])
+            agent_host.sendCommand("attack 1")
+            agent_host.sendCommand("attack 0")
             
     def updateQTable( self, reward, current_state ):
         """Change q_table to reflect what we have learnt."""
