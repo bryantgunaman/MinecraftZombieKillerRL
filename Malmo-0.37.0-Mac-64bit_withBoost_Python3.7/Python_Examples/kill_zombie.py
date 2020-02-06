@@ -29,12 +29,15 @@ import time
 import json
 import logging
 import math
+import json
 
 if sys.version_info[0] == 2:
     # Workaround for https://github.com/PythonCharmers/python-future/issues/262
     import Tkinter as tk
 else:
     import tkinter as tk
+
+QTable_file = 'QTable.txt' # Global variable for potential saved Q table
 
 class TabQAgent(object):
     """Tabular Q-learning agent for discrete state/action spaces."""
@@ -50,13 +53,21 @@ class TabQAgent(object):
         self.logger.handlers = []
         self.logger.addHandler(logging.StreamHandler(sys.stdout))
 
-        #self.actions = ["attack 0", "attack 1", "turn 0.3", "turn -0.3", "move 0.5", "move -0.5"]
-        self.actions = ["towards_zombies", "away_from_zombies", "attack once"]
-        self.q_table = {}
+        self.actions = ["towards_zombies", "away_from_zombies", "attack once"] # All possible actions
+        if QTable_file == None:
+            self.q_table = {}
+        else:
+            with open('QTable.txt') as json_file:
+                Qtb = json.load(json_file)
+            self.q_table = Qtb
         self.canvas = None
         self.root = None
         self.num_zombie = 0
         self.zombie_population = 0
+    
+    def exportQTable(self):
+        with open('QTable.txt', 'w') as outfile:
+            json.dump(self.q_table, outfile)
 
     def calculate_turning_difference(self,agent_host):
         """ calculate turning difference based on where zombies are """
@@ -264,7 +275,7 @@ class TabQAgent(object):
         if self.prev_s is not None and self.prev_a is not None:
             self.updateQTableFromTerminatingState( current_r )
             
-    
+        self.exportQTable()
         return total_reward
 ########
 
@@ -315,7 +326,7 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
                     </Inventory>
                 </AgentStart>
                 <AgentHandlers>
-                  <ContinuousMovementCommands turnSpeedDegs="360"/>
+                  <ContinuousMovementCommands turnSpeedDegs="420"/>
                   <ObservationFromRay/>
                   <RewardForDamagingEntity>
                     <Mob type="Zombie" reward="100"/>
@@ -345,7 +356,7 @@ if agent_host.receivedArgument("help"):
 
 # Attempt to start a mission:
 max_retries = 3
-num_repeats = 150
+num_repeats = 10
 cumulative_rewards = []
 for i in range(num_repeats):
     print()
