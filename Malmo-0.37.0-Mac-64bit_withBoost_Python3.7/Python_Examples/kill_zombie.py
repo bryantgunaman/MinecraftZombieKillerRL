@@ -18,8 +18,6 @@ from __future__ import print_function
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # ------------------------------------------------------------------------------------------------
 
-# Tutorial sample #2: Run simple mission using raw XML
-
 from builtins import range
 import MalmoPython
 import os
@@ -275,7 +273,7 @@ class TabQAgent(object):
         if self.prev_s is not None and self.prev_a is not None:
             self.updateQTableFromTerminatingState( current_r )
             
-        self.exportQTable()
+        self.exportQTable() # export the Q table after each iteration
         return total_reward
 ########
 
@@ -355,17 +353,18 @@ if agent_host.receivedArgument("help"):
     exit(0)
 
 # Attempt to start a mission:
+my_mission = MalmoPython.MissionSpec(missionXML, True)
 max_retries = 3
-num_repeats = 10
+num_repeats = 25
 cumulative_rewards = []
 for i in range(num_repeats):
     print()
     print('Repeat %d of %d' % ( i+1, num_repeats))
-    my_mission = MalmoPython.MissionSpec(missionXML, True)
     my_mission_record = MalmoPython.MissionRecordSpec()
 
     for retry in range(max_retries):
         try:
+            my_mission_record.forceWorldReset()	
             agent_host.startMission( my_mission, my_mission_record )
             break
         except RuntimeError as e:
@@ -392,92 +391,7 @@ for i in range(num_repeats):
     cumulative_rewards += [ cumulative_reward ]
 
     # -- clean up -- #
-    time.sleep(0.5) # (let the Mod reset)
-
-# main loop:
-# total_reward = 0
-# zombie_population = 0
-# self_x = 0
-# self_z = 0
-# current_yaw = 30
-
-# # Loop until mission ends:
-# while world_state.is_mission_running:
-#     print(".", end="")
-#     time.sleep(0.1)
-#     world_state = agent_host.getWorldState()
-#     if world_state.number_of_observations_since_last_state > 0:
-#         msg = world_state.observations[-1].text
-#         ob = json.loads(msg)
-#         print(f"OBSERVATIONS: {ob}")
-#         # Use the line-of-sight observation to determine when to hit and when not to hit:
-#         if u'LineOfSight' in ob:
-#             print('LINE OF SIGHT\n',ob[u'LineOfSight'])
-#             los = ob[u'LineOfSight']
-#             type=los["type"]
-#             if type == "Zombie":
-#                 print("ATTACKING")
-#                 agent_host.sendCommand("attack 1")
-#                 agent_host.sendCommand("attack 0")
-#         # Get our position/orientation:
-#         if u'Yaw' in ob:
-#             current_yaw = ob[u'Yaw']
-#         if u'XPos' in ob:
-#             self_x = ob[u'XPos']
-#         if u'ZPos' in ob:
-#             self_z = ob[u'ZPos']
-#         # Use the nearby-entities observation to decide which way to move, and to keep track
-#         # of population sizes - allows us some measure of "progress".
-#         if u'entities' in ob:
-#             print('entities in ob')
-#             entities = ob["entities"]
-#             num_zombie = 0
-#             x_pull = 0
-#             z_pull = 0
-#             for e in entities:
-#                 if e["name"] == "Zombie":
-#                     num_zombie += 1
-#                     # Each zombie contributes to the direction we should head in...
-#                     dist = max(0.0001, (e["x"] - self_x) * (e["x"] - self_x) + (e["z"] - self_z) * (e["z"] - self_z))
-#                     # Prioritise going after wounded sheep. Max zombie health is 20, according to Minecraft wiki...
-#                     weight = 21.0 - e["life"]
-#                     x_pull += weight * (e["x"] - self_x) / dist
-#                     z_pull += weight * (e["z"] - self_z) / dist
-#                 elif e["name"] == "Zombie":
-#                     num_pigs += 1
-#             # Determine the direction we need to turn in order to head towards the "zombiest" point:
-#             yaw = -180 * math.atan2(x_pull, z_pull) / math.pi
-#             difference = yaw - current_yaw;
-#             while difference < -180:
-#                 difference += 360;
-#             while difference > 180:
-#                 difference -= 360;
-#             difference /= 180.0;
-#             print('TURNING')
-#             agent_host.sendCommand("turn " + str(difference))
-#             move_speed = 1.0 if abs(difference) < 0.5 else 0  # move slower when turning faster - helps with "orbiting" problem
-#             print('MOVING')
-#             agent_host.sendCommand("move " + str(move_speed))
-#             if num_zombie != zombie_population:
-#                 # Print an update of our "progress":
-#                 zombie_population = num_zombie
-#                 if zombie_population:
-#                     print(f'zombie_population: {zombie_population}')
-
-#         if world_state.number_of_rewards_since_last_state > 0:
-#             # Keep track of our total reward:
-#             total_reward += world_state.rewards[-1].getValue()
-#     # mission has ended
-#     for error in world_state.errors:
-#         print("Error:",error.text)
-#     if world_state.number_of_rewards_since_last_state > 0:
-#         # A reward signal has come in - see what it is:
-#         total_reward += world_state.rewards[-1].getValue()
-
-#     print("Total score this round:", total_reward)
-#     print("=" * 41)
-#     print()
-#time.sleep(1) # Give the mod a little time to prepare for the next mission.
+    time.sleep(1) # (let the Mod reset)
 
 print()
 print("Cumulative rewards for all %d runs:" % num_repeats)
