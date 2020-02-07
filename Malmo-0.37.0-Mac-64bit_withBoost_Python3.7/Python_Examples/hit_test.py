@@ -190,6 +190,7 @@ for iRepeat in range(num_reps):
         if world_state.number_of_observations_since_last_state > 0:
             msg = world_state.observations[-1].text
             ob = json.loads(msg)
+            print(ob)
             # Use the line-of-sight observation to determine when to hit and when not to hit:
             if u'LineOfSight' in ob:
                 los = ob[u'LineOfSight']

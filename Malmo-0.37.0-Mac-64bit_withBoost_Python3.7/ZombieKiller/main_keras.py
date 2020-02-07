@@ -26,37 +26,73 @@ class MainKeras():
                   n_actions=4, mem_size=1000000, batch_size=64, epsilon_end=0.01)
         self.scores = []
         self.eps_history = []
-        agent_host = MalmoPython.AgentHost()
+        self.agent_host = MalmoPython.AgentHost()
 
         try:
-            agent_host.parse( sys.argv )
+            self.agent_host.parse( sys.argv )
         except RuntimeError as e:
             print('ERROR:',e)
-            print(agent_host.getUsage())
+            print(self.agent_host.getUsage())
             exit(1)
-        if agent_host.receivedArgument("help"):
-            print(agent_host.getUsage())
-            exit(0)
-
+    
         print(missionXML)
         self.my_mission = MalmoPython.MissionSpec(missionXML, True)
+        self.my_mission.setViewpoint(0)
         self.my_mission_record = MalmoPython.MissionRecordSpec()
 
         self.max_retries = max_retries
 
+        #adding clients
+        self.my_client_pool = None
         self._add_starters()
         self._add_default_client()
 
+        # attempting to start the mission
+        self.world_state = None
+        self._retry_start_mission()
+
+        # main loop variables
+        self.total_reward = 0
+        self.pig_population = 0
+        self.sheep_population = 0
+        self.self_x = 0
+        self.self_z = 0
+        self.current_yaw = 0
+
+
     def _add_starters(self):
-        my_mission.removeAllCommandHandlers()
-        my_mission.allowAllDiscreteMovementCommands()
-        my_mission.requestVideo( 320, 240 )
-        my_mission.setViewpoint( 1 )
+        self.my_mission.removeAllCommandHandlers()
+        self.my_mission.allowAllDiscreteMovementCommands()
+        self.my_mission.requestVideo( 320, 240 )
+        self.my_mission.setViewpoint( 1 )
 
     def _add_default_client(self):
-        my_clients = MalmoPython.ClientPool()
-        my_clients.add(MalmoPython.ClientInfo('127.0.0.1', 10000))
+        self.my_client_pool = MalmoPython.ClientPool()
+        self.my_client_pool.add(MalmoPython.ClientInfo('127.0.0.1', 10000))
 
+    def _retry_start_mission(self):
+        self.my_mission_record = MalmoPython.MissionRecordSpec()
+        
+        for retry in range(self.max_retries):
+            try:
+                # Attempt to start the mission:
+                self.agent_host.startMission( self.my_mission, self.my_client_pool, 
+                self.my_mission_record, 0, "ZombieKiller" )
+                break
+            except RuntimeError as e:
+                if retry == max_retries - 1:
+                    print("Error starting mission",e)
+                    print("Is the game running?")
+                    exit(1)
+                else:
+                    time.sleep(2)
+        self._get_valid_worldstate()
+    
+    def _get_valid_worldstate(self):
+        self.world_state = self.agent_host.getWorldState()
+        while not self.world_state.has_mission_begun:
+            time.sleep(0.1)
+            self.world_state = self.agent_host.getWorldState()
 
 
     # def run(self):
@@ -67,10 +103,8 @@ class MainKeras():
 
 
 if __name__ == '__main__':
-    with open('default_flat_1.xml', 'r') as file:
+    with open('zombie_kill_1.xml', 'r') as file:
         mission_file = file.read().replace('\n', '')
-        # print(data)
-
         mk = MainKeras(mission_file, n_games=500, max_retries=3)
 
 

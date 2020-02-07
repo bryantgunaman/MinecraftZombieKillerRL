@@ -21,14 +21,14 @@ if __name__ == '__main__':
         while not done:
             action = agent.choose_action(observation)
 
-            print(f'ACTION: {action}')
+            # print(f'ACTION: {action}')
 
             observation_, reward, done, info = env.step(action)
 
-            print(f'OBSERVATION: {observation_}')
-            print(f'REWARD: {reward}')
-            print(f'DONE: {done}')
-            print(f'INFO: {info}')
+            # print(f'OBSERVATION: {observation_}')
+            # print(f'REWARD: {reward}')
+            # print(f'DONE: {done}')
+            # print(f'INFO: {info}')
 
             score += reward
             agent.remember(observation, action, reward, observation, done)
