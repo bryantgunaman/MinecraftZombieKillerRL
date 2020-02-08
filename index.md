@@ -46,6 +46,16 @@ We are currently at the planning stage of our project. While we are going to sug
 1) Be able to fight and kill zombies
 2) Use melee and ranged weapons to kill zombies
 
+Implemented Q-Table learning agent from `hit_test.py`, giving the agent three possible actions: 'moving towards the zombie', 'moving away from the zombie' and 'attack once'. In a 10 by 10 grid area, given a diamond sward and fixed initial coordinates (for our agent and the zombie), our agent is capable of learning how to kill the zombie and survive from each iteration.
+
+Instructions:
+
+- Run the game ~/Minecraft/launchClient.sh 
+- Run the training script ~/Python_Examples/kill_zombie.py
+
+Updated by Feb, 7th, 2020.
+
+
 **Milestone 2 (Realistic):**
 
 1) Survive through a night regardless of the environment (zombie quantity, zombie difficulty, types of worlds)
