@@ -67,9 +67,8 @@ class TabQAgent(object):
         with open('QTable.txt', 'w') as outfile:
             json.dump(self.q_table, outfile)
 
-    def calculate_turning_difference(self,agent_host):
+    def calculate_turning_difference(self,agent_host,world_state):
         """ calculate turning difference based on where zombies are """
-        world_state = agent_host.getWorldState()
         difference = 0
         if world_state.number_of_observations_since_last_state > 0:
             msg = world_state.observations[-1].text
@@ -112,10 +111,10 @@ class TabQAgent(object):
         print("turn differece: ", difference)
         return difference
 
-    def send_command(self,agent_host, a):
+    def send_command(self,agent_host, world_state, a):
         """ based on random integer a and the observation send customized actions"""
         if a == 0: # case "towards_zombies"
-            difference = self.calculate_turning_difference(agent_host)
+            difference = self.calculate_turning_difference(agent_host,world_state)
             print('TURNING')
             agent_host.sendCommand("turn " + str(difference))
             move_speed = 1.0 if abs(difference) < 0.5 else 0  # move slower when turning faster - helps with "orbiting" problem
@@ -127,7 +126,7 @@ class TabQAgent(object):
                 if self.zombie_population:
                     print(f'self.zombie_population: {self.zombie_population}')
         elif a == 1:
-            difference = self.calculate_turning_difference(agent_host)
+            difference = self.calculate_turning_difference(agent_host,world_state)
             print('TURNING')
             agent_host.sendCommand("turn " + str(difference))
             move_speed = 1.0 if abs(difference) < 0.5 else 0  # move slower when turning faster - helps with "orbiting" problem
@@ -203,7 +202,7 @@ class TabQAgent(object):
 
         # try to send the selected action, only update prev_s if this succeeds
         try:
-            self.send_command(agent_host,a)
+            self.send_command(agent_host,world_state, a)
             self.prev_s = current_s
             self.prev_a = a
 
@@ -325,16 +324,16 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
                     </Inventory>
                 </AgentStart>
                 <AgentHandlers>
-                  <ContinuousMovementCommands turnSpeedDegs="420"/>
-                  <ObservationFromRay/>
-                  <RewardForDamagingEntity>
-                    <Mob type="Zombie" reward="100"/>
-                  </RewardForDamagingEntity>
-                  <RewardForSendingCommand reward="-1" />
-                  <ObservationFromNearbyEntities>
-                    <Range name="entities" xrange="'''+str(ARENA_WIDTH)+'''" yrange="2" zrange="'''+str(ARENA_BREADTH)+'''" />
-                  </ObservationFromNearbyEntities>
-                  <ObservationFromFullStats/>
+                    <ContinuousMovementCommands turnSpeedDegs="420"/>
+                    <ObservationFromRay/>
+                    <RewardForDamagingEntity>
+                        <Mob type="Zombie" reward="100"/>
+                    </RewardForDamagingEntity>
+                    <RewardForSendingCommand reward="-1" />
+                    <ObservationFromNearbyEntities>
+                        <Range name="entities" xrange="'''+str(ARENA_WIDTH)+'''" yrange="2" zrange="'''+str(ARENA_BREADTH)+'''" />
+                    </ObservationFromNearbyEntities>
+                    <ObservationFromFullStats/>
                 </AgentHandlers>
               </AgentSection>
             </Mission>'''
