@@ -23,7 +23,7 @@ class MainKeras():
     def __init__(self, missionXML, n_games=500, max_retries=3):
         # keras attributes
         self.n_games = n_games
-        self.agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0005, input_dims=8,
+        self.agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0005, input_dims=5,
                   n_actions=3, mem_size=1000000, batch_size=64, epsilon_end=0.01)
         self.scores = []
         self.eps_history = []
@@ -51,9 +51,9 @@ class MainKeras():
         self._add_starters()
         self._add_default_client()
 
-        # attempting to start the mission
+        
         self.world_state = None
-        self._retry_start_mission()
+        
 
         # main loop variables
         self.self_x = 0
@@ -77,6 +77,7 @@ class MainKeras():
         for retry in range(self.max_retries):
             try:
                 # Attempt to start the mission:
+                self.my_mission.forceWorldReset() # force world to reset for each iteration
                 self.agent_host.startMission( self.my_mission, self.my_client_pool, 
                 self.my_mission_record, 0, "ZombieKiller" )
                 break
@@ -101,11 +102,13 @@ class MainKeras():
             self.ob = json.loads(msg)
 
     def _get_next_observation(self):
+        self.world_state = self.agent_host.getWorldState()
         if self.world_state.number_of_observations_since_last_state > 0:
             msg = self.world_state.observations[-1].text
-            while json.loads(msg) == self.ob:  # wait until the ob is different to get next
-                pass
+            # while json.loads(msg) == self.ob:  # wait until the ob is different to get next
+            #     pass
             return json.loads(msg)
+        return self.ob
     
     def _get_position_and_orientation(self):
         if u'Yaw' in self.ob:
@@ -120,7 +123,8 @@ class MainKeras():
         if diagonal_diff != None:
             x_pull, z_pull = diagonal_diff
 
-    def _calculate_turning_difference_from_zombies(self, x_pull, z_pull):
+    def _calculate_turning_difference_from_zombies(self, ):
+        x_pull, z_pull = self._get_diagonal_difference_from_zombies()
         yaw = -180 * math.atan2(x_pull, z_pull) / math.pi
         difference = yaw - self.current_yaw
         while difference < -180:
@@ -130,7 +134,7 @@ class MainKeras():
         return difference / 180.0
 
         
-    def get_diagonal_difference_from_zombies(self):
+    def _get_diagonal_difference_from_zombies(self):
         if u'entities' in self.ob:
             entities = self.ob["entities"]
             # print(f'Entities: {entities}')
@@ -153,25 +157,27 @@ class MainKeras():
         return x_pull, z_pull
 
     def _get_current_rewards(self, current_rewards):
-        for reward in world_state.rewards:
+        for reward in self.world_state.rewards:
             current_rewards += reward.getValue()
+        current_rewards += self._decrease_life_penalty()
         return current_rewards
 
     def _move_towards_zombies(self, difference_from_zombie):
-        self.agent_host.sendCommand("turn " + str(difference))
-        move_speed = 1.0 if abs(difference) < 0.5 else 0  # move slower when turning faster - helps with "orbiting" problem
+        self.agent_host.sendCommand("turn " + str(difference_from_zombie))
+        move_speed = 1.0 if abs(difference_from_zombie) < 0.5 else 0  # move slower when turning faster - helps with "orbiting" problem
         self.agent_host.sendCommand("move " + str(move_speed))
         print("move " + str(move_speed))
 
     def _move_away_from_zombies(self, difference_from_zombie):
-        self.agent_host.sendCommand("turn " + str(difference))
-        move_speed = 1.0 if abs(difference) < 0.5 else 0  # move slower when turning faster - helps with "orbiting" problem
+        self.agent_host.sendCommand("turn " + str(difference_from_zombie))
+        move_speed = 1.0 if abs(difference_from_zombie) < 0.5 else 0  # move slower when turning faster - helps with "orbiting" problem
         self.agent_host.sendCommand("move -" + str(move_speed))
         print("move -" + str(move_speed))
 
     def _attack(self):
         self.agent_host.sendCommand("attack 1")
         self.agent_host.sendCommand("attack 0")
+
 
     def _translate_actions(self, action_num, difference_from_zombie):
         if action_num == 0:
@@ -180,14 +186,34 @@ class MainKeras():
             self._move_away_from_zombies(difference_from_zombie)
         elif action_num == 2:
             self._attack()
-        elif action_num == 3:
-            pass
+    
+    def _basic_observation_to_array(self, ob):
+        obs_array = []
+        obs_array.append(ob['TimeAlive']) if 'TimeAlive' in ob else 0
+        obs_array.append(ob['Life']) if 'Life' in ob else 0
+        obs_array.append(ob['XPos']) if 'XPos' in ob else 0
+        obs_array.append(ob['YPos']) if 'YPos' in ob else 0
+        obs_array.append(ob['ZPos']) if 'ZPos' in ob else 0
+        return np.array(obs_array)
 
+    def _observation_to_array(self, observation):
+        pass
+
+    def _parse_entities(self, entities):
+        pass
+
+    def _decrease_life_penalty(self):
+        if len(self.world_state.observations) >= 2 and self.world_state.number_of_observations_since_last_state > 0:
+            ob = json.loads(self.world_state.observations[-1].text)
+            ob2 = json.loads(self.world_state.observations[-2].text)
+            if ob2['Life'] < ob['Life']:
+                return ob2['Life'] - ob['Life'] * 5
+        return 0
 
 
     def run(self):
-        
         for i in range(self.n_games):
+            self._retry_start_mission()
             score = 0
             done = False
             while self.world_state.is_mission_running:
@@ -196,25 +222,28 @@ class MainKeras():
                 self._assign_observation()
                 if self.ob != None:
                     self._get_position_and_orientation()
-                    difference = self.get_diagonal_difference_from_zombies()
-                    self.ob['difference'] = difference
+                    difference = self._calculate_turning_difference_from_zombies()
+                    # self.ob['difference'] = difference # add this later as state maybe
 
                     # agent chooses action
-                    self.agent.choose_action(self.ob)
-                    # send command here
-
-                    # keras calculations
+                    ob_array = self._basic_observation_to_array(self.ob)
+                    print(ob_array)
+                    action = self.agent.choose_action(ob_array)
+                    self._translate_actions(action, difference)
+                    
+                    #keras calculations
                     observation_ = self._get_next_observation()
+                    new_ob_array  = self._basic_observation_to_array(observation_)
                     current_reward += self._get_current_rewards(current_reward)
                     score += current_reward
-                    agent.remember(observation, action, current_reward, observation_, done)
-                    self.ob = observation_
+                    self.agent.remember(ob_array, action, current_reward, new_ob_array, done)
                     self.agent.learn()
+                    
 
-            self.eps_history.append(agent.epsilon)
+            self.eps_history.append(self.agent.epsilon)
             self.scores.append(score)
 
-            avg_score = np.mean(scores[max(0, i-100):(i+1)])
+            avg_score = np.mean(self.scores[max(0, i-100):(i+1)])
             print('episode ', 1, 'score %.2f' % score, 'average score %.2f' % avg_score)
 
             if i%10 == 0 and i > 0:
@@ -239,7 +268,7 @@ class MainKeras():
 if __name__ == '__main__':
     with open('zombie_kill_1.xml', 'r') as file:
         mission_file = file.read().replace('\n', '')
-        mk = MainKeras(mission_file, n_games=500, max_retries=3)
+        mk = MainKeras(mission_file, n_games=25, max_retries=3)
         mk.run()
 
 
