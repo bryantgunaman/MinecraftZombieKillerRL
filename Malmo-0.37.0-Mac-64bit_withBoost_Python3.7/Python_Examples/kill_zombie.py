@@ -325,9 +325,9 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
                     </Inventory>
                 </AgentStart>
                 <AgentHandlers>
-                    <ObservationFromRecentCommands/>
                     <ContinuousMovementCommands turnSpeedDegs="420"/>
                     <ObservationFromRay/>
+                    <ObservationFromFullStats/>
                     <RewardForDamagingEntity>
                         <Mob type="Zombie" reward="100"/>
                     </RewardForDamagingEntity>
