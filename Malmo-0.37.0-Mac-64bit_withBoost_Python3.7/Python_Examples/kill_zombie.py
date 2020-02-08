@@ -325,16 +325,17 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
                     </Inventory>
                 </AgentStart>
                 <AgentHandlers>
-                  <ContinuousMovementCommands turnSpeedDegs="420"/>
-                  <ObservationFromRay/>
-                  <RewardForDamagingEntity>
-                    <Mob type="Zombie" reward="100"/>
-                  </RewardForDamagingEntity>
-                  <RewardForSendingCommand reward="-1" />
-                  <ObservationFromNearbyEntities>
-                    <Range name="entities" xrange="'''+str(ARENA_WIDTH)+'''" yrange="2" zrange="'''+str(ARENA_BREADTH)+'''" />
-                  </ObservationFromNearbyEntities>
-                  <ObservationFromFullStats/>
+                    <ObservationFromRecentCommands/>
+                    <ContinuousMovementCommands turnSpeedDegs="420"/>
+                    <ObservationFromRay/>
+                    <RewardForDamagingEntity>
+                        <Mob type="Zombie" reward="100"/>
+                    </RewardForDamagingEntity>
+                    <RewardForSendingCommand reward="-1" />
+                    <ObservationFromNearbyEntities>
+                        <Range name="entities" xrange="'''+str(ARENA_WIDTH)+'''" yrange="2" zrange="'''+str(ARENA_BREADTH)+'''" />
+                    </ObservationFromNearbyEntities>
+                    <ObservationFromFullStats/>
                 </AgentHandlers>
               </AgentSection>
             </Mission>'''
