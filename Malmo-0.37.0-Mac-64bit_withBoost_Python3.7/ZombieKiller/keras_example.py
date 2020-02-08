@@ -10,7 +10,7 @@ if __name__ == '__main__':
     agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0005, input_dims=8,
                   n_actions=4, mem_size=1000000, batch_size=64, epsilon_end=0.01)
 
-    #agnet.load_model()
+    #agent.load_model()
     scores = []
     eps_history = []
 
@@ -19,6 +19,7 @@ if __name__ == '__main__':
         score = 0
         observation = env.reset()
         while not done:
+            print(observation)
             action = agent.choose_action(observation)
 
             # print(f'ACTION: {action}')
@@ -31,7 +32,7 @@ if __name__ == '__main__':
             # print(f'INFO: {info}')
 
             score += reward
-            agent.remember(observation, action, reward, observation, done)
+            agent.remember(observation, action, reward, observation_, done)
             observation = observation_
             agent.learn()
 
