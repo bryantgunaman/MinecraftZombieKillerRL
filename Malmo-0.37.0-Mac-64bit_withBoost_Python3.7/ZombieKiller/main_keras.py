@@ -25,6 +25,7 @@ class MainKeras():
         self.n_games = n_games
         self.agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0005, input_dims=5,
                   n_actions=3, mem_size=1000000, batch_size=64, epsilon_end=0.01)
+        #self.agent.load_model()
         self.scores = []
         self.eps_history = []
 
@@ -181,11 +182,11 @@ class MainKeras():
 
     def _translate_actions(self, action_num, difference_from_zombie):
         if action_num == 0:
-            self._move_towards_zombies(difference_from_zombie)
+            self.attack()
         elif action_num ==1:
             self._move_away_from_zombies(difference_from_zombie)
         elif action_num == 2:
-            self._attack()
+            self._move_towards_zombies(difference_from_zombie)
     
     def _basic_observation_to_array(self, ob):
         obs_array = []
