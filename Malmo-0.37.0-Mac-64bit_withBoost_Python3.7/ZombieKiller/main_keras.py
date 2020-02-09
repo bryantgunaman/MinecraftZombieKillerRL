@@ -227,13 +227,14 @@ class MainKeras():
 
                     # agent chooses action
                     ob_array = self._basic_observation_to_array(self.ob)
-                    print(ob_array)
+                    print(f'prev_ob: {ob_array}')
                     action = self.agent.choose_action(ob_array)
                     self._translate_actions(action, difference)
                     
                     #keras calculations
                     observation_ = self._get_next_observation()
                     new_ob_array  = self._basic_observation_to_array(observation_)
+                    print(f'next_ob: {new_ob_array }')
                     current_reward += self._get_current_rewards(current_reward)
                     score += current_reward
                     self.agent.remember(ob_array, action, current_reward, new_ob_array, done)
