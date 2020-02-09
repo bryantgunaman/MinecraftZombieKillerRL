@@ -43,7 +43,7 @@ if __name__ == '__main__':
         print('episode ', 1, 'score %.2f' % score, 'average score %.2f' % avg_score)
 
         if i%10 == 0 and i > 0:
-            agent.save_model()
+            self.agent.save_model()
         
     filename = 'lunar_lander.png'
     x = [i+1 for i in range(n_games)]

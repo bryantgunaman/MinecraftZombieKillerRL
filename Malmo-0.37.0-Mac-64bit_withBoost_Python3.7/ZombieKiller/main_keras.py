@@ -178,6 +178,7 @@ class MainKeras():
     def _attack(self):
         self.agent_host.sendCommand("attack 1")
         self.agent_host.sendCommand("attack 0")
+        print('attack')
 
 
     def _translate_actions(self, action_num, difference_from_zombie):
@@ -249,7 +250,7 @@ class MainKeras():
             print('episode ', 1, 'score %.2f' % score, 'average score %.2f' % avg_score)
 
             if i%10 == 0 and i > 0:
-                agent.save_model()
+                self.agent.save_model()
             
         # Plotting functions to be implemented later
         # filename = 'zombie_kill.png'
