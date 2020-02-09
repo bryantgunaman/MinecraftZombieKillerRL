@@ -182,7 +182,7 @@ class MainKeras():
 
     def _translate_actions(self, action_num, difference_from_zombie):
         if action_num == 0:
-            self.attack()
+            self._attack()
         elif action_num ==1:
             self._move_away_from_zombies(difference_from_zombie)
         elif action_num == 2:
