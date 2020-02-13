@@ -289,6 +289,7 @@ ARENA_WIDTH = 20
 ARENA_BREADTH = 20
 y = 4
 
+
 mission_file = './zombie_kill_1.xml'
 mg = MissionGenerator(mission_file)
 print("Loading mission from {}".format(mission_file))
@@ -301,6 +302,7 @@ mg.randomStart()
 #Gets XML
 missionXML=mg.getXML()
 print(missionXML)
+
 
 # Final state: no zombies -- big rewards
 # Create default Malmo objects:
@@ -319,6 +321,7 @@ if agent_host.receivedArgument("help"):
 # Attempt to start a mission:
 my_mission = MalmoPython.MissionSpec(missionXML, True)
 
+
 #Creates map boundary
 coords_len = len(xcoords)
 for i in range(coords_len):
@@ -326,6 +329,7 @@ for i in range(coords_len):
 
 max_retries = 3
 num_repeats = 2
+
 cumulative_rewards = []
 for i in range(num_repeats):
     print()

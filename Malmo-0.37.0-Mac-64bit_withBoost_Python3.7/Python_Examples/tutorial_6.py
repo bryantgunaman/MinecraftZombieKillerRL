@@ -69,7 +69,7 @@ class TabQAgent(object):
         old_q = self.q_table[self.prev_s][self.prev_a]
         
         # TODO: what should the new action value be?
-        new_q = old_q
+        new_q = reward
         
         # assign the new action value to the Q-table
         self.q_table[self.prev_s][self.prev_a] = new_q
@@ -81,7 +81,7 @@ class TabQAgent(object):
         old_q = self.q_table[self.prev_s][self.prev_a]
         
         # TODO: what should the new action value be?
-        new_q = old_q
+        new_q = reward
         
         # assign the new action value to the Q-table
         self.q_table[self.prev_s][self.prev_a] = new_q
