@@ -19,6 +19,7 @@ from __future__ import print_function
 # ------------------------------------------------------------------------------------------------
 
 from builtins import range
+from mission_generator import MissionGenerator
 import MalmoPython
 import os
 import random
@@ -286,57 +287,22 @@ else:
 # Task parameters:
 ARENA_WIDTH = 20
 ARENA_BREADTH = 20
+y = 4
 
-missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-            <Mission xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            
-              <About>
-                <Summary>Hello world!</Summary>
-              </About>
-              
-              <ServerSection>
-                <ServerInitialConditions>
-                    <Time>
-                        <StartTime>15000</StartTime>
-                        <AllowPassageOfTime>true</AllowPassageOfTime>
-                    </Time>
-                </ServerInitialConditions>
-                <ServerHandlers>
-                  <FlatWorldGenerator generatorString="3;7,2*3,2;1;"/>
-                  <DrawingDecorator>
-                    <DrawLine x1="2" y1="4" z1="-2" x2="2" y2="4" z2="8" type="fence"/>
-                    <DrawLine x1="2" y1="4" z1="8" x2="-8" y2="4" z2="8" type="fence"/>
-                    <DrawLine x1="-8" y1="4" z1="8" x2="-8" y2="4" z2="-2" type="fence"/>
-                    <DrawLine x1="2" y1="4" z1="-2" x2="-8" y2="4" z2="-2" type="fence"/>
-                    <DrawEntity x="-7" y="4" z="7" type="Zombie"/>
-                  </DrawingDecorator>
-                  <ServerQuitFromTimeUp timeLimitMs="20000"/>
-                  <ServerQuitWhenAnyAgentFinishes/>
-                </ServerHandlers>
-              </ServerSection>
-              
-              <AgentSection mode="Survival">
-                <Name>ZombieKiller</Name>
-                <AgentStart>
-                    <Placement x="0" y="4" z="0" yaw="30"/>
-                    <Inventory>
-                        <InventoryItem slot="0" type="diamond_sword"/>
-                    </Inventory>
-                </AgentStart>
-                <AgentHandlers>
-                    <ContinuousMovementCommands turnSpeedDegs="420"/>
-                    <ObservationFromRay/>
-                    <RewardForDamagingEntity>
-                        <Mob type="Zombie" reward="100"/>
-                    </RewardForDamagingEntity>
-                    <RewardForSendingCommand reward="-1" />
-                    <ObservationFromNearbyEntities>
-                        <Range name="entities" xrange="'''+str(ARENA_WIDTH)+'''" yrange="2" zrange="'''+str(ARENA_BREADTH)+'''" />
-                    </ObservationFromNearbyEntities>
-                    <ObservationFromFullStats/>
-                </AgentHandlers>
-              </AgentSection>
-            </Mission>'''
+
+mission_file = './zombie_kill_1.xml'
+mg = MissionGenerator(mission_file)
+print("Loading mission from {}".format(mission_file))
+
+#Section to modify XML
+xcoords, zcoords = mg.getCoords(15,15)
+mg.drawEntity("Zombie", 2)
+mg.randomStart()
+
+#Gets XML
+missionXML=mg.getXML()
+print(missionXML)
+
 
 # Final state: no zombies -- big rewards
 # Create default Malmo objects:
@@ -354,8 +320,16 @@ if agent_host.receivedArgument("help"):
 
 # Attempt to start a mission:
 my_mission = MalmoPython.MissionSpec(missionXML, True)
+
+
+#Creates map boundary
+coords_len = len(xcoords)
+for i in range(coords_len):
+    my_mission.drawLine(xcoords[i % coords_len] , y, zcoords[i % coords_len], xcoords[(i+1) % coords_len], y, zcoords[(i+1) % coords_len], "fence")
+
 max_retries = 3
-num_repeats = 10
+num_repeats = 2
+
 cumulative_rewards = []
 for i in range(num_repeats):
     print()
