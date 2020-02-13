@@ -55,7 +55,7 @@
           
                 <ObservationFromRay/>
                  <RewardForDamagingEntity>
-                    <Mob type="Zombie" reward="100"/>
+                        <Mob type="Zombie" reward="100"/>
                 </RewardForDamagingEntity>
                 <RewardForSendingCommand reward="-1" />
                 <ObservationFromNearbyEntities>

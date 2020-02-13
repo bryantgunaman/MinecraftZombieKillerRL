@@ -16,6 +16,7 @@ import sys
 import time
 from malmo import malmoutils
 import numpy as np
+from mission_generator import MissionGenerator
 
 
 class MainKeras():
@@ -23,16 +24,27 @@ class MainKeras():
     def __init__(self, missionXML, n_games=500, max_retries=3):
         # keras attributes
         self.n_games = n_games
+
+        self._init_logger()
+
+        # keras
+        self.n_actions = 3
         self.agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0005, input_dims=5,
                   n_actions=3, mem_size=1000000, batch_size=64, epsilon_end=0.01)
-        #self.agent.load_model()
+        
+        self._load_dqn_model()
+
         self.scores = []
         self.eps_history = []
+
+        # qtable
+        self.Qtb = {}
+        self._load_qtable()
+        self.epsilon = 0.01 # chance of taking a random action instead of the best
 
         # agent
         self.agent_host = MalmoPython.AgentHost()
         
-
         try:
             self.agent_host.parse( sys.argv )
         except RuntimeError as e:
@@ -42,14 +54,13 @@ class MainKeras():
     
         # mission
         self.missionXML = missionXML
-        self.my_mission = MalmoPython.MissionSpec(self.missionXML, True)
-        self.my_mission_record = MalmoPython.MissionRecordSpec()
+        # self._validate_mission()
 
         self.max_retries = max_retries
 
         #adding clients
         self.my_client_pool = None
-        self._add_starters()
+        # self._add_starters()
         self._add_default_client()
 
         
@@ -62,16 +73,71 @@ class MainKeras():
         self.current_yaw = 0
         self.ob = None
 
+    def _init_logger(self):
+        self.logger = logging.getLogger(__name__)
+        if False: # True if you want to see more information
+            self.logger.setLevel(logging.DEBUG)
+        else:
+            self.logger.setLevel(logging.INFO)
+        self.logger.handlers = []
+        self.logger.addHandler(logging.StreamHandler(sys.stdout))
+
+    def _load_dqn_model(self):
+        try:
+            self.agent.load_model()
+        except:
+            print("Failed to load dqn model")
+
+    def _load_qtable(self):
+        try:
+            with open('QTable.txt') as json_file:
+                Qtb = json.load(json_file)
+            self.Qtb= Qtb
+        except:
+            print("Failed to load QTable.txt")
+            self.Qtb = {}
+
+    def _exportQTable(self):
+        with open('QTable.txt', 'w') as outfile:
+            json.dump(self.Qtb, outfile)
+
+    def _updateQTable( self, reward, current_state ):
+        """Change q_table to reflect what we have learnt."""
+        # retrieve the old action value from the Q-table (indexed by the previous state and the previous action)
+        old_q = self.Qtb[self.prev_s][self.prev_a]
+        # TODO: what should the new action value be? try to modify my calculate reward method
+        new_q = reward
+        # assign the new action value to the Q-table
+        self.Qtb[self.prev_s][self.prev_a] = new_q
+
+    def _updateQTableFromTerminatingState( self, reward ):
+        """Change q_table to reflect what we have learnt, after reaching a terminal state."""
+        
+        # retrieve the old action value from the Q-table (indexed by the previous state and the previous action)
+        old_q = self.Qtb[self.prev_s][self.prev_a]
+        # TODO: what should the new action value be?
+        new_q = reward
+        # assign the new action value to the Q-table
+        self.Qtb[self.prev_s][self.prev_a] = new_q
 
     def _add_starters(self):
         self.my_mission.removeAllCommandHandlers()
-        self.my_mission.allowAllDiscreteMovementCommands()
+        self.my_mission.allowAllContinuousMovementCommands()
+        # self.my_mission.allowAllDiscreteMovementCommands()
         #self.my_mission.requestVideo( 320, 240 )  use default size instead
         self.my_mission.setViewpoint( 0 )
 
     def _add_default_client(self):
         self.my_client_pool = MalmoPython.ClientPool()
         self.my_client_pool.add(MalmoPython.ClientInfo('127.0.0.1', 10000))
+
+    def _generate_new_mission(self):
+        mg = MissionGenerator()
+        mg.writeFile()
+
+    def _validate_mission(self):
+        self.my_mission = MalmoPython.MissionSpec(self.missionXML, True)
+        self.my_mission_record = MalmoPython.MissionRecordSpec()
 
     def _retry_start_mission(self):
         self.my_mission_record = MalmoPython.MissionRecordSpec()
@@ -132,6 +198,7 @@ class MainKeras():
             difference += 360
         while difference > 180:
             difference -= 360
+        # print("Turning difference: ")
         return difference / 180.0
 
         
@@ -183,11 +250,12 @@ class MainKeras():
 
     def _translate_actions(self, action_num, difference_from_zombie):
         if action_num == 0:
-            self._attack()
+            self._move_away_from_zombies(difference_from_zombie)  
         elif action_num ==1:
-            self._move_away_from_zombies(difference_from_zombie)
-        elif action_num == 2:
             self._move_towards_zombies(difference_from_zombie)
+        elif action_num == 2:
+            self._attack()
+            
     
     def _basic_observation_to_array(self, ob):
         obs_array = []
@@ -213,8 +281,11 @@ class MainKeras():
         return 0
 
 
-    def run(self):
+    def run_dqn(self):
         for i in range(self.n_games):
+            self._generate_new_mission()
+            self._validate_mission()
+            self._add_starters()
             self._retry_start_mission()
             score = 0
             done = False
@@ -257,6 +328,120 @@ class MainKeras():
         # x = [i+1 for i in range(n_games)]
         #plotLearning(x, scores, eps_history, filename)
 
+    def _act(self, world_state, agent_host, current_r ):
+        """take 1 action in response to the current world state"""
+        
+        # obs_text = world_state.observations[-1].text
+        # obs = json.loads(obs_text) # most recent observation
+        self._assign_observation()
+        self.logger.debug(self.ob)
+        if not u'XPos' in self.ob or not u'ZPos' in self.ob:
+            self.logger.error("Incomplete observation received")
+            return 0
+        current_s = "%d:%d" % (int(self.ob[u'XPos']), int(self.ob[u'ZPos']))
+        self.logger.debug("State: %s (x = %.2f, z = %.2f)" % (current_s, float(self.ob[u'XPos']), float(self.ob[u'ZPos'])))
+        if current_s not in self.Qtb:
+            self.Qtb[current_s] = ([0] * self.n_actions)
+
+        # update Q values
+        if self.prev_s is not None and self.prev_a is not None:
+            self._updateQTable( current_r, current_s )
+
+
+        # select the next action
+        rnd = random.random()
+        if rnd < self.epsilon:
+            action = random.randint(0, self.n_actions - 1)
+        else:
+            m = max(self.Qtb[current_s])
+            self.logger.debug("Current values: %s" % ",".join(str(x) for x in self.Qtb[current_s]))
+            l = list()
+            for x in range(0, self.n_actions):
+                if self.Qtb[current_s][x] == m:
+                    l.append(x)
+            y = random.randint(0, len(l)-1)
+            action = l[y]
+        
+
+        # try to send the selected action, only update prev_s if this succeeds
+        try:
+            difference = self._calculate_turning_difference_from_zombies()
+            self._translate_actions(action, difference)
+            self.prev_s = current_s
+            self.prev_a = action
+
+        except RuntimeError as e:
+            self.logger.error("Failed to send command: %s" % e)
+
+        return current_r
+
+    def run_qlearning(self):
+        
+        cumulative_rewards = []
+
+        for i in range(self.n_games):
+            self._generate_new_mission()
+            self._validate_mission()
+            self._add_starters()
+            self._retry_start_mission()
+
+            total_reward = 0
+            is_first_action = True
+            self.prev_s = None
+            self.prev_a = None
+            while self.world_state.is_mission_running:
+                current_r = 0
+
+                if is_first_action:
+                    while True:
+                        time.sleep(0.1)
+                        self.world_state = self.agent_host.getWorldState()
+                        for error in self.world_state.errors:
+                            self.logger.error("Error: %s" % error.text)
+                        for reward in self.world_state.rewards:
+                            current_r += reward.getValue()
+                        if self.world_state.is_mission_running and len(self.world_state.observations)>0 and not self.world_state.observations[-1].text=="{}":
+                            total_reward += self._act(self.world_state, self.agent_host, current_r)
+                            break
+                        if not self.world_state.is_mission_running:
+                            break
+                    is_first_action = False
+                    print(f"current reward = {current_r}")
+                else:
+                    # wait for non-zero reward
+                    while self.world_state.is_mission_running and current_r == 0:
+                        time.sleep(0.1)
+                        self.world_state = self.agent_host.getWorldState()
+                        for error in self.world_state.errors:
+                            self.logger.error("Error: %s" % error.text)
+                        for reward in self.world_state.rewards:
+                            current_r += reward.getValue()
+                        print("waiting to stabilize")
+                    # allow time to stabilise after action
+                    while True:
+                        time.sleep(0.1)
+                        self.world_state = self.agent_host.getWorldState()
+                        for error in self.world_state.errors:
+                            self.logger.error("Error: %s" % error.text)
+                        for reward in self.world_state.rewards:
+                            current_r += reward.getValue()
+                        if self.world_state.is_mission_running and len(self.world_state.observations)>0 and not self.world_state.observations[-1].text=="{}":
+                            total_reward += self._act(self.world_state, self.agent_host, current_r)
+                            break
+                        if not self.world_state.is_mission_running:
+                            break
+
+            # process final reward
+            self.logger.debug("Final reward: %d" % current_r)
+            total_reward += current_r
+
+            # update Q values
+            if self.prev_s is not None and self.prev_a is not None:
+                self._updateQTableFromTerminatingState( current_r )
+                
+            self._exportQTable() # export the Q table after each iteration
+            cumulative_rewards += [ total_reward ]
+
 
 
 
@@ -268,11 +453,7 @@ class MainKeras():
 
 
 
-if __name__ == '__main__':
-    with open('zombie_kill_1.xml', 'r') as file:
-        mission_file = file.read().replace('\n', '')
-        mk = MainKeras(mission_file, n_games=25, max_retries=3)
-        mk.run()
+
 
 
 

@@ -66,8 +66,9 @@ class MissionGenerator():
           
                 <ObservationFromRay/>
                  <RewardForDamagingEntity>
-                    <Mob type="Zombie" reward="1"/>
+                     <Mob type="Zombie" reward="100"/>
                 </RewardForDamagingEntity>
+                <RewardForSendingCommand reward="-1" />
                 <ObservationFromNearbyEntities>
                     <Range name="entities" xrange="'''+str(self._arena_width)+'''" yrange="2" zrange="'''+str(self._arena_breadth)+'''" />
                 </ObservationFromNearbyEntities>
@@ -83,10 +84,10 @@ class MissionGenerator():
         file.close()
 
 
-if __name__ == '__main__':
-    mg = MissionGenerator()
-    print('Starting.....')
-    mg.writeFile()
-    print('Finished')
+# if __name__ == '__main__':
+#     mg = MissionGenerator()
+#     print('Starting.....')
+#     mg.writeFile()
+#     print('Finished')
 
 
