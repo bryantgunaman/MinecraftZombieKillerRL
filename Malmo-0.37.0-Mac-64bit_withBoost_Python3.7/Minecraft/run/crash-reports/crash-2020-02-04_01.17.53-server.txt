@@ -1,0 +1,47 @@
+---- Minecraft Crash Report ----
+// Ooh. Shiny.
+
+Time: 2/4/20 1:17 AM
+Description: Exception in server tick loop
+
+java.lang.NullPointerException: Exception in server tick loop
+	at com.microsoft.Malmo.MissionHandlers.AnimationDecoratorImplementation.update(AnimationDecoratorImplementation.java:133)
+	at com.microsoft.Malmo.MissionHandlers.WorldFromComposite.update(WorldFromComposite.java:56)
+	at com.microsoft.Malmo.Server.ServerStateMachine$RunningEpisode.onServerTick(ServerStateMachine.java:1204)
+	at com.microsoft.Malmo.EpisodeEventWrapper.onServerTick(EpisodeEventWrapper.java:85)
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler_13_EpisodeEventWrapper_onServerTick_ServerTickEvent.invoke(.dynamic)
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler.invoke(ASMEventHandler.java:90)
+	at net.minecraftforge.fml.common.eventhandler.EventBus.post(EventBus.java:185)
+	at net.minecraftforge.fml.common.FMLCommonHandler.onPostServerTick(FMLCommonHandler.java:264)
+	at net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:743)
+	at net.minecraft.server.integrated.IntegratedServer.tick(IntegratedServer.java:156)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:548)
+	at java.lang.Thread.run(Thread.java:748)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- System Details --
+Details:
+	Minecraft Version: 1.11.2
+	Operating System: Mac OS X (x86_64) version 10.15.2
+	Java Version: 1.8.0_221, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 289147264 bytes (275 MB) / 942669824 bytes (899 MB) up to 1908932608 bytes (1820 MB)
+	JVM Flags: 1 total; -Xmx2G
+	IntCache: cache: 0, tcache: 0, allocated: 0, tallocated: 0
+	FML: MCP 9.38 Powered by Forge 13.20.0.2228 5 mods loaded, 5 mods active
+	States: 'U' = Unloaded 'L' = Loaded 'C' = Constructed 'H' = Pre-initialized 'I' = Initialized 'J' = Post-initialized 'A' = Available 'D' = Disabled 'E' = Errored
+	UCHIJAAAA	minecraft{1.11.2} [Minecraft] (minecraft.jar) 
+	UCHIJAAAA	mcp{9.19} [Minecraft Coder Pack] (minecraft.jar) 
+	UCHIJAAAA	FML{8.0.99.99} [Forge Mod Loader] (forgeSrc-1.11.2-13.20.0.2228.jar) 
+	UCHIJAAAA	forge{13.20.0.2228} [Minecraft Forge] (forgeSrc-1.11.2-13.20.0.2228.jar) 
+	UCHIJAAAA	malmomod{0.37.0} [Microsoft Malmo Mod] (MalmoMod-0.37.0.jar) 
+	Loaded coremods (and transformers): 
+OverclockingPlugin (MalmoMod-0.37.0.jar)
+  com.microsoft.Malmo.OverclockingClassTransformer
+	Profiler Position: N/A (disabled)
+	Player Count: 1 / 8; [EntityPlayerMP['The Hunter'/0, l='TEMP_10000_f64a7dc7-d498-48f2-9767-8c0cfcdf1a60', x=0.50, y=207.00, z=1.18]]
+	Type: Integrated Server (map_client.txt)
+	Is Modded: Definitely; Client brand changed to 'fml,forge'

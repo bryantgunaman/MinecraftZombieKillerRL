@@ -1,4 +1,5 @@
 from __future__ import print_function
+import malmo.minecraftbootstrap; malmo.minecraftbootstrap.set_malmo_xsd_path()
 # ------------------------------------------------------------------------------------------------
 # Copyright (c) 2016 Microsoft Corporation
 # 
