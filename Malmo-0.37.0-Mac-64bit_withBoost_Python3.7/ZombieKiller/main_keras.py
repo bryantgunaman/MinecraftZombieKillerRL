@@ -16,12 +16,14 @@ import sys
 import time
 from malmo import malmoutils
 import numpy as np
+import ctypes
 from mission_generator import MissionGenerator
 
 
 class MainKeras():
 
-    def __init__(self, missionXML, n_games=500, max_retries=3):
+    def __init__(self, missionXML, n_games=500, max_retries=3, starting_zombies=1,
+                 XSize=10, ZSize=10):
         # keras attributes
         self.n_games = n_games
 
@@ -31,7 +33,6 @@ class MainKeras():
         self.n_actions = 3
         self.agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0005, input_dims=5,
                   n_actions=3, mem_size=1000000, batch_size=64, epsilon_end=0.01)
-        
         self._load_dqn_model()
 
         self.scores = []
@@ -62,10 +63,14 @@ class MainKeras():
         self.my_client_pool = None
         # self._add_starters()
         self._add_default_client()
-
         
         self.world_state = None
         
+        #mission generator
+        self.mission_generator = MissionGenerator(self.missionXML)
+        self.starting_zombies = starting_zombies
+        self.XSize = XSize
+        self.ZSize = ZSize
 
         # main loop variables
         self.self_x = 0
@@ -112,7 +117,6 @@ class MainKeras():
 
     def _updateQTableFromTerminatingState( self, reward ):
         """Change q_table to reflect what we have learnt, after reaching a terminal state."""
-        
         # retrieve the old action value from the Q-table (indexed by the previous state and the previous action)
         old_q = self.Qtb[self.prev_s][self.prev_a]
         # TODO: what should the new action value be?
@@ -120,24 +124,31 @@ class MainKeras():
         # assign the new action value to the Q-table
         self.Qtb[self.prev_s][self.prev_a] = new_q
 
-    def _add_starters(self):
-        self.my_mission.removeAllCommandHandlers()
-        self.my_mission.allowAllContinuousMovementCommands()
-        # self.my_mission.allowAllDiscreteMovementCommands()
-        #self.my_mission.requestVideo( 320, 240 )  use default size instead
-        self.my_mission.setViewpoint( 0 )
-
     def _add_default_client(self):
         self.my_client_pool = MalmoPython.ClientPool()
         self.my_client_pool.add(MalmoPython.ClientInfo('127.0.0.1', 10000))
 
     def _generate_new_mission(self):
-        mg = MissionGenerator()
-        mg.writeFile()
+        self.mission_generator.restartXML()
+        self.xcoords, self.zcoords = self.mission_generator.getCoords(self.XSize, self.ZSize)
+        self.mission_generator.drawEntity("Zombie", self.starting_zombies)
+        self.mission_generator.randomStart()
 
+    def _add_starters(self):
+        self.my_mission.removeAllCommandHandlers()
+        self.my_mission.allowAllContinuousMovementCommands()
+        self.my_mission.setViewpoint( 0 )
+        # self.my_mission.allowAllDiscreteMovementCommands()
+        #self.my_mission.requestVideo( 320, 240 )  use default size instead
+    
     def _validate_mission(self):
-        self.my_mission = MalmoPython.MissionSpec(self.missionXML, True)
-        self.my_mission_record = MalmoPython.MissionRecordSpec()
+        self.my_mission = MalmoPython.MissionSpec(self.mission_generator.getXML(), True)
+        # self.my_mission_record = MalmoPython.MissionRecordSpec()
+    
+    def _drawBoundaries(self):
+        for i in range(len(self.xcoords)):
+            self.my_mission.drawLine(self.xcoords[i % len(self.xcoords)] , 4, self.zcoords[i % len(self.xcoords)], self.xcoords[(i+1) % len(self.xcoords)], 4, self.zcoords[(i+1) % len(self.xcoords)], "fence")
+
 
     def _retry_start_mission(self):
         self.my_mission_record = MalmoPython.MissionRecordSpec()
@@ -146,7 +157,7 @@ class MainKeras():
                 # Attempt to start the mission:
                 self.my_mission.forceWorldReset() # force world to reset for each iteration
                 self.agent_host.startMission( self.my_mission, self.my_client_pool, 
-                self.my_mission_record, 0, "ZombieKiller" )
+                                              self.my_mission_record, 0, "ZombieKiller" )
                 break
             except RuntimeError as e:
                 if retry == self.max_retries - 1:
@@ -190,7 +201,7 @@ class MainKeras():
         if diagonal_diff != None:
             x_pull, z_pull = diagonal_diff
 
-    def _calculate_turning_difference_from_zombies(self, ):
+    def _calculate_turning_difference_from_zombies(self):
         x_pull, z_pull = self._get_diagonal_difference_from_zombies()
         yaw = -180 * math.atan2(x_pull, z_pull) / math.pi
         difference = yaw - self.current_yaw
@@ -198,16 +209,13 @@ class MainKeras():
             difference += 360
         while difference > 180:
             difference -= 360
-        # print("Turning difference: ")
         return difference / 180.0
-
         
     def _get_diagonal_difference_from_zombies(self):
         if u'entities' in self.ob:
             entities = self.ob["entities"]
             # print(f'Entities: {entities}')
-            return self._get_pull_from_entities(entities)
-            
+            return self._get_pull_from_entities(entities) 
     
     def _get_pull_from_entities(self, entities):
         num_zombie, x_pull, z_pull = 0, 0, 0
@@ -230,6 +238,14 @@ class MainKeras():
         current_rewards += self._decrease_life_penalty()
         return current_rewards
 
+    def _decrease_life_penalty(self):
+        if len(self.world_state.observations) >= 2 and self.world_state.number_of_observations_since_last_state > 0:
+            ob = json.loads(self.world_state.observations[-1].text)
+            ob2 = json.loads(self.world_state.observations[-2].text)
+            if ob2['Life'] < ob['Life']:
+                return ob2['Life'] - ob['Life'] * 5
+        return 0
+
     def _move_towards_zombies(self, difference_from_zombie):
         self.agent_host.sendCommand("turn " + str(difference_from_zombie))
         move_speed = 1.0 if abs(difference_from_zombie) < 0.5 else 0  # move slower when turning faster - helps with "orbiting" problem
@@ -247,15 +263,13 @@ class MainKeras():
         self.agent_host.sendCommand("attack 0")
         print('attack')
 
-
     def _translate_actions(self, action_num, difference_from_zombie):
         if action_num == 0:
             self._move_away_from_zombies(difference_from_zombie)  
         elif action_num ==1:
             self._move_towards_zombies(difference_from_zombie)
         elif action_num == 2:
-            self._attack()
-            
+            self._attack()    
     
     def _basic_observation_to_array(self, ob):
         obs_array = []
@@ -272,19 +286,68 @@ class MainKeras():
     def _parse_entities(self, entities):
         pass
 
-    def _decrease_life_penalty(self):
-        if len(self.world_state.observations) >= 2 and self.world_state.number_of_observations_since_last_state > 0:
-            ob = json.loads(self.world_state.observations[-1].text)
-            ob2 = json.loads(self.world_state.observations[-2].text)
-            if ob2['Life'] < ob['Life']:
-                return ob2['Life'] - ob['Life'] * 5
-        return 0
+    def _check_all_zombies_dead(self):
+        zombies_alive = False
+        if u'entities' in self.ob:
+            entities = self.ob["entities"]
+            for e in entities:
+                if e["name"] == "Zombie":
+                    zombies_alive = True
+                    break
+        if zombies_alive == False:
+            print("All zombies died")
+            # print(dir(self.world_state))
+            # print(self.world_state.__dir__)
+            # del type(self.world_state).is_mission_running
+            # self.world_state.is_mission_running = False
+            
+            # setattr(self.world_state, 'is_mission_running', False)
+            # self.agent_host.sendCommand("tp " +  str(1500)+ " 1500 " + str(1500))
+            # print("quitting mission")
+
+    def _plot_dqn_results(self, x, scores, filename='zombie_kill.png', lines=None):
+        x = [i+1 for i in range(self.n_games)]
+        self._plotLearning(x, scores, eps_history, filename)
+
+    def _plotLearning(self, x, scores, epsilons, filename, lines=None):
+        fig=plt.figure()
+        ax=fig.add_subplot(111, label="1")
+        ax2=fig.add_subplot(111, label="2", frame_on=False)
+
+        ax.plot(x, epsilons, color="C0")
+        ax.set_xlabel("Game", color="C0")
+        ax.set_ylabel("Epsilon", color="C0")
+        ax.tick_params(axis='x', colors="C0")
+        ax.tick_params(axis='y', colors="C0")
+
+        N = len(scores)
+        running_avg = np.empty(N)
+        for t in range(N):
+            running_avg[t] = np.mean(scores[max(0, t-20):(t+1)])
+
+        ax2.scatter(x, running_avg, color="C1")
+        #ax2.xaxis.tick_top()
+        ax2.axes.get_xaxis().set_visible(False)
+        ax2.yaxis.tick_right()
+        #ax2.set_xlabel('x label 2', color="C1")
+        ax2.set_ylabel('Score', color="C1")
+        #ax2.xaxis.set_label_position('top')
+        ax2.yaxis.set_label_position('right')
+        #ax2.tick_params(axis='x', colors="C1")
+        ax2.tick_params(axis='y', colors="C1")
+
+        if lines is not None:
+            for line in lines:
+                plt.axvline(x=line)
+
+        plt.savefig(filename)
 
 
     def run_dqn(self):
         for i in range(self.n_games):
             self._generate_new_mission()
             self._validate_mission()
+            self._drawBoundaries()
             self._add_starters()
             self._retry_start_mission()
             score = 0
@@ -312,8 +375,10 @@ class MainKeras():
                     score += current_reward
                     self.agent.remember(ob_array, action, current_reward, new_ob_array, done)
                     self.agent.learn()
-                    
 
+                    self._check_all_zombies_dead()
+                            
+                    
             self.eps_history.append(self.agent.epsilon)
             self.scores.append(score)
 
@@ -322,11 +387,8 @@ class MainKeras():
 
             if i%10 == 0 and i > 0:
                 self.agent.save_model()
-            
-        # Plotting functions to be implemented later
-        # filename = 'zombie_kill.png'
-        # x = [i+1 for i in range(n_games)]
-        #plotLearning(x, scores, eps_history, filename)
+
+        self._plot_dqn_results(x, scores, eps_history)
 
     def _act(self, world_state, agent_host, current_r ):
         """take 1 action in response to the current world state"""
@@ -383,6 +445,7 @@ class MainKeras():
             self._generate_new_mission()
             self._validate_mission()
             self._add_starters()
+            self._drawBoundaries()
             self._retry_start_mission()
 
             total_reward = 0
@@ -430,6 +493,9 @@ class MainKeras():
                             break
                         if not self.world_state.is_mission_running:
                             break
+                
+                if self._check_all_zombies_dead() == False:
+                    break
 
             # process final reward
             self.logger.debug("Final reward: %d" % current_r)

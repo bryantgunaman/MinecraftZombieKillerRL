@@ -1,103 +1,610 @@
-[13:35:26] [Client thread/INFO]: Setting user: Player181
-[13:35:28] [Client thread/WARN]: Skipping bad option: lastServer:
-[13:35:28] [Client thread/INFO]: LWJGL Version: 2.9.2
-[13:35:29] [Client thread/INFO]: [STDOUT]: MALMO: Attempting to transform MinecraftServer
-[13:35:29] [Client thread/INFO]: [STDOUT]: MALMO: Found GlStateManager, attempting to transform it
-[13:35:29] [Client thread/INFO]: [STDOUT]: MALMO: Found GlStateManager.bindTexture() method, attempting to transform it
-[13:35:29] [Client thread/INFO]: [STDOUT]: MALMO: Hooked into call to GlStateManager.bindTexture()
-[13:35:31] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Microsoft Malmo Mod
-[13:35:31] [Client thread/WARN]: ResourcePack: ignored non-lowercase namespace: MalmoMod in /Users/bryantgunaman/Documents/GitHub/MinecraftZombieKillerRL/Malmo-0.37.0-Mac-64bit_withBoost_Python3.7/Minecraft/build/libs/MalmoMod-0.37.0.jar
-[13:35:31] [Client thread/WARN]: ResourcePack: ignored non-lowercase namespace: MalmoMod in /Users/bryantgunaman/Documents/GitHub/MinecraftZombieKillerRL/Malmo-0.37.0-Mac-64bit_withBoost_Python3.7/Minecraft/build/libs/MalmoMod-0.37.0.jar
-[13:35:31] [Client thread/WARN]: ResourcePack: ignored non-lowercase namespace: MalmoMod in /Users/bryantgunaman/Documents/GitHub/MinecraftZombieKillerRL/Malmo-0.37.0-Mac-64bit_withBoost_Python3.7/Minecraft/build/libs/MalmoMod-0.37.0.jar
-[13:35:31] [Client thread/INFO]: [STDOUT]: Testing schemas against internal version number: 0.37
-[13:35:33] [Sound Library Loader/INFO]: Starting up SoundSystem...
-[13:35:33] [Thread-6/INFO]: Initializing LWJGL OpenAL
-[13:35:33] [Thread-6/INFO]: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
-[13:35:33] [Thread-6/INFO]: OpenAL initialized.
-[13:35:33] [Sound Library Loader/INFO]: Sound engine started
-[13:35:34] [Client thread/INFO]: Created: 16x16 textures-atlas
-[13:35:35] [Client thread/INFO]: [STDOUT]: CLIENT request state: WAITING_FOR_MOD_READY
-[13:35:35] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Microsoft Malmo Mod
-[13:35:35] [Client thread/WARN]: ResourcePack: ignored non-lowercase namespace: MalmoMod in /Users/bryantgunaman/Documents/GitHub/MinecraftZombieKillerRL/Malmo-0.37.0-Mac-64bit_withBoost_Python3.7/Minecraft/build/libs/MalmoMod-0.37.0.jar
-[13:35:35] [Client thread/WARN]: ResourcePack: ignored non-lowercase namespace: MalmoMod in /Users/bryantgunaman/Documents/GitHub/MinecraftZombieKillerRL/Malmo-0.37.0-Mac-64bit_withBoost_Python3.7/Minecraft/build/libs/MalmoMod-0.37.0.jar
-[13:35:35] [Client thread/WARN]: ResourcePack: ignored non-lowercase namespace: MalmoMod in /Users/bryantgunaman/Documents/GitHub/MinecraftZombieKillerRL/Malmo-0.37.0-Mac-64bit_withBoost_Python3.7/Minecraft/build/libs/MalmoMod-0.37.0.jar
-[13:35:36] [Client thread/INFO]: SoundSystem shutting down...
-[13:35:36] [Client thread/WARN]: Author: Paul Lamb, www.paulscode.com
-[13:35:36] [Sound Library Loader/INFO]: Starting up SoundSystem...
-[13:35:36] [Thread-8/INFO]: Initializing LWJGL OpenAL
-[13:35:36] [Thread-8/INFO]: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
-[13:35:36] [Thread-8/INFO]: OpenAL initialized.
-[13:35:37] [Sound Library Loader/INFO]: Sound engine started
-[13:35:38] [Client thread/INFO]: Created: 512x512 textures-atlas
-[13:35:38] [Client thread/WARN]: Skipping bad option: lastServer:
-[13:35:39] [Client thread/INFO]: [STDOUT]: CLIENT enter state: WAITING_FOR_MOD_READY
-[13:35:39] [Thread-10/INFO]: [STDOUT]: INFO: ->mcp(0) Listening for messages on port 10000
-[13:35:39] [Client thread/INFO]: [STDOUT]: CLIENT request state: DORMANT
-[13:35:39] [Client thread/INFO]: [STDOUT]: CLIENT enter state: DORMANT
-[13:35:40] [Realms Notification Availability checker #1/INFO]: Could not authorize you against Realms server: Invalid session id
-[13:43:00] [Thread-12/INFO]: [STDOUT]: Received from localhost:MALMO_REQUEST_CLIENT:0.37.0:20000:ZombieKiller
-[13:43:00] [Thread-12/INFO]: [STDOUT]: ==== RES:  - -1581630180146
-[13:43:00] [Thread-12/INFO]: [STDOUT]: REPLYING WITH: MALMOOK
-[13:43:00] [Thread-14/INFO]: [STDOUT]: Received from localhost:<?xml version="1.0" encoding="utf-8"?><MissionInit xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" SchemaVersion="" PlatformVersion="0.37.0"><Mission>&#32;                                                                                             <About>&#32;                             <Summary>Hello world!</Summary></About><ServerSection>&#32;                                             <ServerInitialConditions>&#32;                                   <Time>&#32;                                                                   <StartTime>15000</StartTime><AllowPassageOfTime>true</AllowPassageOfTime></Time></ServerInitialConditions><ServerHandlers>&#32;                                                                                       <FlatWorldGenerator generatorString="3;7,2*3,2;1;" forceReset="true"/><DrawingDecorator>&#32;                                                                                                                     <DrawLine x1="2"
-[13:43:00] [Thread-14/INFO]: [STDOUT]: REPLYING WITH: MALMOOK
-[13:43:00] [Client thread/INFO]: [STDOUT]: Mission received: Hello world!
-[13:43:00] [Client thread/INFO]: [STDOUT]: CLIENT request state: CREATING_HANDLERS
-[13:43:00] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CREATING_HANDLERS
-[13:43:00] [Thread-15/INFO]: [STDOUT]: INFO: ->com(0) Listening for messages on port 10607
-[13:43:00] [Client thread/INFO]: [STDOUT]: CLIENT request state: EVALUATING_WORLD_REQUIREMENTS
-[13:43:00] [Client thread/INFO]: [STDOUT]: CLIENT enter state: EVALUATING_WORLD_REQUIREMENTS
-[13:43:00] [Client thread/INFO]: [STDOUT]: CLIENT request state: CREATING_NEW_WORLD
-[13:43:00] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CREATING_NEW_WORLD
-[13:43:01] [Server thread/INFO]: Starting integrated minecraft server version 1.11.2
-[13:43:01] [Server thread/INFO]: Generating keypair
-[13:43:02] [Server thread/INFO]: Preparing start region for level 0
-[13:43:02] [Server thread/INFO]: Changing view distance to 6, from 10
-[13:43:02] [Client thread/INFO]: Deleting level TEMP_10000_9667257f-b8ad-4c5a-bf67-8a9f976feac2
-[13:43:02] [Client thread/INFO]: Attempt 1...
-[13:43:03] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_MOD_READY
-[13:43:03] [Server thread/INFO]: [STDOUT]: CLIENT request state: WAITING_FOR_SERVER_READY
-[13:43:03] [Client thread/INFO]: [STDOUT]: CLIENT enter state: WAITING_FOR_SERVER_READY
-[13:43:03] [Netty Local Client IO #0/INFO]: [STDOUT]: Transformed Name: net.minecraft.client.entity.EntityOtherPlayerMP
-[13:43:03] [Netty Local Client IO #0/INFO]: [STDOUT]: MALMO: Attempting to transform MinecraftServer
-[13:43:03] [Netty Local Client IO #0/INFO]: [STDOUT]: MALMO: Found EntityOtherPlayerMP, attempting to transform it
-[13:43:03] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_MOD_READY
-[13:43:03] [Server thread/INFO]: [STDOUT]: SERVER request state: DORMANT
-[13:43:03] [Server thread/INFO]: [STDOUT]: SERVER enter state: DORMANT
-[13:43:03] [Server thread/INFO]: [STDOUT]: INCOMING MISSION: Received MissionInit directly through ServerStateMachine constructor.
-[13:43:03] [Server thread/INFO]: [STDOUT]: Mission received: Hello world!
-[13:43:03] [Server thread/INFO]: Received mission: §9Hello world!
-[13:43:03] [Server thread/INFO]: Source: §alocalhost
-[13:43:03] [Server thread/INFO]: [STDOUT]: SERVER request state: BUILDING_WORLD
-[13:43:03] [Server thread/INFO]: MalmoTutorialBot[local:E:1108f9a1] logged in with entity id 0 at (-146.5, 4.0, -142.5)
-[13:43:03] [Server thread/INFO]: MalmoTutorialBot joined the game
-[13:43:03] [Server thread/INFO]: [STDOUT]: SERVER enter state: BUILDING_WORLD
-[13:43:03] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_AGENTS_TO_ASSEMBLE
-[13:43:03] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_AGENTS_TO_ASSEMBLE
-[13:43:03] [Server thread/INFO]: [STDOUT]: Experiment requires: 
-[13:43:03] [Server thread/INFO]: [STDOUT]: >>>> MalmoTutorialBot
-[13:43:03] [Client thread/INFO]: [STDOUT]: ***Telling server we are ready - MalmoTutorialBot
-[13:43:04] [Client thread/INFO]: [STDOUT]: CLIENT request state: RUNNING
-[13:43:04] [Client thread/INFO]: [STDOUT]: CLIENT enter state: RUNNING
-[13:43:04] [Server thread/INFO]: [STDOUT]: SERVER request state: RUNNING
-[13:43:04] [Server thread/INFO]: [STDOUT]: SERVER enter state: RUNNING
-[13:43:04] [Client thread/INFO]: [CHAT] §l120...
-[13:43:05] [Client thread/INFO]: [CHAT] §l119...
-[13:43:06] [Client thread/INFO]: [CHAT] §l118...
-[13:43:07] [Client thread/INFO]: [CHAT] §l117...
-[13:43:08] [Client thread/INFO]: [CHAT] §l116...
-[13:43:09] [Client thread/INFO]: [CHAT] §l115...
-[13:43:10] [Client thread/INFO]: [CHAT] §l114...
-[13:43:11] [Client thread/INFO]: [CHAT] §l113...
-[13:43:11] [Server thread/INFO]: Saving and pausing game...
-[13:43:11] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_aac2476d-2482-4b9c-ab7b-0a78cffd2fee'/Overworld
-[13:43:12] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_aac2476d-2482-4b9c-ab7b-0a78cffd2fee'/Nether
-[13:43:12] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_aac2476d-2482-4b9c-ab7b-0a78cffd2fee'/The End
-[13:43:12] [Server thread/INFO]: Stopping server
-[13:43:12] [Server thread/INFO]: Saving players
-[13:43:12] [Server thread/INFO]: MalmoTutorialBot lost connection: TextComponent{text='Disconnected', siblings=[], style=Style{hasParent=false, color=null, bold=null, italic=null, underlined=null, obfuscated=null, clickEvent=null, hoverEvent=null, insertion=null}}
-[13:43:12] [Server thread/INFO]: MalmoTutorialBot left the game
-[13:43:12] [Server thread/INFO]: Stopping singleplayer server as player logged out
-[13:43:12] [Server thread/INFO]: Saving worlds
-[13:43:12] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_aac2476d-2482-4b9c-ab7b-0a78cffd2fee'/Overworld
-[13:43:12] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_aac2476d-2482-4b9c-ab7b-0a78cffd2fee'/Nether
-[13:43:12] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_aac2476d-2482-4b9c-ab7b-0a78cffd2fee'/The End
+[05:20:52] [Client thread/INFO]: Setting user: Player986
+[05:20:54] [Client thread/WARN]: Skipping bad option: lastServer:
+[05:20:54] [Client thread/INFO]: LWJGL Version: 2.9.2
+[05:20:55] [Client thread/INFO]: [STDOUT]: MALMO: Attempting to transform MinecraftServer
+[05:20:55] [Client thread/INFO]: [STDOUT]: MALMO: Found GlStateManager, attempting to transform it
+[05:20:55] [Client thread/INFO]: [STDOUT]: MALMO: Found GlStateManager.bindTexture() method, attempting to transform it
+[05:20:55] [Client thread/INFO]: [STDOUT]: MALMO: Hooked into call to GlStateManager.bindTexture()
+[05:20:57] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Microsoft Malmo Mod
+[05:20:57] [Client thread/WARN]: ResourcePack: ignored non-lowercase namespace: MalmoMod in /Users/bryantgunaman/Documents/GitHub/MinecraftZombieKillerRL/Malmo-0.37.0-Mac-64bit_withBoost_Python3.7/Minecraft/build/libs/MalmoMod-0.37.0.jar
+[05:20:57] [Client thread/WARN]: ResourcePack: ignored non-lowercase namespace: MalmoMod in /Users/bryantgunaman/Documents/GitHub/MinecraftZombieKillerRL/Malmo-0.37.0-Mac-64bit_withBoost_Python3.7/Minecraft/build/libs/MalmoMod-0.37.0.jar
+[05:20:57] [Client thread/WARN]: ResourcePack: ignored non-lowercase namespace: MalmoMod in /Users/bryantgunaman/Documents/GitHub/MinecraftZombieKillerRL/Malmo-0.37.0-Mac-64bit_withBoost_Python3.7/Minecraft/build/libs/MalmoMod-0.37.0.jar
+[05:20:57] [Client thread/INFO]: [STDOUT]: Testing schemas against internal version number: 0.37
+[05:20:58] [Sound Library Loader/INFO]: Starting up SoundSystem...
+[05:20:59] [Thread-6/INFO]: Initializing LWJGL OpenAL
+[05:20:59] [Thread-6/INFO]: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
+[05:20:59] [Thread-6/INFO]: OpenAL initialized.
+[05:20:59] [Sound Library Loader/INFO]: Sound engine started
+[05:21:00] [Client thread/INFO]: Created: 16x16 textures-atlas
+[05:21:01] [Client thread/INFO]: [STDOUT]: CLIENT request state: WAITING_FOR_MOD_READY
+[05:21:01] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Microsoft Malmo Mod
+[05:21:01] [Client thread/WARN]: ResourcePack: ignored non-lowercase namespace: MalmoMod in /Users/bryantgunaman/Documents/GitHub/MinecraftZombieKillerRL/Malmo-0.37.0-Mac-64bit_withBoost_Python3.7/Minecraft/build/libs/MalmoMod-0.37.0.jar
+[05:21:01] [Client thread/WARN]: ResourcePack: ignored non-lowercase namespace: MalmoMod in /Users/bryantgunaman/Documents/GitHub/MinecraftZombieKillerRL/Malmo-0.37.0-Mac-64bit_withBoost_Python3.7/Minecraft/build/libs/MalmoMod-0.37.0.jar
+[05:21:01] [Client thread/WARN]: ResourcePack: ignored non-lowercase namespace: MalmoMod in /Users/bryantgunaman/Documents/GitHub/MinecraftZombieKillerRL/Malmo-0.37.0-Mac-64bit_withBoost_Python3.7/Minecraft/build/libs/MalmoMod-0.37.0.jar
+[05:21:02] [Client thread/INFO]: SoundSystem shutting down...
+[05:21:02] [Client thread/WARN]: Author: Paul Lamb, www.paulscode.com
+[05:21:02] [Sound Library Loader/INFO]: Starting up SoundSystem...
+[05:21:02] [Thread-8/INFO]: Initializing LWJGL OpenAL
+[05:21:02] [Thread-8/INFO]: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
+[05:21:02] [Thread-8/INFO]: OpenAL initialized.
+[05:21:03] [Sound Library Loader/INFO]: Sound engine started
+[05:21:04] [Client thread/INFO]: Created: 512x512 textures-atlas
+[05:21:04] [Client thread/WARN]: Skipping bad option: lastServer:
+[05:21:05] [Client thread/INFO]: [STDOUT]: CLIENT enter state: WAITING_FOR_MOD_READY
+[05:21:05] [Thread-10/INFO]: [STDOUT]: INFO: ->mcp(0) Listening for messages on port 10000
+[05:21:05] [Client thread/INFO]: [STDOUT]: CLIENT request state: DORMANT
+[05:21:05] [Client thread/INFO]: [STDOUT]: CLIENT enter state: DORMANT
+[05:21:05] [Realms Notification Availability checker #1/INFO]: Could not authorize you against Realms server: Invalid session id
+[05:21:13] [Thread-12/INFO]: [STDOUT]: Received from localhost:MALMO_REQUEST_CLIENT:0.37.0:20000:ZombieKiller
+[05:21:13] [Thread-12/INFO]: [STDOUT]: ==== RES:  - -1581686473456
+[05:21:13] [Thread-12/INFO]: [STDOUT]: REPLYING WITH: MALMOOK
+[05:21:13] [Thread-14/INFO]: [STDOUT]: Received from localhost:<?xml version="1.0" encoding="utf-8"?><MissionInit xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" SchemaVersion="" PlatformVersion="0.37.0"><Mission>                                                                                              <About>                              <Summary>Hello world!</Summary></About><ServerSection>                                              <ServerInitialConditions>                                    <Time>                                                                    <StartTime>15000</StartTime><AllowPassageOfTime>true</AllowPassageOfTime></Time></ServerInitialConditions><ServerHandlers>                                                                      <FlatWorldGenerator generatorString="3;7,2*3,2;1;" forceReset="true"/><DrawingDecorator>			                  <DrawEntity x="5" y="4" z="8" type="Zombie"/><DrawLine type="fence" x1="0" y1="4" z1="0" x2="0" y2="4" z2="10"/><DrawLine type="fence" x1="0" y1="4" z1="10" x2
+[05:21:13] [Thread-14/INFO]: [STDOUT]: REPLYING WITH: MALMOOK
+[05:21:13] [Client thread/INFO]: [STDOUT]: Mission received: Hello world!
+[05:21:13] [Client thread/INFO]: [STDOUT]: CLIENT request state: CREATING_HANDLERS
+[05:21:13] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CREATING_HANDLERS
+[05:21:14] [Thread-15/INFO]: [STDOUT]: INFO: ->com(0) Listening for messages on port 10856
+[05:21:14] [Client thread/INFO]: [STDOUT]: CLIENT request state: EVALUATING_WORLD_REQUIREMENTS
+[05:21:14] [Client thread/INFO]: [STDOUT]: CLIENT enter state: EVALUATING_WORLD_REQUIREMENTS
+[05:21:14] [Client thread/INFO]: [STDOUT]: CLIENT request state: CREATING_NEW_WORLD
+[05:21:14] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CREATING_NEW_WORLD
+[05:21:14] [Server thread/INFO]: Starting integrated minecraft server version 1.11.2
+[05:21:14] [Server thread/INFO]: Generating keypair
+[05:21:15] [Server thread/INFO]: Preparing start region for level 0
+[05:21:16] [Server thread/INFO]: Changing view distance to 6, from 10
+[05:21:16] [Client thread/INFO]: Deleting level TEMP_10000_f07c42a6-b934-43ee-a0c6-e8f3d9a7dca9
+[05:21:16] [Client thread/INFO]: Attempt 1...
+[05:21:16] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_MOD_READY
+[05:21:16] [Server thread/INFO]: [STDOUT]: CLIENT request state: WAITING_FOR_SERVER_READY
+[05:21:16] [Client thread/INFO]: [STDOUT]: CLIENT enter state: WAITING_FOR_SERVER_READY
+[05:21:16] [Netty Local Client IO #0/INFO]: [STDOUT]: Transformed Name: net.minecraft.client.entity.EntityOtherPlayerMP
+[05:21:16] [Netty Local Client IO #0/INFO]: [STDOUT]: MALMO: Attempting to transform MinecraftServer
+[05:21:16] [Netty Local Client IO #0/INFO]: [STDOUT]: MALMO: Found EntityOtherPlayerMP, attempting to transform it
+[05:21:16] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_MOD_READY
+[05:21:16] [Server thread/INFO]: [STDOUT]: SERVER request state: DORMANT
+[05:21:16] [Server thread/INFO]: [STDOUT]: SERVER enter state: DORMANT
+[05:21:16] [Server thread/INFO]: [STDOUT]: INCOMING MISSION: Received MissionInit directly through ServerStateMachine constructor.
+[05:21:16] [Server thread/INFO]: [STDOUT]: Mission received: Hello world!
+[05:21:16] [Server thread/INFO]: Received mission: §9Hello world!
+[05:21:16] [Server thread/INFO]: Source: §alocalhost
+[05:21:16] [Server thread/INFO]: [STDOUT]: SERVER request state: BUILDING_WORLD
+[05:21:16] [Server thread/INFO]: [STDOUT]: SERVER enter state: BUILDING_WORLD
+[05:21:16] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_AGENTS_TO_ASSEMBLE
+[05:21:16] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_AGENTS_TO_ASSEMBLE
+[05:21:16] [Server thread/INFO]: [STDOUT]: Experiment requires: 
+[05:21:16] [Server thread/INFO]: [STDOUT]: >>>> ZombieKiller
+[05:21:16] [Server thread/INFO]: ZombieKiller[local:E:3bda2fac] logged in with entity id 0 at (457.5, 4.0, -163.5)
+[05:21:16] [Server thread/INFO]: ZombieKiller joined the game
+[05:21:17] [Client thread/INFO]: [STDOUT]: ***Telling server we are ready - ZombieKiller
+[05:21:18] [Client thread/INFO]: [STDOUT]: CLIENT request state: RUNNING
+[05:21:18] [Client thread/INFO]: [STDOUT]: CLIENT enter state: RUNNING
+[05:21:18] [Server thread/INFO]: [STDOUT]: SERVER request state: RUNNING
+[05:21:18] [Server thread/INFO]: [STDOUT]: SERVER enter state: RUNNING
+[05:21:47] [Client thread/INFO]: [STDOUT]: SEVERE: <-obs(localhost:10899) Failed to send TCP bytes: java.util.concurrent.ExecutionException: java.io.IOException: Broken pipe
+[05:21:47] [Client thread/INFO]: [STDOUT]: SEVERE: <-obs(localhost:10899) Failed to send TCP bytes: java.util.concurrent.ExecutionException: java.nio.channels.ClosedChannelException
+[05:21:47] [Client thread/INFO]: [STDOUT]: SEVERE: <-obs(localhost:10899) Failed to send TCP bytes: java.util.concurrent.ExecutionException: java.nio.channels.ClosedChannelException
+[05:21:47] [Client thread/INFO]: [STDOUT]: SEVERE: <-obs(localhost:10899) Failed to send TCP bytes: java.util.concurrent.ExecutionException: java.nio.channels.ClosedChannelException
+[05:21:47] [Client thread/INFO]: [STDOUT]: ERROR: TCP messages are not getting through - quitting mission.
+[05:21:47] [Client thread/INFO]: [STDOUT]: CLIENT request state: IDLING
+[05:21:47] [Client thread/INFO]: [STDOUT]: CLIENT enter state: IDLING
+[05:21:47] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_AGENTS_TO_QUIT
+[05:21:47] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_AGENTS_TO_QUIT
+[05:21:47] [Client thread/INFO]: [STDOUT]: CLIENT request state: MISSION_ENDED
+[05:21:47] [Client thread/INFO]: [STDOUT]: CLIENT enter state: MISSION_ENDED
+[05:21:47] [Client thread/INFO]: [STDOUT]: Sending mission ended message to localhost:10245.
+[05:21:47] [Client thread/INFO]: [STDOUT]: CLIENT request state: WAITING_FOR_SERVER_MISSION_END
+[05:21:47] [Client thread/INFO]: [STDOUT]: CLIENT enter state: WAITING_FOR_SERVER_MISSION_END
+[05:21:47] [Server thread/INFO]: [STDOUT]: SERVER request state: CLEAN_UP
+[05:21:47] [Server thread/INFO]: [STDOUT]: SERVER enter state: CLEAN_UP
+[05:21:47] [Server thread/INFO]: [STDOUT]: SERVER request state: DORMANT
+[05:21:47] [Client thread/INFO]: [STDOUT]: CLIENT request state: DORMANT
+[05:21:47] [Client thread/INFO]: [STDOUT]: CLIENT enter state: DORMANT
+[05:21:47] [Client thread/INFO]: [STDOUT]: JETTISONING 0 COMMANDS
+[05:21:48] [Server thread/INFO]: [STDOUT]: SERVER enter state: DORMANT
+[05:21:49] [Server thread/INFO]: Saving and pausing game...
+[05:21:49] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_16529266-97fa-4f78-af01-f240d46e2d81'/Overworld
+[05:21:50] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_16529266-97fa-4f78-af01-f240d46e2d81'/Nether
+[05:21:50] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_16529266-97fa-4f78-af01-f240d46e2d81'/The End
+[05:21:50] [Server thread/INFO]: Stopping server
+[05:21:50] [Server thread/INFO]: Saving players
+[05:21:50] [Server thread/INFO]: ZombieKiller lost connection: TextComponent{text='Disconnected', siblings=[], style=Style{hasParent=false, color=null, bold=null, italic=null, underlined=null, obfuscated=null, clickEvent=null, hoverEvent=null, insertion=null}}
+[05:21:50] [Server thread/INFO]: ZombieKiller left the game
+[05:21:50] [Server thread/INFO]: Stopping singleplayer server as player logged out
+[05:21:50] [Server thread/INFO]: Saving worlds
+[05:21:50] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_16529266-97fa-4f78-af01-f240d46e2d81'/Overworld
+[05:21:50] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_16529266-97fa-4f78-af01-f240d46e2d81'/Nether
+[05:21:50] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_16529266-97fa-4f78-af01-f240d46e2d81'/The End
+[05:22:07] [Thread-20/INFO]: [STDOUT]: Received from localhost:MALMO_REQUEST_CLIENT:0.37.0:20000:ZombieKiller
+[05:22:07] [Thread-20/INFO]: [STDOUT]: ==== RES:  - -33908
+[05:22:07] [Thread-20/INFO]: [STDOUT]: REPLYING WITH: MALMOOK
+[05:22:07] [Thread-22/INFO]: [STDOUT]: Received from localhost:<?xml version="1.0" encoding="utf-8"?><MissionInit xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" SchemaVersion="" PlatformVersion="0.37.0"><Mission>                                                                                              <About>                              <Summary>Hello world!</Summary></About><ServerSection>                                              <ServerInitialConditions>                                    <Time>                                                                    <StartTime>15000</StartTime><AllowPassageOfTime>true</AllowPassageOfTime></Time></ServerInitialConditions><ServerHandlers>                                                                      <FlatWorldGenerator generatorString="3;7,2*3,2;1;" forceReset="true"/><DrawingDecorator>			                  <DrawEntity x="3" y="4" z="4" type="Zombie"/><DrawLine type="fence" x1="0" y1="4" z1="0" x2="0" y2="4" z2="10"/><DrawLine type="fence" x1="0" y1="4" z1="10" x2
+[05:22:07] [Thread-22/INFO]: [STDOUT]: REPLYING WITH: MALMOOK
+[05:22:07] [Client thread/INFO]: [STDOUT]: Mission received: Hello world!
+[05:22:07] [Client thread/INFO]: [STDOUT]: CLIENT request state: CREATING_HANDLERS
+[05:22:07] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CREATING_HANDLERS
+[05:22:07] [Client thread/INFO]: [STDOUT]: CLIENT request state: EVALUATING_WORLD_REQUIREMENTS
+[05:22:07] [Client thread/INFO]: [STDOUT]: CLIENT enter state: EVALUATING_WORLD_REQUIREMENTS
+[05:22:07] [Client thread/INFO]: [STDOUT]: CLIENT request state: CREATING_NEW_WORLD
+[05:22:07] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CREATING_NEW_WORLD
+[05:22:07] [Server thread/INFO]: Starting integrated minecraft server version 1.11.2
+[05:22:07] [Server thread/INFO]: Generating keypair
+[05:22:08] [Server thread/INFO]: Preparing start region for level 0
+[05:22:08] [Server thread/INFO]: Changing view distance to 6, from 10
+[05:22:08] [Client thread/INFO]: Deleting level TEMP_10000_16529266-97fa-4f78-af01-f240d46e2d81
+[05:22:08] [Client thread/INFO]: Attempt 1...
+[05:22:08] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_MOD_READY
+[05:22:08] [Server thread/INFO]: [STDOUT]: CLIENT request state: WAITING_FOR_SERVER_READY
+[05:22:08] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_MOD_READY
+[05:22:08] [Server thread/INFO]: [STDOUT]: SERVER request state: DORMANT
+[05:22:08] [Server thread/INFO]: [STDOUT]: SERVER enter state: DORMANT
+[05:22:08] [Server thread/INFO]: [STDOUT]: INCOMING MISSION: Received MissionInit directly through ServerStateMachine constructor.
+[05:22:08] [Server thread/INFO]: [STDOUT]: Mission received: Hello world!
+[05:22:08] [Server thread/INFO]: Received mission: §9Hello world!
+[05:22:08] [Server thread/INFO]: Source: §alocalhost
+[05:22:08] [Server thread/INFO]: [STDOUT]: SERVER request state: BUILDING_WORLD
+[05:22:08] [Server thread/INFO]: ZombieKiller[local:E:dbdd0a85] logged in with entity id 12 at (408.5, 4.0, 1065.5)
+[05:22:08] [Server thread/INFO]: ZombieKiller joined the game
+[05:22:08] [Server thread/INFO]: [STDOUT]: SERVER enter state: BUILDING_WORLD
+[05:22:08] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_AGENTS_TO_ASSEMBLE
+[05:22:08] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_AGENTS_TO_ASSEMBLE
+[05:22:08] [Server thread/INFO]: [STDOUT]: Experiment requires: 
+[05:22:08] [Server thread/INFO]: [STDOUT]: >>>> ZombieKiller
+[05:22:09] [Server thread/INFO]: Saving and pausing game...
+[05:22:09] [Client thread/INFO]: [STDOUT]: CLIENT enter state: WAITING_FOR_SERVER_READY
+[05:22:09] [Client thread/INFO]: [STDOUT]: ***Telling server we are ready - ZombieKiller
+[05:22:09] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_75ab41c8-cf95-4218-bcd5-e5ba87cfefb0'/Overworld
+[05:22:09] [Client thread/INFO]: [STDOUT]: ***Telling server we are ready - ZombieKiller
+[05:22:09] [Client thread/INFO]: [STDOUT]: ***Telling server we are ready - ZombieKiller
+[05:22:09] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_75ab41c8-cf95-4218-bcd5-e5ba87cfefb0'/Nether
+[05:22:09] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_75ab41c8-cf95-4218-bcd5-e5ba87cfefb0'/The End
+[05:22:10] [Client thread/INFO]: [STDOUT]: CLIENT request state: RUNNING
+[05:22:10] [Client thread/INFO]: [STDOUT]: CLIENT enter state: RUNNING
+[05:22:10] [Server thread/INFO]: [STDOUT]: SERVER request state: RUNNING
+[05:22:10] [Server thread/INFO]: [STDOUT]: SERVER enter state: RUNNING
+[05:22:21] [Client thread/INFO]: [STDOUT]: SEVERE: <-obs(localhost:10153) Failed to send TCP bytes: java.util.concurrent.ExecutionException: java.io.IOException: Broken pipe
+[05:22:21] [Client thread/INFO]: [STDOUT]: SEVERE: <-obs(localhost:10153) Failed to send TCP bytes: java.util.concurrent.ExecutionException: java.nio.channels.ClosedChannelException
+[05:22:21] [Client thread/INFO]: [STDOUT]: SEVERE: <-obs(localhost:10153) Failed to send TCP bytes: java.util.concurrent.ExecutionException: java.nio.channels.ClosedChannelException
+[05:22:22] [Client thread/INFO]: [STDOUT]: SEVERE: <-obs(localhost:10153) Failed to send TCP bytes: java.util.concurrent.ExecutionException: java.nio.channels.ClosedChannelException
+[05:22:22] [Client thread/INFO]: [STDOUT]: ERROR: TCP messages are not getting through - quitting mission.
+[05:22:22] [Client thread/INFO]: [STDOUT]: CLIENT request state: IDLING
+[05:22:22] [Client thread/INFO]: [STDOUT]: CLIENT enter state: IDLING
+[05:22:22] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_AGENTS_TO_QUIT
+[05:22:22] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_AGENTS_TO_QUIT
+[05:22:22] [Client thread/INFO]: [STDOUT]: CLIENT request state: MISSION_ENDED
+[05:22:22] [Client thread/INFO]: [STDOUT]: CLIENT enter state: MISSION_ENDED
+[05:22:22] [Client thread/INFO]: [STDOUT]: Sending mission ended message to localhost:10017.
+[05:22:22] [Client thread/INFO]: [STDOUT]: CLIENT request state: WAITING_FOR_SERVER_MISSION_END
+[05:22:22] [Client thread/INFO]: [STDOUT]: CLIENT enter state: WAITING_FOR_SERVER_MISSION_END
+[05:22:22] [Server thread/INFO]: [STDOUT]: SERVER request state: CLEAN_UP
+[05:22:22] [Server thread/INFO]: [STDOUT]: SERVER enter state: CLEAN_UP
+[05:22:22] [Server thread/INFO]: [STDOUT]: SERVER request state: DORMANT
+[05:22:22] [Client thread/INFO]: [STDOUT]: CLIENT request state: DORMANT
+[05:22:22] [Client thread/INFO]: [STDOUT]: CLIENT enter state: DORMANT
+[05:22:22] [Client thread/INFO]: [STDOUT]: JETTISONING 0 COMMANDS
+[05:22:22] [Server thread/INFO]: [STDOUT]: SERVER enter state: DORMANT
+[05:22:50] [Thread-27/INFO]: [STDOUT]: Received from localhost:MALMO_REQUEST_CLIENT:0.37.0:20000:ZombieKiller
+[05:22:50] [Thread-27/INFO]: [STDOUT]: ==== RES:  - -22757
+[05:22:50] [Thread-27/INFO]: [STDOUT]: REPLYING WITH: MALMOOK
+[05:22:50] [Thread-29/INFO]: [STDOUT]: Received from localhost:<?xml version="1.0" encoding="utf-8"?><MissionInit xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" SchemaVersion="" PlatformVersion="0.37.0"><Mission>                                                                                              <About>                              <Summary>Hello world!</Summary></About><ServerSection>                                              <ServerInitialConditions>                                    <Time>                                                                    <StartTime>15000</StartTime><AllowPassageOfTime>true</AllowPassageOfTime></Time></ServerInitialConditions><ServerHandlers>                                                                      <FlatWorldGenerator generatorString="3;7,2*3,2;1;" forceReset="true"/><DrawingDecorator>			                  <DrawEntity x="6" y="4" z="4" type="Zombie"/><DrawLine type="fence" x1="0" y1="4" z1="0" x2="0" y2="4" z2="10"/><DrawLine type="fence" x1="0" y1="4" z1="10" x2
+[05:22:50] [Thread-29/INFO]: [STDOUT]: REPLYING WITH: MALMOOK
+[05:22:50] [Client thread/INFO]: [STDOUT]: Mission received: Hello world!
+[05:22:50] [Client thread/INFO]: [STDOUT]: CLIENT request state: CREATING_HANDLERS
+[05:22:50] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CREATING_HANDLERS
+[05:22:50] [Client thread/INFO]: [STDOUT]: CLIENT request state: EVALUATING_WORLD_REQUIREMENTS
+[05:22:50] [Client thread/INFO]: [STDOUT]: CLIENT enter state: EVALUATING_WORLD_REQUIREMENTS
+[05:22:50] [Client thread/INFO]: [STDOUT]: CLIENT request state: PAUSING_OLD_SERVER
+[05:22:50] [Client thread/INFO]: [STDOUT]: CLIENT enter state: PAUSING_OLD_SERVER
+[05:22:50] [Server thread/INFO]: Saving and pausing game...
+[05:22:50] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_75ab41c8-cf95-4218-bcd5-e5ba87cfefb0'/Overworld
+[05:22:50] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_75ab41c8-cf95-4218-bcd5-e5ba87cfefb0'/Nether
+[05:22:50] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_75ab41c8-cf95-4218-bcd5-e5ba87cfefb0'/The End
+[05:22:50] [Client thread/INFO]: [STDOUT]: CLIENT request state: CLOSING_OLD_SERVER
+[05:22:50] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CLOSING_OLD_SERVER
+[05:22:50] [Server thread/INFO]: Stopping server
+[05:22:50] [Server thread/INFO]: Saving players
+[05:22:50] [Server thread/INFO]: ZombieKiller lost connection: TextComponent{text='Disconnected', siblings=[], style=Style{hasParent=false, color=null, bold=null, italic=null, underlined=null, obfuscated=null, clickEvent=null, hoverEvent=null, insertion=null}}
+[05:22:50] [Server thread/INFO]: ZombieKiller left the game
+[05:22:50] [Server thread/INFO]: Stopping singleplayer server as player logged out
+[05:22:50] [Server thread/INFO]: Saving worlds
+[05:22:50] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_75ab41c8-cf95-4218-bcd5-e5ba87cfefb0'/Overworld
+[05:22:50] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_75ab41c8-cf95-4218-bcd5-e5ba87cfefb0'/Nether
+[05:22:50] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_75ab41c8-cf95-4218-bcd5-e5ba87cfefb0'/The End
+[05:23:00] [Client thread/INFO]: [STDOUT]: CLIENT request state: CREATING_NEW_WORLD
+[05:23:00] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CREATING_NEW_WORLD
+[05:23:00] [Server thread/INFO]: Starting integrated minecraft server version 1.11.2
+[05:23:00] [Server thread/INFO]: Generating keypair
+[05:23:01] [Server thread/INFO]: Preparing start region for level 0
+[05:23:01] [Server thread/INFO]: Changing view distance to 6, from 10
+[05:23:01] [Client thread/INFO]: Deleting level TEMP_10000_75ab41c8-cf95-4218-bcd5-e5ba87cfefb0
+[05:23:01] [Client thread/INFO]: Attempt 1...
+[05:23:01] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_MOD_READY
+[05:23:01] [Server thread/INFO]: [STDOUT]: CLIENT request state: WAITING_FOR_SERVER_READY
+[05:23:01] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_MOD_READY
+[05:23:01] [Server thread/INFO]: [STDOUT]: SERVER request state: DORMANT
+[05:23:01] [Server thread/INFO]: [STDOUT]: SERVER enter state: DORMANT
+[05:23:01] [Client thread/INFO]: [STDOUT]: CLIENT enter state: WAITING_FOR_SERVER_READY
+[05:23:01] [Server thread/INFO]: [STDOUT]: INCOMING MISSION: Received MissionInit directly through ServerStateMachine constructor.
+[05:23:01] [Server thread/INFO]: [STDOUT]: Mission received: Hello world!
+[05:23:01] [Server thread/INFO]: Received mission: §9Hello world!
+[05:23:01] [Server thread/INFO]: Source: §alocalhost
+[05:23:01] [Server thread/INFO]: [STDOUT]: SERVER request state: BUILDING_WORLD
+[05:23:01] [Server thread/INFO]: ZombieKiller[local:E:96da6f3f] logged in with entity id 25 at (-707.5, 4.0, -236.5)
+[05:23:01] [Server thread/INFO]: ZombieKiller joined the game
+[05:23:01] [Server thread/INFO]: [STDOUT]: SERVER enter state: BUILDING_WORLD
+[05:23:01] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_AGENTS_TO_ASSEMBLE
+[05:23:01] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_AGENTS_TO_ASSEMBLE
+[05:23:01] [Server thread/INFO]: [STDOUT]: Experiment requires: 
+[05:23:01] [Server thread/INFO]: [STDOUT]: >>>> ZombieKiller
+[05:23:02] [Client thread/INFO]: [STDOUT]: ***Telling server we are ready - ZombieKiller
+[05:23:02] [Client thread/INFO]: [STDOUT]: ***Telling server we are ready - ZombieKiller
+[05:23:02] [Client thread/INFO]: [STDOUT]: CLIENT request state: RUNNING
+[05:23:02] [Client thread/INFO]: [STDOUT]: CLIENT enter state: RUNNING
+[05:23:02] [Server thread/INFO]: [STDOUT]: SERVER request state: RUNNING
+[05:23:02] [Server thread/INFO]: [STDOUT]: SERVER enter state: RUNNING
+[05:23:12] [Client thread/INFO]: [STDOUT]: SEVERE: <-obs(localhost:10983) Failed to send TCP bytes: java.util.concurrent.ExecutionException: java.io.IOException: Broken pipe
+[05:23:12] [Client thread/INFO]: [STDOUT]: SEVERE: <-obs(localhost:10983) Failed to send TCP bytes: java.util.concurrent.ExecutionException: java.nio.channels.ClosedChannelException
+[05:23:12] [Client thread/INFO]: [STDOUT]: SEVERE: <-obs(localhost:10983) Failed to send TCP bytes: java.util.concurrent.ExecutionException: java.nio.channels.ClosedChannelException
+[05:23:12] [Client thread/INFO]: [STDOUT]: SEVERE: <-obs(localhost:10983) Failed to send TCP bytes: java.util.concurrent.ExecutionException: java.nio.channels.ClosedChannelException
+[05:23:12] [Client thread/INFO]: [STDOUT]: ERROR: TCP messages are not getting through - quitting mission.
+[05:23:12] [Client thread/INFO]: [STDOUT]: CLIENT request state: IDLING
+[05:23:12] [Client thread/INFO]: [STDOUT]: CLIENT enter state: IDLING
+[05:23:12] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_AGENTS_TO_QUIT
+[05:23:12] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_AGENTS_TO_QUIT
+[05:23:12] [Client thread/INFO]: [STDOUT]: CLIENT request state: MISSION_ENDED
+[05:23:12] [Client thread/INFO]: [STDOUT]: CLIENT enter state: MISSION_ENDED
+[05:23:12] [Client thread/INFO]: [STDOUT]: Sending mission ended message to localhost:10734.
+[05:23:12] [Client thread/INFO]: [STDOUT]: CLIENT request state: WAITING_FOR_SERVER_MISSION_END
+[05:23:12] [Client thread/INFO]: [STDOUT]: CLIENT enter state: WAITING_FOR_SERVER_MISSION_END
+[05:23:13] [Server thread/INFO]: [STDOUT]: SERVER request state: CLEAN_UP
+[05:23:13] [Client thread/INFO]: [STDOUT]: CLIENT request state: DORMANT
+[05:23:13] [Client thread/INFO]: [STDOUT]: CLIENT enter state: DORMANT
+[05:23:13] [Client thread/INFO]: [STDOUT]: JETTISONING 0 COMMANDS
+[05:23:13] [Server thread/INFO]: [STDOUT]: SERVER enter state: CLEAN_UP
+[05:23:13] [Server thread/INFO]: [STDOUT]: SERVER request state: DORMANT
+[05:23:13] [Server thread/INFO]: [STDOUT]: SERVER enter state: DORMANT
+[05:24:25] [Thread-34/INFO]: [STDOUT]: Received from localhost:MALMO_REQUEST_CLIENT:0.37.0:20000:ZombieKiller
+[05:24:25] [Thread-34/INFO]: [STDOUT]: ==== RES:  - -75531
+[05:24:25] [Thread-34/INFO]: [STDOUT]: REPLYING WITH: MALMOOK
+[05:24:25] [Thread-36/INFO]: [STDOUT]: Received from localhost:<?xml version="1.0" encoding="utf-8"?><MissionInit xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" SchemaVersion="" PlatformVersion="0.37.0"><Mission>                                                                                              <About>                              <Summary>Hello world!</Summary></About><ServerSection>                                              <ServerInitialConditions>                                    <Time>                                                                    <StartTime>15000</StartTime><AllowPassageOfTime>true</AllowPassageOfTime></Time></ServerInitialConditions><ServerHandlers>                                                                      <FlatWorldGenerator generatorString="3;7,2*3,2;1;" forceReset="true"/><DrawingDecorator>			                  <DrawEntity x="5" y="4" z="2" type="Zombie"/><DrawLine type="fence" x1="0" y1="4" z1="0" x2="0" y2="4" z2="10"/><DrawLine type="fence" x1="0" y1="4" z1="10" x2
+[05:24:25] [Thread-36/INFO]: [STDOUT]: REPLYING WITH: MALMOOK
+[05:24:25] [Client thread/INFO]: [STDOUT]: Mission received: Hello world!
+[05:24:25] [Client thread/INFO]: [STDOUT]: CLIENT request state: CREATING_HANDLERS
+[05:24:25] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CREATING_HANDLERS
+[05:24:25] [Client thread/INFO]: [STDOUT]: CLIENT request state: EVALUATING_WORLD_REQUIREMENTS
+[05:24:25] [Client thread/INFO]: [STDOUT]: CLIENT enter state: EVALUATING_WORLD_REQUIREMENTS
+[05:24:25] [Client thread/INFO]: [STDOUT]: CLIENT request state: PAUSING_OLD_SERVER
+[05:24:25] [Client thread/INFO]: [STDOUT]: CLIENT enter state: PAUSING_OLD_SERVER
+[05:24:25] [Server thread/INFO]: Saving and pausing game...
+[05:24:25] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_554f32e1-069c-4487-b446-5da65ff0b46d'/Overworld
+[05:24:25] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_554f32e1-069c-4487-b446-5da65ff0b46d'/Nether
+[05:24:25] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_554f32e1-069c-4487-b446-5da65ff0b46d'/The End
+[05:24:25] [Client thread/INFO]: [STDOUT]: CLIENT request state: CLOSING_OLD_SERVER
+[05:24:25] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CLOSING_OLD_SERVER
+[05:24:25] [Server thread/INFO]: Stopping server
+[05:24:25] [Server thread/INFO]: Saving players
+[05:24:25] [Server thread/INFO]: ZombieKiller lost connection: TextComponent{text='Disconnected', siblings=[], style=Style{hasParent=false, color=null, bold=null, italic=null, underlined=null, obfuscated=null, clickEvent=null, hoverEvent=null, insertion=null}}
+[05:24:25] [Server thread/INFO]: ZombieKiller left the game
+[05:24:26] [Server thread/INFO]: Stopping singleplayer server as player logged out
+[05:24:26] [Server thread/INFO]: Saving worlds
+[05:24:26] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_554f32e1-069c-4487-b446-5da65ff0b46d'/Overworld
+[05:24:26] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_554f32e1-069c-4487-b446-5da65ff0b46d'/Nether
+[05:24:26] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_554f32e1-069c-4487-b446-5da65ff0b46d'/The End
+[05:24:36] [Client thread/INFO]: [STDOUT]: CLIENT request state: CREATING_NEW_WORLD
+[05:24:36] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CREATING_NEW_WORLD
+[05:24:36] [Server thread/INFO]: Starting integrated minecraft server version 1.11.2
+[05:24:36] [Server thread/INFO]: Generating keypair
+[05:24:36] [Server thread/INFO]: Preparing start region for level 0
+[05:24:36] [Server thread/INFO]: Changing view distance to 6, from 10
+[05:24:36] [Client thread/INFO]: Deleting level TEMP_10000_554f32e1-069c-4487-b446-5da65ff0b46d
+[05:24:36] [Client thread/INFO]: Attempt 1...
+[05:24:37] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_MOD_READY
+[05:24:37] [Server thread/INFO]: [STDOUT]: CLIENT request state: WAITING_FOR_SERVER_READY
+[05:24:37] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_MOD_READY
+[05:24:37] [Client thread/INFO]: [STDOUT]: CLIENT enter state: WAITING_FOR_SERVER_READY
+[05:24:37] [Server thread/INFO]: [STDOUT]: SERVER request state: DORMANT
+[05:24:37] [Server thread/INFO]: [STDOUT]: SERVER enter state: DORMANT
+[05:24:37] [Server thread/INFO]: [STDOUT]: INCOMING MISSION: Received MissionInit directly through ServerStateMachine constructor.
+[05:24:37] [Server thread/INFO]: [STDOUT]: Mission received: Hello world!
+[05:24:37] [Server thread/INFO]: Received mission: §9Hello world!
+[05:24:37] [Server thread/INFO]: Source: §alocalhost
+[05:24:37] [Server thread/INFO]: [STDOUT]: SERVER request state: BUILDING_WORLD
+[05:24:37] [Server thread/INFO]: ZombieKiller[local:E:c545389e] logged in with entity id 37 at (-411.5, 4.0, -389.5)
+[05:24:37] [Server thread/INFO]: ZombieKiller joined the game
+[05:24:37] [Server thread/INFO]: [STDOUT]: SERVER enter state: BUILDING_WORLD
+[05:24:37] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_AGENTS_TO_ASSEMBLE
+[05:24:37] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_AGENTS_TO_ASSEMBLE
+[05:24:37] [Server thread/INFO]: [STDOUT]: Experiment requires: 
+[05:24:37] [Server thread/INFO]: [STDOUT]: >>>> ZombieKiller
+[05:24:37] [Client thread/INFO]: [STDOUT]: ***Telling server we are ready - ZombieKiller
+[05:24:37] [Client thread/INFO]: [STDOUT]: CLIENT request state: RUNNING
+[05:24:37] [Client thread/INFO]: [STDOUT]: CLIENT enter state: RUNNING
+[05:24:37] [Server thread/INFO]: [STDOUT]: SERVER request state: RUNNING
+[05:24:37] [Server thread/INFO]: [STDOUT]: SERVER enter state: RUNNING
+[05:24:52] [Client thread/INFO]: [STDOUT]: SEVERE: <-obs(localhost:10852) Failed to send TCP bytes: java.util.concurrent.ExecutionException: java.io.IOException: Broken pipe
+[05:24:52] [Client thread/INFO]: [STDOUT]: SEVERE: <-obs(localhost:10852) Failed to send TCP bytes: java.util.concurrent.ExecutionException: java.nio.channels.ClosedChannelException
+[05:24:52] [Client thread/INFO]: [STDOUT]: SEVERE: <-obs(localhost:10852) Failed to send TCP bytes: java.util.concurrent.ExecutionException: java.nio.channels.ClosedChannelException
+[05:24:52] [Client thread/INFO]: [STDOUT]: SEVERE: <-obs(localhost:10852) Failed to send TCP bytes: java.util.concurrent.ExecutionException: java.nio.channels.ClosedChannelException
+[05:24:52] [Client thread/INFO]: [STDOUT]: ERROR: TCP messages are not getting through - quitting mission.
+[05:24:52] [Client thread/INFO]: [STDOUT]: CLIENT request state: IDLING
+[05:24:52] [Client thread/INFO]: [STDOUT]: CLIENT enter state: IDLING
+[05:24:52] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_AGENTS_TO_QUIT
+[05:24:52] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_AGENTS_TO_QUIT
+[05:24:52] [Client thread/INFO]: [STDOUT]: CLIENT request state: MISSION_ENDED
+[05:24:52] [Client thread/INFO]: [STDOUT]: CLIENT enter state: MISSION_ENDED
+[05:24:52] [Client thread/INFO]: [STDOUT]: Sending mission ended message to localhost:10857.
+[05:24:52] [Client thread/INFO]: [STDOUT]: CLIENT request state: WAITING_FOR_SERVER_MISSION_END
+[05:24:52] [Client thread/INFO]: [STDOUT]: CLIENT enter state: WAITING_FOR_SERVER_MISSION_END
+[05:24:52] [Server thread/INFO]: [STDOUT]: SERVER request state: CLEAN_UP
+[05:24:52] [Server thread/INFO]: [STDOUT]: SERVER enter state: CLEAN_UP
+[05:24:52] [Server thread/INFO]: [STDOUT]: SERVER request state: DORMANT
+[05:24:52] [Client thread/INFO]: [STDOUT]: CLIENT request state: DORMANT
+[05:24:52] [Client thread/INFO]: [STDOUT]: CLIENT enter state: DORMANT
+[05:24:52] [Client thread/INFO]: [STDOUT]: JETTISONING 0 COMMANDS
+[05:24:52] [Server thread/INFO]: [STDOUT]: SERVER enter state: DORMANT
+[05:25:39] [Thread-41/INFO]: [STDOUT]: Received from localhost:MALMO_REQUEST_CLIENT:0.37.0:20000:ZombieKiller
+[05:25:39] [Thread-41/INFO]: [STDOUT]: ==== RES:  - -54111
+[05:25:39] [Thread-41/INFO]: [STDOUT]: REPLYING WITH: MALMOOK
+[05:25:39] [Thread-43/INFO]: [STDOUT]: Received from localhost:<?xml version="1.0" encoding="utf-8"?><MissionInit xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" SchemaVersion="" PlatformVersion="0.37.0"><Mission>                                                                                              <About>                              <Summary>Hello world!</Summary></About><ServerSection>                                              <ServerInitialConditions>                                    <Time>                                                                    <StartTime>15000</StartTime><AllowPassageOfTime>true</AllowPassageOfTime></Time></ServerInitialConditions><ServerHandlers>                                                                      <FlatWorldGenerator generatorString="3;7,2*3,2;1;" forceReset="true"/><DrawingDecorator>			                  <DrawEntity x="7" y="4" z="8" type="Zombie"/><DrawLine type="fence" x1="0" y1="4" z1="0" x2="0" y2="4" z2="10"/><DrawLine type="fence" x1="0" y1="4" z1="10" x2
+[05:25:39] [Thread-43/INFO]: [STDOUT]: REPLYING WITH: MALMOOK
+[05:25:39] [Client thread/INFO]: [STDOUT]: Mission received: Hello world!
+[05:25:39] [Client thread/INFO]: [STDOUT]: CLIENT request state: CREATING_HANDLERS
+[05:25:39] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CREATING_HANDLERS
+[05:25:39] [Client thread/INFO]: [STDOUT]: CLIENT request state: EVALUATING_WORLD_REQUIREMENTS
+[05:25:39] [Client thread/INFO]: [STDOUT]: CLIENT enter state: EVALUATING_WORLD_REQUIREMENTS
+[05:25:39] [Client thread/INFO]: [STDOUT]: CLIENT request state: PAUSING_OLD_SERVER
+[05:25:39] [Client thread/INFO]: [STDOUT]: CLIENT enter state: PAUSING_OLD_SERVER
+[05:25:39] [Server thread/INFO]: Saving and pausing game...
+[05:25:39] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_b628d458-cc79-4f8c-90db-c08b501c335a'/Overworld
+[05:25:39] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_b628d458-cc79-4f8c-90db-c08b501c335a'/Nether
+[05:25:39] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_b628d458-cc79-4f8c-90db-c08b501c335a'/The End
+[05:25:40] [Client thread/INFO]: [STDOUT]: CLIENT request state: CLOSING_OLD_SERVER
+[05:25:40] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CLOSING_OLD_SERVER
+[05:25:40] [Server thread/INFO]: Stopping server
+[05:25:40] [Server thread/INFO]: Saving players
+[05:25:40] [Server thread/INFO]: ZombieKiller lost connection: TextComponent{text='Disconnected', siblings=[], style=Style{hasParent=false, color=null, bold=null, italic=null, underlined=null, obfuscated=null, clickEvent=null, hoverEvent=null, insertion=null}}
+[05:25:40] [Server thread/INFO]: ZombieKiller left the game
+[05:25:40] [Server thread/INFO]: Stopping singleplayer server as player logged out
+[05:25:40] [Server thread/INFO]: Saving worlds
+[05:25:40] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_b628d458-cc79-4f8c-90db-c08b501c335a'/Overworld
+[05:25:40] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_b628d458-cc79-4f8c-90db-c08b501c335a'/Nether
+[05:25:40] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_b628d458-cc79-4f8c-90db-c08b501c335a'/The End
+[05:25:50] [Client thread/INFO]: [STDOUT]: CLIENT request state: CREATING_NEW_WORLD
+[05:25:50] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CREATING_NEW_WORLD
+[05:25:50] [Server thread/INFO]: Starting integrated minecraft server version 1.11.2
+[05:25:50] [Server thread/INFO]: Generating keypair
+[05:25:51] [Server thread/INFO]: Preparing start region for level 0
+[05:25:51] [Server thread/INFO]: Changing view distance to 6, from 10
+[05:25:51] [Client thread/INFO]: Deleting level TEMP_10000_b628d458-cc79-4f8c-90db-c08b501c335a
+[05:25:51] [Client thread/INFO]: Attempt 1...
+[05:25:51] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_MOD_READY
+[05:25:51] [Server thread/INFO]: [STDOUT]: CLIENT request state: WAITING_FOR_SERVER_READY
+[05:25:51] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_MOD_READY
+[05:25:51] [Server thread/INFO]: [STDOUT]: SERVER request state: DORMANT
+[05:25:51] [Server thread/INFO]: [STDOUT]: SERVER enter state: DORMANT
+[05:25:51] [Server thread/INFO]: [STDOUT]: INCOMING MISSION: Received MissionInit directly through ServerStateMachine constructor.
+[05:25:51] [Server thread/INFO]: [STDOUT]: Mission received: Hello world!
+[05:25:51] [Server thread/INFO]: Received mission: §9Hello world!
+[05:25:51] [Server thread/INFO]: Source: §alocalhost
+[05:25:51] [Server thread/INFO]: [STDOUT]: SERVER request state: BUILDING_WORLD
+[05:25:51] [Server thread/INFO]: ZombieKiller[local:E:4d9cc4b9] logged in with entity id 47 at (-93.5, 4.0, -461.5)
+[05:25:51] [Server thread/INFO]: ZombieKiller joined the game
+[05:25:51] [Server thread/INFO]: [STDOUT]: SERVER enter state: BUILDING_WORLD
+[05:25:51] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_AGENTS_TO_ASSEMBLE
+[05:25:51] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_AGENTS_TO_ASSEMBLE
+[05:25:51] [Server thread/INFO]: [STDOUT]: Experiment requires: 
+[05:25:51] [Server thread/INFO]: [STDOUT]: >>>> ZombieKiller
+[05:25:51] [Server thread/INFO]: Saving and pausing game...
+[05:25:51] [Client thread/INFO]: [STDOUT]: CLIENT enter state: WAITING_FOR_SERVER_READY
+[05:25:51] [Client thread/INFO]: [STDOUT]: ***Telling server we are ready - ZombieKiller
+[05:25:51] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_7d1a1cf6-d84d-48ed-be25-1beb9fdd1ed9'/Overworld
+[05:25:51] [Client thread/INFO]: [STDOUT]: ***Telling server we are ready - ZombieKiller
+[05:25:51] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_7d1a1cf6-d84d-48ed-be25-1beb9fdd1ed9'/Nether
+[05:25:51] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_7d1a1cf6-d84d-48ed-be25-1beb9fdd1ed9'/The End
+[05:25:51] [Client thread/INFO]: [STDOUT]: CLIENT request state: RUNNING
+[05:25:51] [Client thread/INFO]: [STDOUT]: CLIENT enter state: RUNNING
+[05:25:51] [Server thread/INFO]: [STDOUT]: SERVER request state: RUNNING
+[05:25:51] [Server thread/INFO]: [STDOUT]: SERVER enter state: RUNNING
+[05:26:08] [Server thread/INFO]: ZombieKiller was slain by Zombie
+[05:26:08] [Client thread/INFO]: [CHAT] ZombieKiller was slain by Zombie
+[05:26:09] [Client thread/INFO]: [STDOUT]: CLIENT request state: IDLING
+[05:26:09] [Client thread/INFO]: [STDOUT]: CLIENT enter state: IDLING
+[05:26:09] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_AGENTS_TO_QUIT
+[05:26:09] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_AGENTS_TO_QUIT
+[05:26:09] [Client thread/INFO]: [STDOUT]: CLIENT request state: MISSION_ENDED
+[05:26:09] [Client thread/INFO]: [STDOUT]: CLIENT enter state: MISSION_ENDED
+[05:26:09] [Client thread/INFO]: [STDOUT]: Sending mission ended message to localhost:10270.
+[05:26:09] [Client thread/INFO]: [STDOUT]: CLIENT request state: WAITING_FOR_SERVER_MISSION_END
+[05:26:09] [Client thread/INFO]: [STDOUT]: CLIENT enter state: WAITING_FOR_SERVER_MISSION_END
+[05:26:09] [Server thread/INFO]: [STDOUT]: SERVER request state: CLEAN_UP
+[05:26:09] [Server thread/INFO]: [STDOUT]: SERVER enter state: CLEAN_UP
+[05:26:09] [Server thread/INFO]: [STDOUT]: SERVER request state: DORMANT
+[05:26:09] [Thread-48/INFO]: [STDOUT]: Received from localhost:MALMO_REQUEST_CLIENT:0.37.0:20000:ZombieKiller
+[05:26:09] [Thread-48/INFO]: [STDOUT]: REPLYING WITH: MALMOBUSY
+[05:26:09] [Client thread/INFO]: [STDOUT]: CLIENT request state: DORMANT
+[05:26:10] [Client thread/INFO]: [STDOUT]: CLIENT enter state: DORMANT
+[05:26:10] [Client thread/INFO]: [STDOUT]: JETTISONING 46 COMMANDS
+[05:26:10] [Server thread/INFO]: [STDOUT]: SERVER enter state: DORMANT
+[05:26:11] [Thread-50/INFO]: [STDOUT]: Received from localhost:MALMO_REQUEST_CLIENT:0.37.0:20000:ZombieKiller
+[05:26:11] [Thread-50/INFO]: [STDOUT]: ==== RES:  - -12216
+[05:26:11] [Thread-50/INFO]: [STDOUT]: REPLYING WITH: MALMOOK
+[05:26:11] [Thread-52/INFO]: [STDOUT]: Received from localhost:<?xml version="1.0" encoding="utf-8"?><MissionInit xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" SchemaVersion="" PlatformVersion="0.37.0"><Mission>                                                                                              <About>                              <Summary>Hello world!</Summary></About><ServerSection>                                              <ServerInitialConditions>                                    <Time>                                                                    <StartTime>15000</StartTime><AllowPassageOfTime>true</AllowPassageOfTime></Time></ServerInitialConditions><ServerHandlers>                                                                      <FlatWorldGenerator generatorString="3;7,2*3,2;1;" forceReset="true"/><DrawingDecorator>			                  <DrawEntity x="8" y="4" z="4" type="Zombie"/><DrawLine type="fence" x1="0" y1="4" z1="0" x2="0" y2="4" z2="10"/><DrawLine type="fence" x1="0" y1="4" z1="10" x2
+[05:26:11] [Thread-52/INFO]: [STDOUT]: REPLYING WITH: MALMOOK
+[05:26:12] [Client thread/INFO]: [STDOUT]: Mission received: Hello world!
+[05:26:12] [Client thread/INFO]: [STDOUT]: CLIENT request state: CREATING_HANDLERS
+[05:26:12] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CREATING_HANDLERS
+[05:26:12] [Client thread/INFO]: [STDOUT]: CLIENT request state: EVALUATING_WORLD_REQUIREMENTS
+[05:26:12] [Client thread/INFO]: [STDOUT]: CLIENT enter state: EVALUATING_WORLD_REQUIREMENTS
+[05:26:12] [Client thread/INFO]: [STDOUT]: CLIENT request state: PAUSING_OLD_SERVER
+[05:26:12] [Client thread/INFO]: [STDOUT]: CLIENT enter state: PAUSING_OLD_SERVER
+[05:26:12] [Server thread/INFO]: Saving and pausing game...
+[05:26:12] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_7d1a1cf6-d84d-48ed-be25-1beb9fdd1ed9'/Overworld
+[05:26:12] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_7d1a1cf6-d84d-48ed-be25-1beb9fdd1ed9'/Nether
+[05:26:12] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_7d1a1cf6-d84d-48ed-be25-1beb9fdd1ed9'/The End
+[05:26:12] [Client thread/INFO]: [STDOUT]: CLIENT request state: CLOSING_OLD_SERVER
+[05:26:12] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CLOSING_OLD_SERVER
+[05:26:12] [Server thread/INFO]: Stopping server
+[05:26:12] [Server thread/INFO]: Saving players
+[05:26:12] [Server thread/INFO]: ZombieKiller lost connection: TextComponent{text='Disconnected', siblings=[], style=Style{hasParent=false, color=null, bold=null, italic=null, underlined=null, obfuscated=null, clickEvent=null, hoverEvent=null, insertion=null}}
+[05:26:12] [Server thread/INFO]: ZombieKiller left the game
+[05:26:12] [Server thread/INFO]: Stopping singleplayer server as player logged out
+[05:26:12] [Server thread/INFO]: Saving worlds
+[05:26:12] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_7d1a1cf6-d84d-48ed-be25-1beb9fdd1ed9'/Overworld
+[05:26:12] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_7d1a1cf6-d84d-48ed-be25-1beb9fdd1ed9'/Nether
+[05:26:12] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_7d1a1cf6-d84d-48ed-be25-1beb9fdd1ed9'/The End
+[05:26:22] [Client thread/INFO]: [STDOUT]: CLIENT request state: CREATING_NEW_WORLD
+[05:26:22] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CREATING_NEW_WORLD
+[05:26:22] [Server thread/INFO]: Starting integrated minecraft server version 1.11.2
+[05:26:22] [Server thread/INFO]: Generating keypair
+[05:26:23] [Server thread/INFO]: Preparing start region for level 0
+[05:26:23] [Server thread/INFO]: Changing view distance to 6, from 10
+[05:26:23] [Client thread/INFO]: Deleting level TEMP_10000_7d1a1cf6-d84d-48ed-be25-1beb9fdd1ed9
+[05:26:23] [Client thread/INFO]: Attempt 1...
+[05:26:23] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_MOD_READY
+[05:26:23] [Server thread/INFO]: [STDOUT]: CLIENT request state: WAITING_FOR_SERVER_READY
+[05:26:23] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_MOD_READY
+[05:26:23] [Server thread/INFO]: [STDOUT]: SERVER request state: DORMANT
+[05:26:23] [Server thread/INFO]: [STDOUT]: SERVER enter state: DORMANT
+[05:26:23] [Server thread/INFO]: [STDOUT]: INCOMING MISSION: Received MissionInit directly through ServerStateMachine constructor.
+[05:26:23] [Server thread/INFO]: [STDOUT]: Mission received: Hello world!
+[05:26:23] [Server thread/INFO]: Received mission: §9Hello world!
+[05:26:23] [Server thread/INFO]: Source: §alocalhost
+[05:26:23] [Server thread/INFO]: [STDOUT]: SERVER request state: BUILDING_WORLD
+[05:26:23] [Server thread/INFO]: ZombieKiller[local:E:2f000ef0] logged in with entity id 54 at (203.5, 4.0, 10.5)
+[05:26:23] [Server thread/INFO]: ZombieKiller joined the game
+[05:26:23] [Server thread/INFO]: [STDOUT]: SERVER enter state: BUILDING_WORLD
+[05:26:23] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_AGENTS_TO_ASSEMBLE
+[05:26:23] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_AGENTS_TO_ASSEMBLE
+[05:26:23] [Server thread/INFO]: [STDOUT]: Experiment requires: 
+[05:26:23] [Server thread/INFO]: [STDOUT]: >>>> ZombieKiller
+[05:26:23] [Server thread/INFO]: Saving and pausing game...
+[05:26:23] [Client thread/INFO]: [STDOUT]: CLIENT enter state: WAITING_FOR_SERVER_READY
+[05:26:23] [Client thread/INFO]: [STDOUT]: ***Telling server we are ready - ZombieKiller
+[05:26:23] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_6cfd4c5b-0cd8-4aa1-858d-9b65369c426c'/Overworld
+[05:26:23] [Client thread/INFO]: [STDOUT]: ***Telling server we are ready - ZombieKiller
+[05:26:23] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_6cfd4c5b-0cd8-4aa1-858d-9b65369c426c'/Nether
+[05:26:23] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_6cfd4c5b-0cd8-4aa1-858d-9b65369c426c'/The End
+[05:26:23] [Client thread/INFO]: [STDOUT]: CLIENT request state: RUNNING
+[05:26:23] [Client thread/INFO]: [STDOUT]: CLIENT enter state: RUNNING
+[05:26:24] [Server thread/INFO]: [STDOUT]: SERVER request state: RUNNING
+[05:26:24] [Server thread/INFO]: [STDOUT]: SERVER enter state: RUNNING
+[05:26:41] [Server thread/INFO]: ZombieKiller was slain by Zombie
+[05:26:41] [Client thread/INFO]: [CHAT] ZombieKiller was slain by Zombie
+[05:26:42] [Client thread/INFO]: [STDOUT]: CLIENT request state: IDLING
+[05:26:42] [Client thread/INFO]: [STDOUT]: CLIENT enter state: IDLING
+[05:26:42] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_AGENTS_TO_QUIT
+[05:26:42] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_AGENTS_TO_QUIT
+[05:26:42] [Client thread/INFO]: [STDOUT]: CLIENT request state: MISSION_ENDED
+[05:26:42] [Client thread/INFO]: [STDOUT]: CLIENT enter state: MISSION_ENDED
+[05:26:42] [Client thread/INFO]: [STDOUT]: Sending mission ended message to localhost:10674.
+[05:26:42] [Client thread/INFO]: [STDOUT]: CLIENT request state: WAITING_FOR_SERVER_MISSION_END
+[05:26:42] [Client thread/INFO]: [STDOUT]: CLIENT enter state: WAITING_FOR_SERVER_MISSION_END
+[05:26:42] [Server thread/INFO]: [STDOUT]: SERVER request state: CLEAN_UP
+[05:26:42] [Server thread/INFO]: [STDOUT]: SERVER enter state: CLEAN_UP
+[05:26:42] [Server thread/INFO]: [STDOUT]: SERVER request state: DORMANT
+[05:26:42] [Thread-57/INFO]: [STDOUT]: Received from localhost:MALMO_REQUEST_CLIENT:0.37.0:20000:ZombieKiller
+[05:26:42] [Thread-57/INFO]: [STDOUT]: REPLYING WITH: MALMOBUSY
+[05:26:42] [Client thread/INFO]: [STDOUT]: CLIENT request state: DORMANT
+[05:26:42] [Client thread/INFO]: [STDOUT]: CLIENT enter state: DORMANT
+[05:26:42] [Client thread/INFO]: [STDOUT]: JETTISONING 48 COMMANDS
+[05:26:42] [Server thread/INFO]: [STDOUT]: SERVER enter state: DORMANT
+[05:26:44] [Thread-59/INFO]: [STDOUT]: Received from localhost:MALMO_REQUEST_CLIENT:0.37.0:20000:ZombieKiller
+[05:26:44] [Thread-59/INFO]: [STDOUT]: ==== RES:  - -12245
+[05:26:44] [Thread-59/INFO]: [STDOUT]: REPLYING WITH: MALMOOK
+[05:26:44] [Thread-61/INFO]: [STDOUT]: Received from localhost:<?xml version="1.0" encoding="utf-8"?><MissionInit xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" SchemaVersion="" PlatformVersion="0.37.0"><Mission>                                                                                              <About>                              <Summary>Hello world!</Summary></About><ServerSection>                                              <ServerInitialConditions>                                    <Time>                                                                    <StartTime>15000</StartTime><AllowPassageOfTime>true</AllowPassageOfTime></Time></ServerInitialConditions><ServerHandlers>                                                                      <FlatWorldGenerator generatorString="3;7,2*3,2;1;" forceReset="true"/><DrawingDecorator>			                  <DrawEntity x="4" y="4" z="4" type="Zombie"/><DrawLine type="fence" x1="0" y1="4" z1="0" x2="0" y2="4" z2="10"/><DrawLine type="fence" x1="0" y1="4" z1="10" x2
+[05:26:44] [Thread-61/INFO]: [STDOUT]: REPLYING WITH: MALMOOK
+[05:26:44] [Client thread/INFO]: [STDOUT]: Mission received: Hello world!
+[05:26:44] [Client thread/INFO]: [STDOUT]: CLIENT request state: CREATING_HANDLERS
+[05:26:44] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CREATING_HANDLERS
+[05:26:44] [Client thread/INFO]: [STDOUT]: CLIENT request state: EVALUATING_WORLD_REQUIREMENTS
+[05:26:44] [Client thread/INFO]: [STDOUT]: CLIENT enter state: EVALUATING_WORLD_REQUIREMENTS
+[05:26:44] [Client thread/INFO]: [STDOUT]: CLIENT request state: PAUSING_OLD_SERVER
+[05:26:44] [Client thread/INFO]: [STDOUT]: CLIENT enter state: PAUSING_OLD_SERVER
+[05:26:44] [Server thread/INFO]: Saving and pausing game...
+[05:26:44] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_6cfd4c5b-0cd8-4aa1-858d-9b65369c426c'/Overworld
+[05:26:44] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_6cfd4c5b-0cd8-4aa1-858d-9b65369c426c'/Nether
+[05:26:44] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_6cfd4c5b-0cd8-4aa1-858d-9b65369c426c'/The End
+[05:26:44] [Client thread/INFO]: [STDOUT]: CLIENT request state: CLOSING_OLD_SERVER
+[05:26:44] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CLOSING_OLD_SERVER
+[05:26:44] [Server thread/INFO]: Stopping server
+[05:26:44] [Server thread/INFO]: Saving players
+[05:26:44] [Server thread/INFO]: ZombieKiller lost connection: TextComponent{text='Disconnected', siblings=[], style=Style{hasParent=false, color=null, bold=null, italic=null, underlined=null, obfuscated=null, clickEvent=null, hoverEvent=null, insertion=null}}
+[05:26:44] [Server thread/INFO]: ZombieKiller left the game
+[05:26:44] [Server thread/INFO]: Stopping singleplayer server as player logged out
+[05:26:44] [Server thread/INFO]: Saving worlds
+[05:26:44] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_6cfd4c5b-0cd8-4aa1-858d-9b65369c426c'/Overworld
+[05:26:44] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_6cfd4c5b-0cd8-4aa1-858d-9b65369c426c'/Nether
+[05:26:44] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_6cfd4c5b-0cd8-4aa1-858d-9b65369c426c'/The End
+[05:26:54] [Client thread/INFO]: [STDOUT]: CLIENT request state: CREATING_NEW_WORLD
+[05:26:54] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CREATING_NEW_WORLD
+[05:26:55] [Server thread/INFO]: Starting integrated minecraft server version 1.11.2
+[05:26:55] [Server thread/INFO]: Generating keypair
+[05:26:55] [Server thread/INFO]: Preparing start region for level 0
+[05:26:55] [Server thread/INFO]: Changing view distance to 6, from 10
+[05:26:55] [Client thread/INFO]: Deleting level TEMP_10000_6cfd4c5b-0cd8-4aa1-858d-9b65369c426c
+[05:26:55] [Client thread/INFO]: Attempt 1...
+[05:26:55] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_MOD_READY
+[05:26:55] [Server thread/INFO]: [STDOUT]: CLIENT request state: WAITING_FOR_SERVER_READY
+[05:26:55] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_MOD_READY
+[05:26:56] [Server thread/INFO]: [STDOUT]: SERVER request state: DORMANT
+[05:26:56] [Server thread/INFO]: [STDOUT]: SERVER enter state: DORMANT
+[05:26:56] [Server thread/INFO]: [STDOUT]: INCOMING MISSION: Received MissionInit directly through ServerStateMachine constructor.
+[05:26:56] [Server thread/INFO]: [STDOUT]: Mission received: Hello world!
+[05:26:56] [Server thread/INFO]: Received mission: §9Hello world!
+[05:26:56] [Server thread/INFO]: Source: §alocalhost
+[05:26:56] [Server thread/INFO]: [STDOUT]: SERVER request state: BUILDING_WORLD
+[05:26:56] [Server thread/INFO]: ZombieKiller[local:E:2d83f51d] logged in with entity id 61 at (-1020.5, 4.0, -961.5)
+[05:26:56] [Server thread/INFO]: ZombieKiller joined the game
+[05:26:56] [Server thread/INFO]: [STDOUT]: SERVER enter state: BUILDING_WORLD
+[05:26:56] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_AGENTS_TO_ASSEMBLE
+[05:26:56] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_AGENTS_TO_ASSEMBLE
+[05:26:56] [Server thread/INFO]: [STDOUT]: Experiment requires: 
+[05:26:56] [Server thread/INFO]: [STDOUT]: >>>> ZombieKiller
+[05:26:56] [Server thread/INFO]: Saving and pausing game...
+[05:26:56] [Client thread/INFO]: [STDOUT]: CLIENT enter state: WAITING_FOR_SERVER_READY
+[05:26:56] [Client thread/INFO]: [STDOUT]: ***Telling server we are ready - ZombieKiller
+[05:26:56] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_87cd5dda-3b2d-4879-8315-957f0c632e95'/Overworld
+[05:26:56] [Client thread/INFO]: [STDOUT]: ***Telling server we are ready - ZombieKiller
+[05:26:56] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_87cd5dda-3b2d-4879-8315-957f0c632e95'/Nether
+[05:26:56] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_87cd5dda-3b2d-4879-8315-957f0c632e95'/The End
+[05:26:56] [Client thread/INFO]: [STDOUT]: CLIENT request state: RUNNING
+[05:26:56] [Client thread/INFO]: [STDOUT]: CLIENT enter state: RUNNING
+[05:26:56] [Server thread/INFO]: [STDOUT]: SERVER request state: RUNNING
+[05:26:56] [Server thread/INFO]: [STDOUT]: SERVER enter state: RUNNING
+[05:27:11] [Client thread/INFO]: [STDOUT]: SEVERE: <-obs(localhost:10312) Failed to send TCP bytes: java.util.concurrent.ExecutionException: java.io.IOException: Broken pipe
+[05:27:12] [Client thread/INFO]: [STDOUT]: SEVERE: <-obs(localhost:10312) Failed to send TCP bytes: java.util.concurrent.ExecutionException: java.nio.channels.ClosedChannelException
+[05:27:12] [Client thread/INFO]: [STDOUT]: SEVERE: <-obs(localhost:10312) Failed to send TCP bytes: java.util.concurrent.ExecutionException: java.nio.channels.ClosedChannelException
+[05:27:12] [Client thread/INFO]: [STDOUT]: SEVERE: <-obs(localhost:10312) Failed to send TCP bytes: java.util.concurrent.ExecutionException: java.nio.channels.ClosedChannelException
+[05:27:12] [Client thread/INFO]: [STDOUT]: ERROR: TCP messages are not getting through - quitting mission.
+[05:27:12] [Client thread/INFO]: [STDOUT]: CLIENT request state: IDLING
+[05:27:12] [Client thread/INFO]: [STDOUT]: CLIENT enter state: IDLING
+[05:27:12] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_AGENTS_TO_QUIT
+[05:27:12] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_AGENTS_TO_QUIT
+[05:27:12] [Client thread/INFO]: [STDOUT]: CLIENT request state: MISSION_ENDED
+[05:27:12] [Client thread/INFO]: [STDOUT]: CLIENT enter state: MISSION_ENDED
+[05:27:12] [Client thread/INFO]: [STDOUT]: Sending mission ended message to localhost:10354.
+[05:27:12] [Client thread/INFO]: [STDOUT]: SEVERE: <-mcp(localhost:10354) Failed to send TCP bytes: java.util.concurrent.ExecutionException: java.io.IOException: Broken pipe
+[05:27:12] [Client thread/INFO]: [STDOUT]: CLIENT request state: WAITING_FOR_SERVER_MISSION_END
+[05:27:12] [Client thread/INFO]: [STDOUT]: CLIENT enter state: WAITING_FOR_SERVER_MISSION_END
+[05:27:12] [Server thread/INFO]: [STDOUT]: SERVER request state: CLEAN_UP
+[05:27:12] [Server thread/INFO]: [STDOUT]: SERVER enter state: CLEAN_UP
+[05:27:12] [Server thread/INFO]: [STDOUT]: SERVER request state: DORMANT
+[05:27:12] [Client thread/INFO]: [STDOUT]: CLIENT request state: DORMANT
+[05:27:12] [Client thread/INFO]: [STDOUT]: CLIENT enter state: DORMANT
+[05:27:12] [Client thread/INFO]: [STDOUT]: JETTISONING 0 COMMANDS
+[05:27:12] [Server thread/INFO]: [STDOUT]: SERVER enter state: DORMANT
+[05:32:21] [Server thread/INFO]: Saving and pausing game...
+[05:32:21] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_87cd5dda-3b2d-4879-8315-957f0c632e95'/Overworld
+[05:32:21] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_87cd5dda-3b2d-4879-8315-957f0c632e95'/Nether
+[05:32:21] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_87cd5dda-3b2d-4879-8315-957f0c632e95'/The End
+[05:32:22] [Server thread/INFO]: Stopping server
+[05:32:22] [Server thread/INFO]: Saving players
+[05:32:22] [Server thread/INFO]: ZombieKiller lost connection: TextComponent{text='Disconnected', siblings=[], style=Style{hasParent=false, color=null, bold=null, italic=null, underlined=null, obfuscated=null, clickEvent=null, hoverEvent=null, insertion=null}}
+[05:32:22] [Server thread/INFO]: ZombieKiller left the game
+[05:32:22] [Server thread/INFO]: Stopping singleplayer server as player logged out
+[05:32:22] [Server thread/INFO]: Saving worlds
+[05:32:22] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_87cd5dda-3b2d-4879-8315-957f0c632e95'/Overworld
+[05:32:22] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_87cd5dda-3b2d-4879-8315-957f0c632e95'/Nether
+[05:32:22] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_87cd5dda-3b2d-4879-8315-957f0c632e95'/The End
+[05:35:32] [Client thread/INFO]: Stopping!
+[05:35:32] [Client thread/INFO]: SoundSystem shutting down...
+[05:35:33] [Client thread/WARN]: Author: Paul Lamb, www.paulscode.com
