@@ -8,7 +8,7 @@
               <ServerSection>
                 <ServerInitialConditions>
                     <Time>
-                        <StartTime>15000</StartTime>
+                        <StartTime>18000</StartTime>
                         <AllowPassageOfTime>true</AllowPassageOfTime>
                     </Time>
                 </ServerInitialConditions>
@@ -16,6 +16,7 @@
                   <FlatWorldGenerator generatorString="3;7,2*3,2;1;"/>
                   <DrawingDecorator>
                   </DrawingDecorator>
+                  <ServerQuitFromTimeUp description="" timeLimitMs="50000"/>
                   <ServerQuitWhenAnyAgentFinishes/>
                 </ServerHandlers>
               </ServerSection>

@@ -167,6 +167,13 @@ class MainKeras():
                 else:
                     time.sleep(2)
         self._get_valid_worldstate()
+
+    def _start_mission(self):
+        self._generate_new_mission()
+        self._validate_mission()
+        self._add_starters()
+        self._drawBoundaries()
+        self._retry_start_mission()
     
     def _get_valid_worldstate(self):
         self.world_state = self.agent_host.getWorldState()
@@ -302,7 +309,7 @@ class MainKeras():
             # self.world_state.is_mission_running = False
             
             # setattr(self.world_state, 'is_mission_running', False)
-            # self.agent_host.sendCommand("tp " +  str(1500)+ " 1500 " + str(1500))
+            # self.agent_host.sendCommand("tp " +  str(100)+ " 100 " + str(100))
             # print("quitting mission")
 
     def _plot_dqn_results(self, x, scores, filename='zombie_kill.png', lines=None):
@@ -345,11 +352,7 @@ class MainKeras():
 
     def run_dqn(self):
         for i in range(self.n_games):
-            self._generate_new_mission()
-            self._validate_mission()
-            self._drawBoundaries()
-            self._add_starters()
-            self._retry_start_mission()
+            self._start_mission()
             score = 0
             done = False
             while self.world_state.is_mission_running:
@@ -442,11 +445,7 @@ class MainKeras():
         cumulative_rewards = []
 
         for i in range(self.n_games):
-            self._generate_new_mission()
-            self._validate_mission()
-            self._add_starters()
-            self._drawBoundaries()
-            self._retry_start_mission()
+            self._start_mission()
 
             total_reward = 0
             is_first_action = True
