@@ -8,54 +8,32 @@
               <ServerSection>
                 <ServerInitialConditions>
                     <Time>
-                        <StartTime>15000</StartTime>
+                        <StartTime>18000</StartTime>
                         <AllowPassageOfTime>true</AllowPassageOfTime>
                     </Time>
                 </ServerInitialConditions>
                 <ServerHandlers>
                   <FlatWorldGenerator generatorString="3;7,2*3,2;1;"/>
                   <DrawingDecorator>
-                    <DrawLine x1="2" y1="4" z1="-2" x2="2" y2="4" z2="8" type="fence"/>
-                    <DrawLine x1="2" y1="4" z1="8" x2="-8" y2="4" z2="8" type="fence"/>
-                    <DrawLine x1="-8" y1="4" z1="8" x2="-8" y2="4" z2="-2" type="fence"/>
-                    <DrawLine x1="2" y1="4" z1="-2" x2="-8" y2="4" z2="-2" type="fence"/>
-                    <DrawEntity x="-7" y="4" z="7" type="Zombie"/>
                   </DrawingDecorator>
-                  <ServerQuitFromTimeUp timeLimitMs="120000"/>
+                  <ServerQuitFromTimeUp description="" timeLimitMs="50000"/>
                   <ServerQuitWhenAnyAgentFinishes/>
                 </ServerHandlers>
               </ServerSection>
               
               <AgentSection mode="Survival">
-                <Name>MalmoTutorialBot</Name>
+                <Name>ZombieKiller</Name>
                 <AgentStart>
-                    <Placement x="0" y="4" z="0" yaw="30"/>
                     <Inventory>
                         <InventoryItem slot="0" type="diamond_sword"/>
                     </Inventory>
                 </AgentStart>
                 <AgentHandlers>
                 <ContinuousMovementCommands turnSpeedDegs="420"/>
-                <DiscreteMovementCommands> 
-
-                    <ModifierList type="deny-list"> 
-                        <command>attack</command> 
-                        <command>turn</command> 
-                        <command>move</command> 
-                    </ModifierList> 
-                </DiscreteMovementCommands> 
-                <ContinuousMovementCommands> 
-                    
-                    <ModifierList type="allow-list">
-                     <command>attack</command> 
-                     
-                    </ModifierList> 
-                   
-                </ContinuousMovementCommands>
-          
+                <MissionQuitCommands quitDescription="killed_zombies"/>
                 <ObservationFromRay/>
                  <RewardForDamagingEntity>
-                     <Mob type="Zombie" reward="100"/>
+                    <Mob type="Zombie" reward="10"/>
                 </RewardForDamagingEntity>
                 <RewardForSendingCommand reward="-1" />
                 <ObservationFromNearbyEntities>
