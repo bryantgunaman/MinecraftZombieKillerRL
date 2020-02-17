@@ -135,7 +135,7 @@ class MainKeras():
         self.mission_generator.randomStart()
 
     def _add_starters(self):
-        self.my_mission.removeAllCommandHandlers()
+        # self.my_mission.removeAllCommandHandlers()
         self.my_mission.allowAllContinuousMovementCommands()
         self.my_mission.setViewpoint( 0 )
         # self.my_mission.allowAllDiscreteMovementCommands()
@@ -302,15 +302,8 @@ class MainKeras():
                     zombies_alive = True
                     break
         if zombies_alive == False:
-            print("All zombies died")
-            # print(dir(self.world_state))
-            # print(self.world_state.__dir__)
-            # del type(self.world_state).is_mission_running
-            # self.world_state.is_mission_running = False
-            
-            # setattr(self.world_state, 'is_mission_running', False)
-            # self.agent_host.sendCommand("tp " +  str(100)+ " 100 " + str(100))
-            # print("quitting mission")
+            print("quitting mission")
+            self.agent_host.sendCommand("quit")
 
     def _plot_dqn_results(self, x, scores, filename='zombie_kill.png', lines=None):
         x = [i+1 for i in range(self.n_games)]
@@ -369,7 +362,7 @@ class MainKeras():
                     print(f'prev_ob: {ob_array}')
                     action = self.agent.choose_action(ob_array)
                     self._translate_actions(action, difference)
-                    
+
                     #keras calculations
                     observation_ = self._get_next_observation()
                     new_ob_array  = self._basic_observation_to_array(observation_)
@@ -493,8 +486,7 @@ class MainKeras():
                         if not self.world_state.is_mission_running:
                             break
                 
-                if self._check_all_zombies_dead() == False:
-                    break
+                self._check_all_zombies_dead()
 
             # process final reward
             self.logger.debug("Final reward: %d" % current_r)
