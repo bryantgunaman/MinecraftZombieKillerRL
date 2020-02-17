@@ -135,7 +135,7 @@ class MainKeras():
         self.mission_generator.randomStart()
 
     def _add_starters(self):
-#        self.my_mission.removeAllCommandHandlers()
+        self.my_mission.removeAllCommandHandlers()
         self.my_mission.allowAllContinuousMovementCommands()
         self.my_mission.setViewpoint( 0 )
         # self.my_mission.allowAllDiscreteMovementCommands()
@@ -295,27 +295,16 @@ class MainKeras():
 
     def _check_all_zombies_dead(self):
 #        zombies_alive = False
+        zombies_alive = False
         if u'entities' in self.ob:
             entities = self.ob["entities"]
             for e in entities:
-                if(self.ob[u'MobsKilled'] == self.starting_zombies):
-                    print("All zombies died")
-                    self.agent_host.sendCommand("quit")
-#                if e["name"] == "Zombie":
-#                    zombies_alive = True
-#                    break
-#        if zombies_alive == False:
-#            if(ob[u'MobsKilled'] == self.starting_zombies):
-#            print("All zombies died")
-#            self.agent_host.sendCommand("quit")
-            # print(dir(self.world_state))
-            # print(self.world_state.__dir__)
-            # del type(self.world_state).is_mission_running
-            # self.world_state.is_mission_running = False
-            
-            # setattr(self.world_state, 'is_mission_running', False)
-            # self.agent_host.sendCommand("tp " +  str(100)+ " 100 " + str(100))
-            # print("quitting mission")
+                if e["name"] == "Zombie":
+                    zombies_alive = True
+                    break
+        if zombies_alive == False:
+            print("quitting mission")
+            self.agent_host.sendCommand("quit")
 
     def _plot_dqn_results(self, x, scores, filename='zombie_kill.png', lines=None):
         x = [i+1 for i in range(self.n_games)]
@@ -385,8 +374,6 @@ class MainKeras():
                     self.agent.learn()
 
                     self._check_all_zombies_dead()
-            self.ob[u'MobsKilled'] = 0 #reset for every round or else it carries over from previous round
-
                             
                     
             self.eps_history.append(self.agent.epsilon)
@@ -398,7 +385,7 @@ class MainKeras():
             if i%10 == 0 and i > 0:
                 self.agent.save_model()
 
-#        self._plot_dqn_results(x, scores, eps_history)
+        self._plot_dqn_results(x, scores, eps_history)
 
     def _act(self, world_state, agent_host, current_r ):
         """take 1 action in response to the current world state"""
@@ -499,12 +486,8 @@ class MainKeras():
                             break
                         if not self.world_state.is_mission_running:
                             break
-        
+                
                 self._check_all_zombies_dead()
-            self.ob[u'MobsKilled'] = 0 #reset for every round or else it carries over from previous round
-#                if self._check_all_zombies_dead() == False:
-#                    break
-
 
             # process final reward
             self.logger.debug("Final reward: %d" % current_r)

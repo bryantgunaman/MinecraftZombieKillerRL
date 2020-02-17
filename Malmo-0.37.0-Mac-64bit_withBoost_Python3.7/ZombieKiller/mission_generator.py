@@ -1,93 +1,54 @@
-
-
+from random import randrange
 class MissionGenerator():
-
-
-    def __init__(self):
+    def __init__(self, xml_file):
         
         # Task parameters:
-        self._arena_width = 10
-        self._arena_breadth = 10
+        #default coordinates
+        self._x = 10
+        self._y = 4
+        self._z = 10
+        self._file = xml_file
+        with open(self._file,'r') as f:
+            self._initial_missionXML = f.read()
+            self._missionXML = self._initial_missionXML
+    
+    # reverts self._missionXML to the original missionXML
+    def restartXML(self):
+        self._missionXML = self._initial_missionXML
 
-        self._missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-            <Mission xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    #adds DrawEntity into XML specified number of times
+    def drawEntity(self, type, amount=1):
+        for i in range(amount):
+            #randomizes position of zombies
+            x = randrange(2, self._x-1)
+            z = randrange(2, self._z-1)
             
-              <About>
-                <Summary>Hello world!</Summary>
-              </About>
-              
-              <ServerSection>
-                <ServerInitialConditions>
-                    <Time>
-                        <StartTime>15000</StartTime>
-                        <AllowPassageOfTime>true</AllowPassageOfTime>
-                    </Time>
-                </ServerInitialConditions>
-                <ServerHandlers>
-                  <FlatWorldGenerator generatorString="3;7,2*3,2;1;"/>
-                  <DrawingDecorator>
-                    <DrawLine x1="2" y1="4" z1="-2" x2="2" y2="4" z2="8" type="fence"/>
-                    <DrawLine x1="2" y1="4" z1="8" x2="-8" y2="4" z2="8" type="fence"/>
-                    <DrawLine x1="-8" y1="4" z1="8" x2="-8" y2="4" z2="-2" type="fence"/>
-                    <DrawLine x1="2" y1="4" z1="-2" x2="-8" y2="4" z2="-2" type="fence"/>
-                    <DrawEntity x="-7" y="4" z="7" type="Zombie"/>
-                  </DrawingDecorator>
-                  <ServerQuitFromTimeUp timeLimitMs="120000"/>
-                  <ServerQuitWhenAnyAgentFinishes/>
-                </ServerHandlers>
-              </ServerSection>
-              
-              <AgentSection mode="Survival">
-                <Name>MalmoTutorialBot</Name>
-                <AgentStart>
-                    <Placement x="0" y="4" z="0" yaw="30"/>
-                    <Inventory>
-                        <InventoryItem slot="0" type="diamond_sword"/>
-                    </Inventory>
-                </AgentStart>
-                <AgentHandlers>
-                <ContinuousMovementCommands turnSpeedDegs="420"/>
-                <DiscreteMovementCommands> 
+            draw_dec = '<DrawingDecorator>'
+            draw_len = len(draw_dec)
+            draw_ind = draw_len+self._missionXML.find(draw_dec)
+            self._missionXML = self._missionXML[:draw_ind] + '\n\t\t\t<DrawEntity x="{}" y="{}" z="{}" type="{}"/>'.format(x,self._y,z,type) + self._missionXML[draw_ind:]
 
-                    <ModifierList type="deny-list"> 
-                        <command>attack</command> 
-                        <command>turn</command> 
-                        <command>move</command> 
-                    </ModifierList> 
-                </DiscreteMovementCommands> 
-                <ContinuousMovementCommands> 
-                    
-                    <ModifierList type="allow-list">
-                     <command>attack</command> 
-                     
-                    </ModifierList> 
-                   
-                </ContinuousMovementCommands>
-          
-                <ObservationFromRay/>
-                 <RewardForDamagingEntity>
-                     <Mob type="Zombie" reward="100"/>
-                </RewardForDamagingEntity>
-                <RewardForSendingCommand reward="-1" />
-                <ObservationFromNearbyEntities>
-                    <Range name="entities" xrange="'''+str(self._arena_width)+'''" yrange="2" zrange="'''+str(self._arena_breadth)+'''" />
-                </ObservationFromNearbyEntities>
-                <ObservationFromFullStats/>
-                </AgentHandlers>
-              </AgentSection>
-            </Mission>'''
+    #returns array of coordinates needed to create boundary
+    def getCoords(self, x, z):
+        self._x = x
+        self._z = z
+        xcoords = [0,0,x,x]
+        zcoords = [0,z,z,0]
+        return xcoords, zcoords
+    
+    #returns XML
+    def getXML(self):
+        return self._missionXML
+    
+    #randomizes spawn position of agent
+    def randomStart(self):
+        agent_start = '<AgentStart>'
+        len_agent_start = len(agent_start)
+        agent_ind = len_agent_start + self._missionXML.find(agent_start)
+        self._missionXML = self._missionXML[:agent_ind] + '\n\t\t\t<Placement x="{}" y="{}" z="{}" yaw="{}"/>'.format(randrange(2,self._x-1), self._y, randrange(2,self._z-1), randrange(360)) + self._missionXML[agent_ind:]
 
-
+    #writes XML into file
     def writeFile(self):
-        file = f = open("zombie_kill_1.xml", "w")
+        file = f = open(self._file, "w")
         file.write(self._missionXML)
         file.close()
-
-
-# if __name__ == '__main__':
-#     mg = MissionGenerator()
-#     print('Starting.....')
-#     mg.writeFile()
-#     print('Finished')
-
-

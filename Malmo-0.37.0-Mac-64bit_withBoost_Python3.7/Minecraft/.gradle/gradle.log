@@ -38,57 +38,225 @@ Note: Recompile with -Xlint:unchecked for details.
 :getAssets
 :makeStart SKIPPED
 :runClient
-[13:35:24] [main/INFO] [GradleStart]: Extra: []
-[13:35:24] [main/INFO] [GradleStart]: Found and added coremod: com.microsoft.Malmo.OverclockingPlugin
-[13:35:24] [main/INFO] [GradleStart]: Running with arguments: [--userProperties, {}, --assetsDir, /Users/bryantgunaman/.gradle/caches/minecraft/assets, --assetIndex, 1.11, --accessToken{REDACTED}, --version, 1.11.2, --tweakClass, net.minecraftforge.fml.common.launcher.FMLTweaker, --tweakClass, net.minecraftforge.gradle.tweakers.CoremodTweaker]
-[13:35:24] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLTweaker
-[13:35:24] [main/INFO] [LaunchWrapper]: Using primary tweak class name net.minecraftforge.fml.common.launcher.FMLTweaker
-[13:35:24] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.gradle.tweakers.CoremodTweaker
-[13:35:24] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLTweaker
-[13:35:24] [main/INFO] [FML]: Forge Mod Loader version 13.20.0.2228 for Minecraft 1.11.2 loading
-[13:35:24] [main/INFO] [FML]: Java is Java HotSpot(TM) 64-Bit Server VM, version 1.8.0_221, running on Mac OS X:x86_64:10.15.3, installed at /Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre
-[13:35:24] [main/INFO] [FML]: Managed to load a deobfuscated Minecraft name- we are in a deobfuscated environment. Skipping runtime deobfuscation
-[13:35:24] [main/INFO] [FML]: Found a command line coremod : com.microsoft.Malmo.OverclockingPlugin
-[13:35:24] [main/WARN] [FML]: The coremod com.microsoft.Malmo.OverclockingPlugin does not have a MCVersion annotation, it may cause issues with this version of Minecraft
-[13:35:24] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.gradle.tweakers.CoremodTweaker
-[13:35:24] [main/INFO] [GradleStart]: Injecting location in coremod net.minecraftforge.fml.relauncher.FMLCorePlugin
-[13:35:24] [main/INFO] [GradleStart]: Injecting location in coremod net.minecraftforge.classloading.FMLForgePlugin
-[13:35:24] [main/INFO] [GradleStart]: Injecting location in coremod com.microsoft.Malmo.OverclockingPlugin
-[13:35:24] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
-[13:35:24] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLDeobfTweaker
-[13:35:24] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.gradle.tweakers.AccessTransformerTweaker
-[13:35:24] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
-[13:35:24] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
-[13:35:24] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper
-[13:35:25] [main/ERROR] [FML]: The binary patch set is missing. Either you are in a development environment, or things are not going to work!
-[13:35:25] [main/ERROR] [FML]: FML appears to be missing any signature data. This is not a good thing
-[13:35:25] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper
-[13:35:25] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper
-[13:35:25] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLDeobfTweaker
-[13:35:25] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.gradle.tweakers.AccessTransformerTweaker
-[13:35:25] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.fml.common.launcher.TerminalTweaker
-[13:35:25] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.TerminalTweaker
-[13:35:25] [main/INFO] [LaunchWrapper]: Launching wrapped minecraft {net.minecraft.client.main.Main}
-[13:35:25] [main/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:transform:58]: MALMO: Attempting to transform MinecraftServer
-[13:35:25] [main/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:overclockRenderer:187]: MALMO: Found Minecraft, attempting to transform it
-[13:35:25] [main/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:overclockRenderer:193]: MALMO: Found Minecraft.runGameLoop() method, attempting to transform it
-[13:35:25] [main/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:overclockRenderer:208]: MALMO: Hooked into call to Minecraft.updateDisplay()
-[13:35:25] [main/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:transform:42]: Transformed Name: net.minecraft.client.entity.EntityPlayerSP
-[13:35:25] [main/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:transform:42]: Transformed Name: net.minecraft.client.entity.AbstractClientPlayer
-[13:35:26] [Client thread/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:transform:58]: MALMO: Attempting to transform MinecraftServer
-[13:35:26] [Client thread/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:overclockServer:123]: MALMO: Found MinecraftServer, attempting to transform it
-[13:35:26] [Client thread/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:overclockServer:129]: MALMO: Found MinecraftServer.run() method, attempting to transform it
-[13:35:26] [Client thread/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:overclockServer:137]: MALMO: Transforming LDC
-[13:35:26] [Client thread/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:overclockServer:137]: MALMO: Transforming LDC
-[13:35:26] [Client thread/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:overclockServer:137]: MALMO: Transforming LDC
-[13:35:26] [Client thread/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:overclockServer:137]: MALMO: Transforming LDC
-[13:35:26] [Client thread/INFO]: Setting user: Player181
-[13:35:28] [Client thread/WARN]: Skipping bad option: lastServer:
-[13:35:28] [Client thread/INFO]: LWJGL Version: 2.9.2
-[13:35:29] [Client thread/INFO]: [STDOUT]: MALMO: Attempting to transform MinecraftServer
-[13:35:29] [Client thread/INFO]: [STDOUT]: MALMO: Found GlStateManager, attempting to transform it
-[13:35:29] [Client thread/INFO]: [STDOUT]: MALMO: Found GlStateManager.bindTexture() method, attempting to transform it
-[13:35:29] [Client thread/INFO]: [STDOUT]: MALMO: Hooked into call to GlStateManager.bindTexture()
-[13:35:30] [Client thread/INFO] [FML]: MinecraftForge v13.20.0.2228 Initialized
-[13:35:30] [Client thread/INFO] [FML]: Replaced 232 ore recipes
-[13:35:30] [Client thread/INFO] [FML]: Found 0 mods from the command line. Injecting into mod discov
+[12:32:20] [main/INFO] [GradleStart]: Extra: []
+[12:32:20] [main/INFO] [GradleStart]: Found and added coremod: com.microsoft.Malmo.OverclockingPlugin
+[12:32:20] [main/INFO] [GradleStart]: Running with arguments: [--userProperties, {}, --assetsDir, /Users/bryantgunaman/.gradle/caches/minecraft/assets, --assetIndex, 1.11, --accessToken{REDACTED}, --version, 1.11.2, --tweakClass, net.minecraftforge.fml.common.launcher.FMLTweaker, --tweakClass, net.minecraftforge.gradle.tweakers.CoremodTweaker]
+[12:32:20] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLTweaker
+[12:32:20] [main/INFO] [LaunchWrapper]: Using primary tweak class name net.minecraftforge.fml.common.launcher.FMLTweaker
+[12:32:20] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.gradle.tweakers.CoremodTweaker
+[12:32:20] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLTweaker
+[12:32:20] [main/INFO] [FML]: Forge Mod Loader version 13.20.0.2228 for Minecraft 1.11.2 loading
+[12:32:20] [main/INFO] [FML]: Java is Java HotSpot(TM) 64-Bit Server VM, version 1.8.0_221, running on Mac OS X:x86_64:10.15.3, installed at /Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre
+[12:32:20] [main/INFO] [FML]: Managed to load a deobfuscated Minecraft name- we are in a deobfuscated environment. Skipping runtime deobfuscation
+[12:32:20] [main/INFO] [FML]: Found a command line coremod : com.microsoft.Malmo.OverclockingPlugin
+[12:32:20] [main/WARN] [FML]: The coremod com.microsoft.Malmo.OverclockingPlugin does not have a MCVersion annotation, it may cause issues with this version of Minecraft
+[12:32:20] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.gradle.tweakers.CoremodTweaker
+[12:32:20] [main/INFO] [GradleStart]: Injecting location in coremod net.minecraftforge.fml.relauncher.FMLCorePlugin
+[12:32:20] [main/INFO] [GradleStart]: Injecting location in coremod net.minecraftforge.classloading.FMLForgePlugin
+[12:32:20] [main/INFO] [GradleStart]: Injecting location in coremod com.microsoft.Malmo.OverclockingPlugin
+[12:32:20] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
+[12:32:20] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLDeobfTweaker
+[12:32:20] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.gradle.tweakers.AccessTransformerTweaker
+[12:32:20] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
+[12:32:20] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
+[12:32:20] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper
+[12:32:20] [main/ERROR] [FML]: The binary patch set is missing. Either you are in a development environment, or things are not going to work!
+[12:32:20] [main/ERROR] [FML]: FML appears to be missing any signature data. This is not a good thing
+[12:32:20] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper
+[12:32:20] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper
+[12:32:20] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLDeobfTweaker
+[12:32:21] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.gradle.tweakers.AccessTransformerTweaker
+[12:32:21] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.fml.common.launcher.TerminalTweaker
+[12:32:21] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.TerminalTweaker
+[12:32:21] [main/INFO] [LaunchWrapper]: Launching wrapped minecraft {net.minecraft.client.main.Main}
+[12:32:21] [main/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:transform:58]: MALMO: Attempting to transform MinecraftServer
+[12:32:21] [main/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:overclockRenderer:187]: MALMO: Found Minecraft, attempting to transform it
+[12:32:21] [main/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:overclockRenderer:193]: MALMO: Found Minecraft.runGameLoop() method, attempting to transform it
+[12:32:21] [main/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:overclockRenderer:208]: MALMO: Hooked into call to Minecraft.updateDisplay()
+[12:32:21] [main/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:transform:42]: Transformed Name: net.minecraft.client.entity.EntityPlayerSP
+[12:32:21] [main/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:transform:42]: Transformed Name: net.minecraft.client.entity.AbstractClientPlayer
+[12:32:21] [Client thread/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:transform:58]: MALMO: Attempting to transform MinecraftServer
+[12:32:21] [Client thread/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:overclockServer:123]: MALMO: Found MinecraftServer, attempting to transform it
+[12:32:21] [Client thread/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:overclockServer:129]: MALMO: Found MinecraftServer.run() method, attempting to transform it
+[12:32:21] [Client thread/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:overclockServer:137]: MALMO: Transforming LDC
+[12:32:21] [Client thread/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:overclockServer:137]: MALMO: Transforming LDC
+[12:32:21] [Client thread/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:overclockServer:137]: MALMO: Transforming LDC
+[12:32:21] [Client thread/INFO] [STDOUT]: [com.microsoft.Malmo.OverclockingClassTransformer:overclockServer:137]: MALMO: Transforming LDC
+[12:32:21] [Client thread/INFO]: Setting user: Player630
+[12:32:24] [Client thread/WARN]: Skipping bad option: lastServer:
+[12:32:24] [Client thread/INFO]: LWJGL Version: 2.9.2
+[12:32:24] [Client thread/INFO]: [STDOUT]: MALMO: Attempting to transform MinecraftServer
+[12:32:24] [Client thread/INFO]: [STDOUT]: MALMO: Found GlStateManager, attempting to transform it
+[12:32:24] [Client thread/INFO]: [STDOUT]: MALMO: Found GlStateManager.bindTexture() method, attempting to transform it
+[12:32:24] [Client thread/INFO]: [STDOUT]: MALMO: Hooked into call to GlStateManager.bindTexture()
+[12:32:24] [Client thread/INFO] [FML]: MinecraftForge v13.20.0.2228 Initialized
+[12:32:24] [Client thread/INFO] [FML]: Replaced 232 ore recipes
+[12:32:25] [Client thread/INFO] [FML]: Found 0 mods from the command line. Injecting into mod discoverer
+[12:32:25] [Client thread/INFO] [FML]: Searching /Users/bryantgunaman/Documents/GitHub/MinecraftZombieKillerRL/Malmo-0.37.0-Mac-64bit_withBoost_Python3.7/Minecraft/run/mods for mods
+[12:32:25] [Client thread/INFO] [FML]: Forge Mod Loader has identified 5 mods to load
+[12:32:26] [Client thread/INFO] [FML]: Attempting connection with missing mods [minecraft, mcp, FML, forge, malmomod] at CLIENT
+[12:32:26] [Client thread/INFO] [FML]: Attempting connection with missing mods [minecraft, mcp, FML, forge, malmomod] at SERVER
+[12:32:26] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Microsoft Malmo Mod
+[12:32:26] [Client thread/WARN]: ResourcePack: ignored non-lowercase namespace: MalmoMod in /Users/bryantgunaman/Documents/GitHub/MinecraftZombieKillerRL/Malmo-0.37.0-Mac-64bit_withBoost_Python3.7/Minecraft/build/libs/MalmoMod-0.37.0.jar
+[12:32:26] [Client thread/WARN]: ResourcePack: ignored non-lowercase namespace: MalmoMod in /Users/bryantgunaman/Documents/GitHub/MinecraftZombieKillerRL/Malmo-0.37.0-Mac-64bit_withBoost_Python3.7/Minecraft/build/libs/MalmoMod-0.37.0.jar
+[12:32:26] [Client thread/WARN]: ResourcePack: ignored non-lowercase namespace: MalmoMod in /Users/bryantgunaman/Documents/GitHub/MinecraftZombieKillerRL/Malmo-0.37.0-Mac-64bit_withBoost_Python3.7/Minecraft/build/libs/MalmoMod-0.37.0.jar
+[12:32:26] [Client thread/INFO] [FML]: Processing ObjectHolder annotations
+[12:32:26] [Client thread/INFO] [FML]: Found 444 ObjectHolder annotations
+[12:32:26] [Client thread/INFO] [FML]: Identifying ItemStackHolder annotations
+[12:32:26] [Client thread/INFO] [FML]: Found 0 ItemStackHolder annotations
+[12:32:26] [Client thread/INFO] [FML]: Applying holder lookups
+[12:32:26] [Client thread/INFO] [FML]: Holder lookups applied
+[12:32:26] [Client thread/INFO] [FML]: Applying holder lookups
+[12:32:26] [Client thread/INFO] [FML]: Holder lookups applied
+[12:32:26] [Client thread/INFO] [FML]: Applying holder lookups
+[12:32:26] [Client thread/INFO] [FML]: Holder lookups applied
+[12:32:26] [Client thread/INFO] [FML]: Configured a dormant chunk cache size of 0
+[12:32:26] [Forge Version Check/INFO] [ForgeVersionCheck]: [forge] Starting version check at http://files.minecraftforge.net/maven/net/minecraftforge/forge/promotions_slim.json
+[12:32:26] [Client thread/INFO]: [STDOUT]: Testing schemas against internal version number: 0.37
+[12:32:26] [Client thread/INFO] [FML]: Applying holder lookups
+[12:32:26] [Client thread/INFO] [FML]: Holder lookups applied
+[12:32:26] [Client thread/INFO] [FML]: Injecting itemstacks
+[12:32:26] [Client thread/INFO] [FML]: Itemstack injection complete
+[12:32:26] [Forge Version Check/INFO] [ForgeVersionCheck]: [forge] Found status: OUTDATED Target: 13.20.1.2386
+[12:32:27] [Sound Library Loader/INFO]: Starting up SoundSystem...
+[12:32:27] [Thread-6/INFO]: Initializing LWJGL OpenAL
+[12:32:27] [Thread-6/INFO]: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
+[12:32:28] [Thread-6/INFO]: OpenAL initialized.
+[12:32:28] [Sound Library Loader/INFO]: Sound engine started
+[12:32:29] [Client thread/INFO] [FML]: Max texture size: 16384
+[12:32:29] [Client thread/INFO]: Created: 16x16 textures-atlas
+[12:32:30] [Client thread/INFO]: [STDOUT]: CLIENT request state: WAITING_FOR_MOD_READY
+[12:32:30] [Client thread/INFO] [FML]: Injecting itemstacks
+[12:32:30] [Client thread/INFO] [FML]: Itemstack injection complete
+[12:32:30] [Client thread/INFO] [FML]: Forge Mod Loader has successfully loaded 5 mods
+[12:32:30] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Microsoft Malmo Mod
+[12:32:30] [Client thread/WARN]: ResourcePack: ignored non-lowercase namespace: MalmoMod in /Users/bryantgunaman/Documents/GitHub/MinecraftZombieKillerRL/Malmo-0.37.0-Mac-64bit_withBoost_Python3.7/Minecraft/build/libs/MalmoMod-0.37.0.jar
+[12:32:30] [Client thread/WARN]: ResourcePack: ignored non-lowercase namespace: MalmoMod in /Users/bryantgunaman/Documents/GitHub/MinecraftZombieKillerRL/Malmo-0.37.0-Mac-64bit_withBoost_Python3.7/Minecraft/build/libs/MalmoMod-0.37.0.jar
+[12:32:30] [Client thread/WARN]: ResourcePack: ignored non-lowercase namespace: MalmoMod in /Users/bryantgunaman/Documents/GitHub/MinecraftZombieKillerRL/Malmo-0.37.0-Mac-64bit_withBoost_Python3.7/Minecraft/build/libs/MalmoMod-0.37.0.jar
+[12:32:31] [Client thread/INFO]: SoundSystem shutting down...
+[12:32:31] [Client thread/WARN]: Author: Paul Lamb, www.paulscode.com
+[12:32:31] [Sound Library Loader/INFO]: Starting up SoundSystem...
+[12:32:31] [Thread-8/INFO]: Initializing LWJGL OpenAL
+[12:32:31] [Thread-8/INFO]: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
+[12:32:31] [Thread-8/INFO]: OpenAL initialized.
+[12:32:32] [Sound Library Loader/INFO]: Sound engine started
+[12:32:32] [Client thread/INFO] [FML]: Max texture size: 16384
+[12:32:32] [Client thread/INFO]: Created: 512x512 textures-atlas
+[12:32:33] [Client thread/WARN]: Skipping bad option: lastServer:
+[12:32:33] [Client thread/INFO]: [STDOUT]: CLIENT enter state: WAITING_FOR_MOD_READY
+[12:32:33] [Thread-10/INFO]: [STDOUT]: INFO: ->mcp(0) Listening for messages on port 10000
+[12:32:33] [Client thread/INFO]: [STDOUT]: CLIENT request state: DORMANT
+[12:32:33] [Client thread/INFO]: [STDOUT]: CLIENT enter state: DORMANT
+[12:32:35] [Realms Notification Availability checker #1/INFO]: Could not authorize you against Realms server: Invalid session id
+[12:32:41] [Thread-12/INFO]: [STDOUT]: Received from localhost:MALMO_REQUEST_CLIENT:0.37.0:20000:ZombieKiller
+[12:32:41] [Thread-12/INFO]: [STDOUT]: ==== RES:  - -1581712361888
+[12:32:41] [Thread-12/INFO]: [STDOUT]: REPLYING WITH: MALMOOK
+[12:32:41] [Thread-14/INFO]: [STDOUT]: Received from localhost:<?xml version="1.0" encoding="utf-8"?><MissionInit xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" SchemaVersion="" PlatformVersion="0.37.0"><Mission>                                                                                              <About>                              <Summary>Hello world!</Summary></About><ServerSection>                                              <ServerInitialConditions>                                    <Time>                                                                    <StartTime>18000</StartTime><AllowPassageOfTime>true</AllowPassageOfTime></Time></ServerInitialConditions><ServerHandlers>                                                                                        <FlatWorldGenerator generatorString="3;7,2*3,2;1;" forceReset="true"/><DrawingDecorator>			                  <DrawEntity x="6" y="4" z="3" type="Zombie"/><DrawLine type="fence" x1="0" y1="4" z1="0" x2="0" y2="4" z2="10"/><DrawLine type="fence" x1="0"
+[12:32:42] [Thread-14/INFO]: [STDOUT]: REPLYING WITH: MALMOOK
+[12:32:42] [Client thread/INFO]: [STDOUT]: Mission received: Hello world!
+[12:32:42] [Client thread/INFO]: [STDOUT]: CLIENT request state: CREATING_HANDLERS
+[12:32:42] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CREATING_HANDLERS
+[12:32:42] [Thread-15/INFO]: [STDOUT]: INFO: ->com(0) Listening for messages on port 10682
+[12:32:42] [Client thread/INFO]: [STDOUT]: CLIENT request state: EVALUATING_WORLD_REQUIREMENTS
+[12:32:42] [Client thread/INFO]: [STDOUT]: CLIENT enter state: EVALUATING_WORLD_REQUIREMENTS
+[12:32:42] [Client thread/INFO]: [STDOUT]: CLIENT request state: CREATING_NEW_WORLD
+[12:32:42] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CREATING_NEW_WORLD
+[12:32:43] [Server thread/INFO]: Starting integrated minecraft server version 1.11.2
+[12:32:43] [Server thread/INFO]: Generating keypair
+[12:32:43] [Server thread/INFO] [FML]: Injecting existing block and item data into this server instance
+[12:32:43] [Server thread/INFO] [FML]: Applying holder lookups
+[12:32:43] [Server thread/INFO] [FML]: Holder lookups applied
+[12:32:43] [Server thread/INFO] [FML]: Loading dimension 0 (TEMP_10000_77443930-ac61-41de-a89f-351073d835dd) (net.minecraft.server.integrated.IntegratedServer@57b25ee4)
+[12:32:44] [Server thread/INFO] [FML]: Loading dimension 1 (TEMP_10000_77443930-ac61-41de-a89f-351073d835dd) (net.minecraft.server.integrated.IntegratedServer@57b25ee4)
+[12:32:44] [Server thread/INFO] [FML]: Loading dimension -1 (TEMP_10000_77443930-ac61-41de-a89f-351073d835dd) (net.minecraft.server.integrated.IntegratedServer@57b25ee4)
+[12:32:44] [Server thread/INFO]: Preparing start region for level 0
+[12:32:44] [Server thread/INFO]: Changing view distance to 6, from 10
+[12:32:45] [Client thread/INFO]: Deleting level TEMP_10000_2401cd57-2983-41b6-8450-be20838ca5df
+[12:32:45] [Client thread/INFO]: Attempt 1...
+[12:32:45] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_MOD_READY
+[12:32:45] [Server thread/INFO]: [STDOUT]: CLIENT request state: WAITING_FOR_SERVER_READY
+[12:32:45] [Netty Local Client IO #0/INFO]: [STDOUT]: Transformed Name: net.minecraft.client.entity.EntityOtherPlayerMP
+[12:32:45] [Netty Local Client IO #0/INFO]: [STDOUT]: MALMO: Attempting to transform MinecraftServer
+[12:32:45] [Netty Local Client IO #0/INFO]: [STDOUT]: MALMO: Found EntityOtherPlayerMP, attempting to transform it
+[12:32:45] [Client thread/INFO]: [STDOUT]: CLIENT enter state: WAITING_FOR_SERVER_READY
+[12:32:45] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_MOD_READY
+[12:32:45] [Server thread/INFO]: [STDOUT]: SERVER request state: DORMANT
+[12:32:45] [Server thread/INFO]: [STDOUT]: SERVER enter state: DORMANT
+[12:32:45] [Server thread/INFO]: [STDOUT]: INCOMING MISSION: Received MissionInit directly through ServerStateMachine constructor.
+[12:32:45] [Server thread/INFO]: [STDOUT]: Mission received: Hello world!
+[12:32:45] [Server thread/INFO]: Received mission: §9Hello world!
+[12:32:45] [Server thread/INFO]: Source: §alocalhost
+[12:32:45] [Server thread/INFO]: [STDOUT]: SERVER request state: BUILDING_WORLD
+[12:32:45] [Server thread/INFO]: [STDOUT]: SERVER enter state: BUILDING_WORLD
+[12:32:45] [Netty Local Client IO #0/INFO] [FML]: Server protocol version 2
+[12:32:45] [Netty Server IO #1/INFO] [FML]: Client protocol version 2
+[12:32:45] [Netty Server IO #1/INFO] [FML]: Client attempting to join with 5 mods : minecraft@1.11.2,FML@8.0.99.99,malmomod@0.37.0,forge@13.20.0.2228,mcp@9.19
+[12:32:45] [Netty Local Client IO #0/INFO] [FML]: [Netty Local Client IO #0] Client side modded connection established
+[12:32:45] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_AGENTS_TO_ASSEMBLE
+[12:32:45] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_AGENTS_TO_ASSEMBLE
+[12:32:45] [Server thread/INFO]: [STDOUT]: Experiment requires: 
+[12:32:45] [Server thread/INFO]: [STDOUT]: >>>> ZombieKiller
+[12:32:45] [Server thread/INFO] [FML]: [Server thread] Server side modded connection established
+[12:32:45] [Server thread/INFO]: ZombieKiller[local:E:2e309ed4] logged in with entity id 0 at (-1405.5, 4.0, -1260.5)
+[12:32:45] [Server thread/INFO]: ZombieKiller joined the game
+[12:32:46] [Client thread/INFO]: [STDOUT]: ***Telling server we are ready - ZombieKiller
+[12:32:46] [Client thread/INFO]: [STDOUT]: ***Telling server we are ready - ZombieKiller
+[12:32:46] [Client thread/INFO]: [STDOUT]: CLIENT request state: RUNNING
+[12:32:46] [Client thread/INFO]: [STDOUT]: CLIENT enter state: RUNNING
+[12:32:46] [Server thread/INFO]: [STDOUT]: SERVER request state: RUNNING
+[12:32:46] [Server thread/INFO]: [STDOUT]: SERVER enter state: RUNNING
+[12:32:46] [Client thread/INFO]: [CHAT] §l50...
+[12:32:47] [Client thread/INFO]: [CHAT] §l49...
+[12:32:48] [Client thread/INFO]: [CHAT] §l48...
+[12:32:49] [Client thread/INFO]: [CHAT] §l47...
+[12:32:50] [Client thread/INFO]: [CHAT] §l46...
+[12:32:51] [Client thread/INFO]: [CHAT] §l45...
+[12:32:52] [Client thread/INFO]: [CHAT] §l44...
+[12:32:53] [Client thread/INFO]: [CHAT] §l43...
+[12:32:54] [Client thread/INFO]: [CHAT] §l42...
+[12:32:55] [Client thread/INFO]: [CHAT] §l41...
+[12:32:56] [Client thread/INFO]: [CHAT] §l40...
+[12:32:57] [Client thread/INFO]: [CHAT] §l39...
+[12:32:58] [Client thread/INFO]: [CHAT] §l38...
+[12:32:59] [Client thread/INFO]: [CHAT] §l37...
+[12:33:00] [Client thread/INFO]: [CHAT] §l36...
+[12:33:01] [Client thread/INFO]: [CHAT] §l35...
+[12:33:02] [Client thread/INFO]: [CHAT] §l34...
+[12:33:03] [Client thread/INFO]: [CHAT] §l33...
+[12:33:04] [Client thread/INFO]: [CHAT] §l32...
+[12:33:05] [Server thread/INFO]: ZombieKiller was slain by Zombie
+[12:33:05] [Client thread/INFO]: [CHAT] ZombieKiller was slain by Zombie
+[12:33:05] [Client thread/INFO]: [CHAT] §l31...
+[12:33:06] [Client thread/INFO]: [STDOUT]: CLIENT request state: IDLING
+[12:33:06] [Client thread/INFO]: [STDOUT]: CLIENT enter state: IDLING
+[12:33:06] [Server thread/INFO]: [STDOUT]: SERVER request state: WAITING_FOR_AGENTS_TO_QUIT
+[12:33:06] [Server thread/INFO]: [STDOUT]: SERVER enter state: WAITING_FOR_AGENTS_TO_QUIT
+[12:33:06] [Client thread/INFO]: [STDOUT]: CLIENT request state: MISSION_ENDED
+[12:33:06] [Client thread/INFO]: [STDOUT]: CLIENT enter state: MISSION_ENDED
+[12:33:06] [Client thread/INFO]: [STDOUT]: Sending mission ended message to localhost:10538.
+[12:33:06] [Client thread/INFO]: [STDOUT]: CLIENT request state: WAITING_FOR_SERVER_MISSION_END
+[12:33:06] [Client thread/INFO]: [STDOUT]: CLIENT enter state: WAITING_FOR_SERVER_MISSION_END
+[12:33:06] [Thread-20/INFO]: [STDOUT]: Received from localhost:MALMO_REQUEST_CLIENT:0.37.0:20000:ZombieKiller
+[12:33:06] [Thread-20/INFO]: [STDOUT]: REPLYING WITH: MALMOBUSY
+[12:33:06] [Server thread/INFO]: [STDOUT]: SERVER request state: CLEAN_UP
+[12:33:06] [Server thread/INFO]: [STDOUT]: SERVER enter state: CLEAN_UP
+[12:33:06] [Server thread/INFO]: [STDOUT]: SERVER request state: DORMANT
+[12:33:06] [Client thread/INFO]: [STDOUT]: CLIENT request state: DORMANT
+[12:33:06] [Client thread/INFO]: [STDOUT]: CLIENT enter state: DORMANT
+[12:33:06] [Client thread/INFO]: [STDOUT]: JETTISONING 0 COMMANDS
+[12:33:06] [Server thread/INFO]: [STDOUT]: SERVER enter state: DORMANT
+[12:33:08] [Thread-22/INFO]: [STDOUT]: Received from localhost:MALMO_REQUEST_CLIENT:0.37.0:20000:ZombieKiller
+[12:33:08] [Thread-22/INFO]: [STDOUT]: ==== RES:  - -6492
+[12:33:08] [Thread-22/INFO]: [STDOUT]: REPLYING WITH: MALMOOK
+[12:33:08] [Thread-24/INFO]: [STDOUT]: Received from localhost:<?xml version="1.0" encoding="utf-8"?><MissionInit xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" SchemaVersion="" PlatformVersion="0.37.0"><Mission>                                                                                              <About>                              <Summary>Hello world!</Summary></About><ServerSection>                                              <ServerInitialConditions>                                    <Time>                                                                    <StartTime>18000</StartTime><AllowPassageOfTime>true</AllowPassageOfTime></Time></ServerInitialConditions><ServerHandlers>                                                                                        <FlatWorldGenerator generatorString="3;7,2*3,2;1;" forceReset="true"/><DrawingDecorator>			                  <DrawEntity x="8" y="4" z="3" type="Zombie"/><DrawLine type="fence" x1="0" y1="4" z1="0" x2="0" y2="4" z2="10"/><DrawLine type="fence" x1="0"
+[12:33:08] [Thread-24/INFO]: [STDOUT]: REPLYING WITH: MALMOOK
+[12:33:08] [Client thread/INFO]: [STDOUT]: Mission received: Hello world!
+[12:33:08] [Client thread/INFO]: [STDOUT]: CLIENT request state: CREATING_HANDLERS
+[12:33:08] [Client thread/INFO]: [STDOUT]: CLIENT enter state: CREATING_HANDLERS
+[12:33:08] [Client thread/INFO]: [STDOUT]: CLIENT request state: EVALUATING_WORLD_REQUIREMENTS
+[12:33:08] [Client thread/INFO]: [STDOUT]: CLIENT enter state: EVALUATING_WORLD_REQUIREMENTS
+[12:33:08] [Client thread/INFO]: [STDOUT]: CLIENT request state: PAUSING_OLD_SERVER
+[12:33:08] [Client thread/INFO]: [STDOUT]: CLIENT enter state: PAUSING_OLD_SERVER
+[12:33:08] [Server thread/INFO]: Saving and pausing game...
+[12:33:08] [Server thread/INFO]: Saving chunks for level 'TEMP_10000_77443930-ac61-41de-a89f-351073d835dd'/Overworld
+[12:33:08] [Server thread/INFO]: Saving chunks for level

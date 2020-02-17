@@ -1,50 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<Mission xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    
-    <About>
-        <Summary>Hello world!</Summary>
-    </About>
-    
-    <ServerSection>
-        <ServerInitialConditions>
-            <Time>
-                <StartTime>15000</StartTime>
-                <AllowPassageOfTime>true</AllowPassageOfTime>
-            </Time>
-        </ServerInitialConditions>
-        <ServerHandlers>
-            <FlatWorldGenerator generatorString="3;7,2*3,2;1;"/>
-            <DrawingDecorator>
-            </DrawingDecorator>
-            <ServerQuitFromTimeUp timeLimitMs="30000"/>
-            <ServerQuitWhenAnyAgentFinishes/>
-        </ServerHandlers>
-    </ServerSection>
-    
-    <AgentSection mode="Survival">
-        <Name>ZombieKiller</Name>
-        <AgentStart>
-            <Inventory>
-                <InventoryItem slot="0" type="diamond_sword"/>
-            </Inventory>
-        </AgentStart>
-        <AgentHandlers>
-            <MissionQuitCommands>
-                <ModifierList type="allow-list">
-                    <command>quit</command>
-                </ModifierList>
-            </MissionQuitCommands>
-            <ContinuousMovementCommands turnSpeedDegs="360"/>
-            <ObservationFromRay/>
-            <RewardForDamagingEntity>
-                <Mob type="Zombie" reward="10"/>
-            </RewardForDamagingEntity>
-            <RewardForSendingCommand reward="-1" />
-            <ObservationFromNearbyEntities>
-                <Range name="entities" xrange="10" yrange="2" zrange="10" />
-            </ObservationFromNearbyEntities>
-            <ObservationFromFullStats/>
-        </AgentHandlers>
-    </AgentSection>
-</Mission>
-
+            <Mission xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            
+              <About>
+                <Summary>Hello world!</Summary>
+              </About>
+              
+              <ServerSection>
+                <ServerInitialConditions>
+                    <Time>
+                        <StartTime>18000</StartTime>
+                        <AllowPassageOfTime>true</AllowPassageOfTime>
+                    </Time>
+                </ServerInitialConditions>
+                <ServerHandlers>
+                  <FlatWorldGenerator generatorString="3;7,2*3,2;1;"/>
+                  <DrawingDecorator>
+                  </DrawingDecorator>
+                  <ServerQuitFromTimeUp description="" timeLimitMs="50000"/>
+                  <ServerQuitWhenAnyAgentFinishes/>
+                </ServerHandlers>
+              </ServerSection>
+              
+              <AgentSection mode="Survival">
+                <Name>ZombieKiller</Name>
+                <AgentStart>
+                    <Inventory>
+                        <InventoryItem slot="0" type="diamond_sword"/>
+                    </Inventory>
+                </AgentStart>
+                <AgentHandlers>
+                <ContinuousMovementCommands turnSpeedDegs="420"/>
+                <MissionQuitCommands quitDescription="killed_zombies"/>
+                <ObservationFromRay/>
+                 <RewardForDamagingEntity>
+                    <Mob type="Zombie" reward="10"/>
+                </RewardForDamagingEntity>
+                <RewardForSendingCommand reward="-1" />
+                <ObservationFromNearbyEntities>
+                    <Range name="entities" xrange="10" yrange="2" zrange="10" />
+                </ObservationFromNearbyEntities>
+                <ObservationFromFullStats/>
+                </AgentHandlers>
+              </AgentSection>
+            </Mission>
