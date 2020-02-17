@@ -135,7 +135,7 @@ class MainKeras():
         self.mission_generator.randomStart()
 
     def _add_starters(self):
-        self.my_mission.removeAllCommandHandlers()
+        # self.my_mission.removeAllCommandHandlers()
         self.my_mission.allowAllContinuousMovementCommands()
         self.my_mission.setViewpoint( 0 )
         # self.my_mission.allowAllDiscreteMovementCommands()
@@ -294,7 +294,6 @@ class MainKeras():
         pass
 
     def _check_all_zombies_dead(self):
-#        zombies_alive = False
         zombies_alive = False
         if u'entities' in self.ob:
             entities = self.ob["entities"]
