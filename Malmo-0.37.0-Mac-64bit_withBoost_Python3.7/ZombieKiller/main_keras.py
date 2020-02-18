@@ -1,5 +1,5 @@
 from __future__ import print_function
-import malmo.minecraftbootstrap; malmo.minecraftbootstrap.set_malmo_xsd_path()
+#import malmo.minecraftbootstrap; malmo.minecraftbootstrap.set_malmo_xsd_path()
 from future import standard_library
 standard_library.install_aliases()
 from builtins import input
@@ -176,10 +176,16 @@ class MainKeras():
         self._retry_start_mission()
     
     def _get_valid_worldstate(self):
+        # Loop until mission starts:
+        print("Waiting for the mission to start ", end=' ')
         self.world_state = self.agent_host.getWorldState()
         while not self.world_state.has_mission_begun:
+            print(".", end="")
             time.sleep(0.1)
             self.world_state = self.agent_host.getWorldState()
+            for error in self.world_state.errors:
+                print("Error:",error.text)
+        print()
 
     def _assign_observation(self):
         if self.world_state.number_of_observations_since_last_state > 0:
@@ -203,19 +209,15 @@ class MainKeras():
         if u'ZPos' in self.ob:
             self.self_z = self.ob[u'ZPos']
 
-    def _get_turning_difference_from_zombies(self):
-        diagonal_diff = self.get_diagonal_difference_from_zombies()
-        if diagonal_diff != None:
-            x_pull, z_pull = diagonal_diff
-
     def _calculate_turning_difference_from_zombies(self):
-        x_pull, z_pull = self._get_diagonal_difference_from_zombies()
+        x_pull, z_pull, current_yaw = self._get_diagonal_difference_from_zombies()
         yaw = -180 * math.atan2(x_pull, z_pull) / math.pi
-        difference = yaw - self.current_yaw
+        difference = yaw - current_yaw
         while difference < -180:
             difference += 360
         while difference > 180:
             difference -= 360
+        print("turn differece: ", difference/180.0)
         return difference / 180.0
         
     def _get_diagonal_difference_from_zombies(self):
@@ -225,19 +227,24 @@ class MainKeras():
             return self._get_pull_from_entities(entities) 
     
     def _get_pull_from_entities(self, entities):
+        # Get our position/orientation:
+        if u'Yaw' in self.ob:
+            current_yaw = self.ob[u'Yaw']
+        if u'XPos' in self.ob:
+            self_x = self.ob[u'XPos']
+        if u'ZPos' in self.ob:
+            self_z = self.ob[u'ZPos']
         num_zombie, x_pull, z_pull = 0, 0, 0
         for e in entities:
             if e["name"] == "Zombie":
                 num_zombie += 1
                 # Each zombie contributes to the direction we should head in...
-                dist = max(0.0001, (e["x"] - self.self_x) * (e["x"] - self.self_x) + (e["z"] - self.self_z) * (e["z"] - self.self_z))
-                # Prioritize going after wounded zombie. Max zombie health is 20, according to Minecraft wiki...
+                dist = max(0.0001, (e["x"] - self_x) * (e["x"] - self_x) + (e["z"] - self_z) * (e["z"] - self_z))
+                # Prioritise going after wounded sheep. Max zombie health is 20, according to Minecraft wiki...
                 weight = 21.0 - e["life"]
-                x_pull += weight * (e["x"] - self.self_x) / dist
-                z_pull += weight * (e["z"] - self.self_z) / dist
-            elif e["name"] == "Zombie":
-                num_zombie += 1
-        return x_pull, z_pull
+                x_pull += weight * (e["x"] - self_x) / dist
+                z_pull += weight * (e["z"] - self_z) / dist
+        return x_pull, z_pull, current_yaw
 
     def _get_current_rewards(self, current_rewards):
         for reward in self.world_state.rewards:
@@ -471,7 +478,7 @@ class MainKeras():
                             self.logger.error("Error: %s" % error.text)
                         for reward in self.world_state.rewards:
                             current_r += reward.getValue()
-                        print("waiting to stabilize")
+                        #print("waiting to stabilize")
                     # allow time to stabilise after action
                     while True:
                         time.sleep(0.1)
@@ -487,9 +494,11 @@ class MainKeras():
                             break
                 
                 self._check_all_zombies_dead()
+            
 
             # process final reward
             self.logger.debug("Final reward: %d" % current_r)
+            print('Cumulative reward: %d' % total_reward)
             total_reward += current_r
 
             # update Q values
@@ -498,6 +507,8 @@ class MainKeras():
                 
             self._exportQTable() # export the Q table after each iteration
             cumulative_rewards += [ total_reward ]
+            print("Cumulative rewards for all %d runs:" % self.n_games)
+            print(cumulative_rewards)
 
 
 
