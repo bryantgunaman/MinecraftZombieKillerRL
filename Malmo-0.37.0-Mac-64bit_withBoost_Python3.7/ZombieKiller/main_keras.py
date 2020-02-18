@@ -244,8 +244,6 @@ class MainKeras():
                 weight = 21.0 - e["life"]
                 x_pull += weight * (e["x"] - self_x) / dist
                 z_pull += weight * (e["z"] - self_z) / dist
-            elif e["name"] == "Zombie":
-                num_zombie += 1
         return x_pull, z_pull, current_yaw
 
     def _get_current_rewards(self, current_rewards):
