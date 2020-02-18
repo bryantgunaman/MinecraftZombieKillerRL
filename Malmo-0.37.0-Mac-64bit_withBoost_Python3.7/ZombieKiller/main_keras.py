@@ -203,15 +203,10 @@ class MainKeras():
         if u'ZPos' in self.ob:
             self.self_z = self.ob[u'ZPos']
 
-    def _get_turning_difference_from_zombies(self):
-        diagonal_diff = self._get_diagonal_difference_from_zombies()
-        if diagonal_diff != None:
-            x_pull, z_pull = diagonal_diff
-
     def _calculate_turning_difference_from_zombies(self):
-        x_pull, z_pull = self._get_diagonal_difference_from_zombies()
+        x_pull, z_pull, current_yaw = self._get_diagonal_difference_from_zombies()
         yaw = -180 * math.atan2(x_pull, z_pull) / math.pi
-        difference = yaw - self.current_yaw
+        difference = yaw - current_yaw
         while difference < -180:
             difference += 360
         while difference > 180:
@@ -226,19 +221,26 @@ class MainKeras():
             return self._get_pull_from_entities(entities) 
     
     def _get_pull_from_entities(self, entities):
+        # Get our position/orientation:
+        if u'Yaw' in self.ob:
+            current_yaw = self.ob[u'Yaw']
+        if u'XPos' in self.ob:
+            self_x = self.ob[u'XPos']
+        if u'ZPos' in self.ob:
+            self_z = self.ob[u'ZPos']
         num_zombie, x_pull, z_pull = 0, 0, 0
         for e in entities:
             if e["name"] == "Zombie":
                 num_zombie += 1
                 # Each zombie contributes to the direction we should head in...
-                dist = max(0.0001, (e["x"] - self.self_x) * (e["x"] - self.self_x) + (e["z"] - self.self_z) * (e["z"] - self.self_z))
-                # Prioritize going after wounded zombie. Max zombie health is 20, according to Minecraft wiki...
+                dist = max(0.0001, (e["x"] - self_x) * (e["x"] - self_x) + (e["z"] - self_z) * (e["z"] - self_z))
+                # Prioritise going after wounded sheep. Max zombie health is 20, according to Minecraft wiki...
                 weight = 21.0 - e["life"]
-                x_pull += weight * (e["x"] - self.self_x) / dist
-                z_pull += weight * (e["z"] - self.self_z) / dist
+                x_pull += weight * (e["x"] - self_x) / dist
+                z_pull += weight * (e["z"] - self_z) / dist
             elif e["name"] == "Zombie":
                 num_zombie += 1
-        return x_pull, z_pull
+        return x_pull, z_pull, current_yaw
 
     def _get_current_rewards(self, current_rewards):
         for reward in self.world_state.rewards:
