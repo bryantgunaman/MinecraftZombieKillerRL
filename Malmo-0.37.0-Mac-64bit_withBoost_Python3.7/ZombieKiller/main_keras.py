@@ -494,9 +494,11 @@ class MainKeras():
                             break
                 
                 self._check_all_zombies_dead()
+            
 
             # process final reward
             self.logger.debug("Final reward: %d" % current_r)
+            print('Cumulative reward: %d' % total_reward)
             total_reward += current_r
 
             # update Q values
@@ -505,6 +507,8 @@ class MainKeras():
                 
             self._exportQTable() # export the Q table after each iteration
             cumulative_rewards += [ total_reward ]
+            print("Cumulative rewards for all %d runs:" % self.n_games)
+            print(cumulative_rewards)
 
 
 
