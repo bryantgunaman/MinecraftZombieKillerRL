@@ -216,6 +216,7 @@ class MainKeras():
             difference += 360
         while difference > 180:
             difference -= 360
+        print("turn differece: ", difference/180.0)
         return difference / 180.0
         
     def _get_diagonal_difference_from_zombies(self):
