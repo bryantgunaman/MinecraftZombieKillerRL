@@ -1,5 +1,5 @@
 from __future__ import print_function
-import malmo.minecraftbootstrap; malmo.minecraftbootstrap.set_malmo_xsd_path()
+#import malmo.minecraftbootstrap; malmo.minecraftbootstrap.set_malmo_xsd_path()
 from future import standard_library
 standard_library.install_aliases()
 from builtins import input
@@ -204,7 +204,7 @@ class MainKeras():
             self.self_z = self.ob[u'ZPos']
 
     def _get_turning_difference_from_zombies(self):
-        diagonal_diff = self.get_diagonal_difference_from_zombies()
+        diagonal_diff = self._get_diagonal_difference_from_zombies()
         if diagonal_diff != None:
             x_pull, z_pull = diagonal_diff
 
