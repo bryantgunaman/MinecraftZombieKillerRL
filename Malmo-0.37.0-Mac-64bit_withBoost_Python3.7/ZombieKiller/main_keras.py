@@ -176,10 +176,16 @@ class MainKeras():
         self._retry_start_mission()
     
     def _get_valid_worldstate(self):
+        # Loop until mission starts:
+        print("Waiting for the mission to start ", end=' ')
         self.world_state = self.agent_host.getWorldState()
         while not self.world_state.has_mission_begun:
+            print(".", end="")
             time.sleep(0.1)
             self.world_state = self.agent_host.getWorldState()
+            for error in self.world_state.errors:
+                print("Error:",error.text)
+        print()
 
     def _assign_observation(self):
         if self.world_state.number_of_observations_since_last_state > 0:
@@ -474,7 +480,7 @@ class MainKeras():
                             self.logger.error("Error: %s" % error.text)
                         for reward in self.world_state.rewards:
                             current_r += reward.getValue()
-                        print("waiting to stabilize")
+                        #print("waiting to stabilize")
                     # allow time to stabilise after action
                     while True:
                         time.sleep(0.1)
