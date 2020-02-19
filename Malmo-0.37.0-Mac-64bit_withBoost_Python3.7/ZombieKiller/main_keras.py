@@ -1,5 +1,5 @@
 from __future__ import print_function
-#import malmo.minecraftbootstrap; malmo.minecraftbootstrap.set_malmo_xsd_path()
+# import malmo.minecraftbootstrap; malmo.minecraftbootstrap.set_malmo_xsd_path()
 from future import standard_library
 standard_library.install_aliases()
 from builtins import input
@@ -18,12 +18,12 @@ from malmo import malmoutils
 import numpy as np
 import ctypes
 from mission_generator import MissionGenerator
-
+import matplotlib.pyplot as plt
 
 class MainKeras():
 
     def __init__(self, missionXML, n_games=500, max_retries=3, starting_zombies=1,
-                 XSize=10, ZSize=10):
+                 XSize=10, ZSize=10, load_model=False):
         # keras attributes
         self.n_games = n_games
 
@@ -33,14 +33,14 @@ class MainKeras():
         self.n_actions = 3
         self.agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0005, input_dims=5,
                   n_actions=3, mem_size=1000000, batch_size=64, epsilon_end=0.01)
-        self._load_dqn_model()
+        self._load_dqn_model(load_model)
 
         self.scores = []
         self.eps_history = []
 
         # qtable
         self.Qtb = {}
-        self._load_qtable()
+        self._load_qtable(load_model)
         self.epsilon = 0.01 # chance of taking a random action instead of the best
 
         # agent
@@ -87,20 +87,16 @@ class MainKeras():
         self.logger.handlers = []
         self.logger.addHandler(logging.StreamHandler(sys.stdout))
 
-    def _load_dqn_model(self):
-        try:
+    def _load_dqn_model(self, load_model):
+        if load_model == True:
             self.agent.load_model()
-        except:
-            print("Failed to load dqn model")
+        
 
-    def _load_qtable(self):
-        try:
+    def _load_qtable(self, load_model):
+        if load_model == True:
             with open('QTable.txt') as json_file:
                 Qtb = json.load(json_file)
             self.Qtb= Qtb
-        except:
-            print("Failed to load QTable.txt")
-            self.Qtb = {}
 
     def _exportQTable(self):
         with open('QTable.txt', 'w') as outfile:
@@ -250,6 +246,7 @@ class MainKeras():
         for reward in self.world_state.rewards:
             current_rewards += reward.getValue()
         current_rewards += self._decrease_life_penalty()
+        current_rewards += self._increase_time_penalty()
         return current_rewards
 
     def _decrease_life_penalty(self):
@@ -258,6 +255,14 @@ class MainKeras():
             ob2 = json.loads(self.world_state.observations[-2].text)
             if ob2['Life'] < ob['Life']:
                 return ob2['Life'] - ob['Life'] * 5
+        return 0
+
+    def _increase_time_penalty(self):
+        if len(self.world_state.observations) >= 2 and self.world_state.number_of_observations_since_last_state > 0:
+            ob = json.loads(self.world_state.observations[-1].text)
+            ob2 = json.loads(self.world_state.observations[-2].text)
+            if ob2['TimeAlive'] > ob['TimeAlive']:
+                return ob['TimeAlive'] - ob2['TimeAlive'] * 2
         return 0
 
     def _move_towards_zombies(self, difference_from_zombie):
@@ -312,9 +317,9 @@ class MainKeras():
             print("quitting mission")
             self.agent_host.sendCommand("quit")
 
-    def _plot_dqn_results(self, x, scores, filename='zombie_kill.png', lines=None):
+    def _plot_dqn_results(self, scores, eps_history, filename='zombie_kill.png', lines=None):
         x = [i+1 for i in range(self.n_games)]
-        self._plotLearning(x, scores, eps_history, filename)
+        self._plotLearning(x, scores, eps_history, filename, lines=None)
 
     def _plotLearning(self, x, scores, epsilons, filename, lines=None):
         fig=plt.figure()
@@ -355,6 +360,7 @@ class MainKeras():
             self._start_mission()
             score = 0
             done = False
+            print(f'Iteration Number: {i}')
             while self.world_state.is_mission_running:
                 current_reward = 0
                 self.world_state = self.agent_host.getWorldState()
@@ -390,8 +396,8 @@ class MainKeras():
 
             if i%10 == 0 and i > 0:
                 self.agent.save_model()
-
-        self._plot_dqn_results(x, scores, eps_history)
+        
+        self._plot_dqn_results(self.scores, self.eps_history)
 
     def _act(self, world_state, agent_host, current_r ):
         """take 1 action in response to the current world state"""
@@ -509,25 +515,3 @@ class MainKeras():
             cumulative_rewards += [ total_reward ]
             print("Cumulative rewards for all %d runs:" % self.n_games)
             print(cumulative_rewards)
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-    
-    
-
-    
-
-

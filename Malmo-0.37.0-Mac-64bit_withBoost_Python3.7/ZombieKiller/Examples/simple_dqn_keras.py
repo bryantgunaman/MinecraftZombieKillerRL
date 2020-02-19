@@ -126,5 +126,3 @@ class Agent(object):
 
     def load_model(self):
         self.q_eval = load_model(self.model_file)
-
-
