@@ -2,7 +2,7 @@
             <Mission xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             
               <About>
-                <Summary>Hello world!</Summary>
+                <Summary>Kill Zombies!</Summary>
               </About>
               
               <ServerSection>
@@ -29,11 +29,10 @@
                     </Inventory>
                 </AgentStart>
                 <AgentHandlers>
-                <ContinuousMovementCommands turnSpeedDegs="420"/>
                 <MissionQuitCommands quitDescription="killed_zombies"/>
                 <ObservationFromRay/>
                  <RewardForDamagingEntity>
-                    <Mob type="Zombie" reward="10"/>
+                    <Mob type="Zombie" reward="20"/>
                 </RewardForDamagingEntity>
                 <RewardForSendingCommand reward="-1" />
                 <ObservationFromNearbyEntities>
