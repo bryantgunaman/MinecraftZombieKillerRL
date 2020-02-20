@@ -30,9 +30,9 @@ class MainKeras():
         self._init_logger()
 
         # keras
-        self.n_actions = 3
+        self.n_actions = 9
         self.agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0005, input_dims=5,
-                  n_actions=3, mem_size=1000000, batch_size=64, epsilon_end=0.01)
+                  n_actions=9, mem_size=1000000, batch_size=64, epsilon_end=0.01)
         self._load_dqn_model(load_model)
 
         self.scores = []
@@ -78,6 +78,8 @@ class MainKeras():
         self.current_yaw = 0
         self.ob = None
 
+        # possible discrete actions
+        self.actions = ["movenorth 1", "movesouth 1", "movewest 1", "moveeast 1", "attack 1", "attack 0", "turn -0.5", "turn 0.5", "turn 0"]
     def _init_logger(self):
         self.logger = logging.getLogger(__name__)
         if False: # True if you want to see more information
@@ -283,12 +285,14 @@ class MainKeras():
         print('attack')
 
     def _translate_actions(self, action_num, difference_from_zombie):
-        if action_num == 0:
-            self._move_away_from_zombies(difference_from_zombie)  
-        elif action_num ==1:
-            self._move_towards_zombies(difference_from_zombie)
-        elif action_num == 2:
-            self._attack()    
+        # if action_num == 0:
+        #     self._move_away_from_zombies(difference_from_zombie)  
+        # elif action_num ==1:
+        #     self._move_towards_zombies(difference_from_zombie)
+        # elif action_num == 2:
+        #     self._attack()    
+        self.agent_host.sendCommand(self.actions[action_num])
+        print("Take action " + self.actions[action_num])
     
     def _basic_observation_to_array(self, ob):
         obs_array = []
