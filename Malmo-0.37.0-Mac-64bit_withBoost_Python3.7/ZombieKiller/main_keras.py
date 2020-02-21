@@ -37,6 +37,7 @@ class MainKeras():
 
         self.scores = []
         self.eps_history = []
+        self.aggregate_episode_every = aggregate_episode_every
 
         # qtable
         self.Qtb = {}
@@ -395,17 +396,16 @@ class MainKeras():
             avg_score = np.mean(self.scores[max(0, i-100):(i+1)])
             print('episode ', 1, 'score %.2f' % score, 'average score %.2f' % avg_score)
 
-            if not i % 5 or i == 1:
+            if not i % self.aggregate_episode_every or i == 1:
                 self.agent.tensorboard.update_stats(reward_avg=avg_score, 
                 reward_min=np.min(self.scores[max(0, i-100):(i+1)]), 
                 reward_max=np.max(self.scores[max(0, i-100):(i+1)]), 
                 epsilon=self.agent.epsilon)
+                print(f"TensorBoard logdir: {self.agent.log_dir}")
 
             if i%10 == 0 and i > 0:
                 self.agent.save_model()
                 
-
-        print(f"TensorBoard logdir: {self.agent.log_dir}")
         self._plot_dqn_results(self.scores, self.eps_history)
 
     def _act(self, world_state, agent_host, current_r ):
