@@ -1,8 +1,49 @@
 from keras.layers import Dense, Activation
 from keras.models import Sequential, load_model
 from keras.optimizers import Adam
-
+from keras.callbacks import TensorBoard
+import tensorflow as tf
 import numpy as np
+import time
+
+class ModifiedTensorBoard(TensorBoard):
+    # Overriding init to set initial step and writer (we want one log file for all .fit() calls)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.step = 1
+        self.writer = tf.summary.create_file_writer(self.log_dir)
+        # self.writer = tf.summary.FileWriter(self.log_dir)
+
+    # Overriding this method to stop creating default log writer
+    def set_model(self, model):
+        pass
+
+    # Overrided, saves logs with our step number
+    # (otherwise every .fit() will start writing from 0th step)
+    def on_epoch_end(self, epoch, logs=None):
+        self.update_stats(**logs)
+
+    # Overrided
+    # We train for one batch only, no need to save anything at epoch end
+    def on_batch_end(self, batch, logs=None):
+        pass
+
+    # Overrided, so won't close writer
+    def on_train_end(self, _):
+        pass
+
+    def _write_logs(self, logs, index):
+        with self.writer.as_default():
+            for name, value in logs.items():
+                tf.summary.scalar(name,value,step=index)
+                self.step += 1
+                self.writer.flush()
+
+    # Custom method for saving own metrics
+    # Creates writer, writes custom metrics and closes writer
+    def update_stats(self, **stats):
+        self._write_logs(stats, self.step)
+
 
 class ReplayBuffer(object):
     
@@ -75,11 +116,15 @@ class Agent(object):
         self.epsilon_min = epsilon_end
         self.batch_size = batch_size
         self.model_file = fname
-
+        self.model_name = 'dqn_model'
         self.memory = ReplayBuffer(mem_size, input_dims, n_actions, discrete=True)
 
+        # 2x256
         self.q_eval = build_dqn(alpha, n_actions, input_dims, 256, 256)
-
+    
+        self.log_dir = f"logs/{self.model_name}-{int(time.time())}"
+        self.tensorboard = ModifiedTensorBoard(log_dir=self.log_dir)
+        
 
     def remember(self, state, action, reward, new_state, done):
         self.memory.store_transition(state, action, reward, new_state, done)
@@ -96,7 +141,7 @@ class Agent(object):
         return action
 
     # temporal differece: learns on every step
-    def learn(self):
+    def learn(self, terminal_state):
         if self.memory.mem_cntr < self.batch_size:
             return 
         
@@ -115,7 +160,14 @@ class Agent(object):
         q_target[batch_index, action_indices] = reward + \
                                 self.gamma * np.max(q_next, axis=1) * done
 
+        q_eval_dup = self.q_eval
+        q_eval_dup.fit(state, q_target, batch_size=self.batch_size, 
+                       verbose=0, shuffle=False, callbacks=[self.tensorboard] 
+                       if terminal_state else None)
+
         _ = self.q_eval.fit(state, q_target, verbose=0) # does the fitting
+
+        
 
         self.epsilon = self.epsilon * self.epsilon_dec if self.epsilon > \
                        self.epsilon_min else self.epsilon_min

@@ -23,16 +23,16 @@ import matplotlib.pyplot as plt
 class MainKeras():
 
     def __init__(self, missionXML, n_games=500, max_retries=3, starting_zombies=1,
-                 XSize=10, ZSize=10, load_model=False):
+                 XSize=10, ZSize=10, aggregate_episode_every=5, load_model=False):
         # keras attributes
         self.n_games = n_games
 
         self._init_logger()
 
         # keras
-        self.n_actions = 3
+        self.n_actions = 4
         self.agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0005, input_dims=5,
-                  n_actions=3, mem_size=1000000, batch_size=64, epsilon_end=0.01)
+                  n_actions=4, mem_size=1000000, batch_size=64, epsilon_end=0.01)
         self._load_dqn_model(load_model)
 
         self.scores = []
@@ -357,6 +357,7 @@ class MainKeras():
 
     def run_dqn(self):
         for i in range(self.n_games):
+            self.agent.tensorboard.step = i
             self._start_mission()
             score = 0
             done = False
@@ -383,7 +384,7 @@ class MainKeras():
                     current_reward += self._get_current_rewards(current_reward)
                     score += current_reward
                     self.agent.remember(ob_array, action, current_reward, new_ob_array, done)
-                    self.agent.learn()
+                    self.agent.learn(done)
 
                     self._check_all_zombies_dead()
                             
@@ -394,9 +395,17 @@ class MainKeras():
             avg_score = np.mean(self.scores[max(0, i-100):(i+1)])
             print('episode ', 1, 'score %.2f' % score, 'average score %.2f' % avg_score)
 
+            if not i % 5 or i == 1:
+                self.agent.tensorboard.update_stats(reward_avg=avg_score, 
+                reward_min=np.min(self.scores[max(0, i-100):(i+1)]), 
+                reward_max=np.max(self.scores[max(0, i-100):(i+1)]), 
+                epsilon=self.agent.epsilon)
+
             if i%10 == 0 and i > 0:
                 self.agent.save_model()
-        
+                
+
+        print(f"TensorBoard logdir: {self.agent.log_dir}")
         self._plot_dqn_results(self.scores, self.eps_history)
 
     def _act(self, world_state, agent_host, current_r ):
