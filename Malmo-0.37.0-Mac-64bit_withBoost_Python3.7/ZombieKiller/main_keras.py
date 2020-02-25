@@ -31,7 +31,7 @@ class MainKeras():
 
         # keras
         self.n_actions = 4
-        self.agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0005, input_dims=5,
+        self.agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0005, input_dims=6,
                   n_actions=4, mem_size=1000000, batch_size=64, epsilon_end=0.01)
         self._load_dqn_model(load_model)
 
@@ -70,6 +70,8 @@ class MainKeras():
         #mission generator
         self.mission_generator = MissionGenerator(self.missionXML)
         self.starting_zombies = starting_zombies
+        self.num_zombies = starting_zombies
+        self.zombie_difference = 0  # for reward calculation
         self.XSize = XSize
         self.ZSize = ZSize
 
@@ -78,6 +80,7 @@ class MainKeras():
         self.self_z = 0
         self.current_yaw = 0
         self.ob = None
+        self.all_zombies_dead = False
 
     def _init_logger(self):
         self.logger = logging.getLogger(__name__)
@@ -214,7 +217,7 @@ class MainKeras():
             difference += 360
         while difference > 180:
             difference -= 360
-        print("turn differece: ", difference/180.0)
+        # print("turn differece: ", difference/180.0)
         return difference / 180.0
         
     def _get_diagonal_difference_from_zombies(self):
@@ -241,13 +244,22 @@ class MainKeras():
                 weight = 21.0 - e["life"]
                 x_pull += weight * (e["x"] - self_x) / dist
                 z_pull += weight * (e["z"] - self_z) / dist
+        self._update_num_zombies(num_zombie)
         return x_pull, z_pull, current_yaw
+
+    def _update_num_zombies(self, new_num_zombies):
+        if new_num_zombies < self.num_zombies:
+            self.zombie_difference = self.num_zombies - new_num_zombies
+            self.num_zombies = new_num_zombies
+        else:
+            self.zombie_difference = 0
 
     def _get_current_rewards(self, current_rewards):
         for reward in self.world_state.rewards:
             current_rewards += reward.getValue()
         current_rewards += self._decrease_life_penalty()
         current_rewards += self._increase_time_penalty()
+        current_rewards += self._kill_zombie_reward()
         return current_rewards
 
     def _decrease_life_penalty(self):
@@ -265,6 +277,9 @@ class MainKeras():
             if ob2['TimeAlive'] > ob['TimeAlive']:
                 return ob['TimeAlive'] - ob2['TimeAlive'] * 2
         return 0
+
+    def _kill_zombie_reward(self):
+        return self.zombie_difference * 50
 
     def _move_towards_zombies(self, difference_from_zombie):
         self.agent_host.sendCommand("turn " + str(difference_from_zombie))
@@ -298,10 +313,16 @@ class MainKeras():
         obs_array.append(ob['XPos']) if 'XPos' in ob else 0
         obs_array.append(ob['YPos']) if 'YPos' in ob else 0
         obs_array.append(ob['ZPos']) if 'ZPos' in ob else 0
-        return np.array(obs_array)
+        return obs_array
 
-    def _observation_to_array(self, observation):
-        pass
+    def _complete_observation_to_array(self, observation):
+        observation.append(self.num_zombies)
+        print(observation)
+        return np.array(observation)
+
+    def _observation_to_array(self, ob):
+        ob = self._basic_observation_to_array(ob)
+        return self._complete_observation_to_array(ob)
 
     def _parse_entities(self, entities):
         pass
@@ -316,7 +337,10 @@ class MainKeras():
                     break
         if zombies_alive == False:
             print("quitting mission")
+            self.all_zombies_dead = True
             self.agent_host.sendCommand("quit")
+    
+
 
     def _plot_dqn_results(self, scores, eps_history, filename='zombie_kill.png', lines=None):
         x = [i+1 for i in range(self.n_games)]
@@ -362,7 +386,6 @@ class MainKeras():
             self._start_mission()
             score = 0
             done = False
-            print(f'Iteration Number: {i}')
             while self.world_state.is_mission_running:
                 current_reward = 0
                 self.world_state = self.agent_host.getWorldState()
@@ -370,24 +393,26 @@ class MainKeras():
                 if self.ob != None:
                     self._get_position_and_orientation()
                     difference = self._calculate_turning_difference_from_zombies()
-                    # self.ob['difference'] = difference # add this later as state maybe
 
                     # agent chooses action
-                    ob_array = self._basic_observation_to_array(self.ob)
+                    ob_array = self._observation_to_array(self.ob)
                     print(f'prev_ob: {ob_array}')
                     action = self.agent.choose_action(ob_array)
                     self._translate_actions(action, difference)
-
-                    #keras calculations
+                    
+                    #keras calculations 
                     observation_ = self._get_next_observation()
-                    new_ob_array  = self._basic_observation_to_array(observation_)
-                    print(f'next_ob: {new_ob_array }')
+                    new_ob_array  = self._observation_to_array(observation_)
+                    # print(f'next_ob: {new_ob_array}')
                     current_reward += self._get_current_rewards(current_reward)
                     score += current_reward
                     self.agent.remember(ob_array, action, current_reward, new_ob_array, done)
                     self.agent.learn(done)
 
                     self._check_all_zombies_dead()
+
+                elif self.all_zombies_dead == True:
+                    self.all_zombies_dead = False
                             
                     
             self.eps_history.append(self.agent.epsilon)

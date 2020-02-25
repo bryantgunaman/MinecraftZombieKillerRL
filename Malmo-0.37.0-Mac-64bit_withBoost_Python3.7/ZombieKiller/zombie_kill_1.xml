@@ -39,6 +39,7 @@
                     <Range name="entities" xrange="10" yrange="2" zrange="10" />
                 </ObservationFromNearbyEntities>
                 <ObservationFromFullStats/>
+                <ObservationFromFullInventory/> 
                 </AgentHandlers>
               </AgentSection>
             </Mission>
