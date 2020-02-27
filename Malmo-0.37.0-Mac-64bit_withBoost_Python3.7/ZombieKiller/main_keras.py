@@ -29,7 +29,7 @@ class MainKeras():
                  agent_search_resolution=30, load_model=False):
         # keras attributes
         self.n_games = n_games
-
+ 
         self._init_logger()
 
         # keras
@@ -304,7 +304,7 @@ class MainKeras():
         return 0
 
     def _kill_zombie_reward(self):
-        return self.zombie_difference * 50
+        return self.zombie_difference * 100
 
     def _move_towards_zombies(self, difference_from_zombie):
         self.agent_host.sendCommand("turn " + str(difference_from_zombie))
