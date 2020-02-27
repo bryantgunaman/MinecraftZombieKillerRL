@@ -18,12 +18,15 @@ from malmo import malmoutils
 import numpy as np
 import ctypes
 from mission_generator import MissionGenerator
+from visualizer import Visualizer
 import matplotlib.pyplot as plt
+from past.utils import old_div
 
 class MainKeras():
 
     def __init__(self, missionXML, n_games=500, max_retries=3, starting_zombies=1,
-                 XSize=10, ZSize=10, aggregate_episode_every=5, load_model=False):
+                 XSize=10, ZSize=10, aggregate_episode_every=5,
+                 agent_search_resolution=30, load_model=False):
         # keras attributes
         self.n_games = n_games
 
@@ -31,7 +34,7 @@ class MainKeras():
 
         # keras
         self.n_actions = 4
-        self.agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0005, input_dims=6,
+        self.agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0005, input_dims=7,
                   n_actions=4, mem_size=1000000, batch_size=64, epsilon_end=0.01)
         self._load_dqn_model(load_model)
 
@@ -67,7 +70,7 @@ class MainKeras():
         
         self.world_state = None
         
-        #mission generator
+        # mission generator
         self.mission_generator = MissionGenerator(self.missionXML)
         self.starting_zombies = starting_zombies
         self.num_zombies = starting_zombies
@@ -75,12 +78,24 @@ class MainKeras():
         self.XSize = XSize
         self.ZSize = ZSize
 
+        # canvas
+       # self.visual = Visualizer(arena_width=self.XSize, arena_breadth=self.ZSize)
+
+        # direction learner variables
+        self.agent_search_resolution = agent_search_resolution
+        self.agent_stepsize = 1
+        self.agent_turn_weight = 100
+        self.agent_edge_weight = -100
+        self.agent_mob_weight = -10
+        self.agent_turn_weight = 0 # Negative values to penalise turning, positive to encourage.
+        self.flash = False
+        self.turning_diff = 0
+
         # main loop variables
         self.self_x = 0
         self.self_z = 0
         self.current_yaw = 0
         self.ob = None
-        self.all_zombies_dead = False
 
     def _init_logger(self):
         self.logger = logging.getLogger(__name__)
@@ -133,6 +148,7 @@ class MainKeras():
         self.xcoords, self.zcoords = self.mission_generator.getCoords(self.XSize, self.ZSize)
         self.mission_generator.drawEntity("Zombie", self.starting_zombies)
         self.mission_generator.randomStart()
+        # self.mission_generator.spawnItems()
 
     def _add_starters(self):
         # self.my_mission.removeAllCommandHandlers()
@@ -152,6 +168,8 @@ class MainKeras():
 
     def _retry_start_mission(self):
         self.my_mission_record = MalmoPython.MissionRecordSpec()
+        # self.my_mission_record = malmoutils.get_default_recording_object(self.agent_host, 
+        #                          "Mission_" + str(len(self.scores)-1))
         for retry in range(self.max_retries):
             try:
                 # Attempt to start the mission:
@@ -194,10 +212,8 @@ class MainKeras():
 
     def _get_next_observation(self):
         self.world_state = self.agent_host.getWorldState()
-        if self.world_state.number_of_observations_since_last_state > 0:
+        if self.world_state.number_of_observations_since_last_state > 0: 
             msg = self.world_state.observations[-1].text
-            # while json.loads(msg) == self.ob:  # wait until the ob is different to get next
-            #     pass
             return json.loads(msg)
         return self.ob
     
@@ -231,7 +247,7 @@ class MainKeras():
         if u'Yaw' in self.ob:
             current_yaw = self.ob[u'Yaw']
         if u'XPos' in self.ob:
-            self_x = self.ob[u'XPos']
+            self.self_x = self.ob[u'XPos']
         if u'ZPos' in self.ob:
             self_z = self.ob[u'ZPos']
         num_zombie, x_pull, z_pull = 0, 0, 0
@@ -239,13 +255,21 @@ class MainKeras():
             if e["name"] == "Zombie":
                 num_zombie += 1
                 # Each zombie contributes to the direction we should head in...
-                dist = max(0.0001, (e["x"] - self_x) * (e["x"] - self_x) + (e["z"] - self_z) * (e["z"] - self_z))
+                dist = max(0.0001, (e["x"] - self.self_x) * (e["x"] - self.self_x) + (e["z"] - self.self_z) * (e["z"] - self.self_z))
                 # Prioritise going after wounded sheep. Max zombie health is 20, according to Minecraft wiki...
                 weight = 21.0 - e["life"]
-                x_pull += weight * (e["x"] - self_x) / dist
-                z_pull += weight * (e["z"] - self_z) / dist
-        self._update_num_zombies(num_zombie)
+                x_pull += weight * (e["x"] - self.self_x) / dist
+                z_pull += weight * (e["z"] - self.self_z) / dist
         return x_pull, z_pull, current_yaw
+
+    def _check_num_zombies(self):
+        if u'entities' in self.ob:
+            num_zombie = 0
+            entities = self.ob["entities"]
+            for e in entities:
+                if e["name"] == "Zombie":
+                    num_zombie += 1
+            self._update_num_zombies(num_zombie)
 
     def _update_num_zombies(self, new_num_zombies):
         if new_num_zombies < self.num_zombies:
@@ -258,7 +282,7 @@ class MainKeras():
         for reward in self.world_state.rewards:
             current_rewards += reward.getValue()
         current_rewards += self._decrease_life_penalty()
-        current_rewards += self._increase_time_penalty()
+        current_rewards += self._increase_time_reward()
         current_rewards += self._kill_zombie_reward()
         return current_rewards
 
@@ -267,15 +291,16 @@ class MainKeras():
             ob = json.loads(self.world_state.observations[-1].text)
             ob2 = json.loads(self.world_state.observations[-2].text)
             if ob2['Life'] < ob['Life']:
-                return ob2['Life'] - ob['Life'] * 5
+                self.flash = True
+                return (ob2['Life'] - ob['Life']) * 5
         return 0
 
-    def _increase_time_penalty(self):
+    def _increase_time_reward(self):
         if len(self.world_state.observations) >= 2 and self.world_state.number_of_observations_since_last_state > 0:
             ob = json.loads(self.world_state.observations[-1].text)
             ob2 = json.loads(self.world_state.observations[-2].text)
             if ob2['TimeAlive'] > ob['TimeAlive']:
-                return ob['TimeAlive'] - ob2['TimeAlive'] * 2
+                return (ob2['TimeAlive'] - ob['TimeAlive']) * 2
         return 0
 
     def _kill_zombie_reward(self):
@@ -285,18 +310,21 @@ class MainKeras():
         self.agent_host.sendCommand("turn " + str(difference_from_zombie))
         move_speed = 1.0 if abs(difference_from_zombie) < 0.5 else 0  # move slower when turning faster - helps with "orbiting" problem
         self.agent_host.sendCommand("move " + str(move_speed))
-        print("move " + str(move_speed))
+        self.turning_diff = 0
+        # print("move " + str(move_speed))
 
     def _move_away_from_zombies(self, difference_from_zombie):
         self.agent_host.sendCommand("turn " + str(difference_from_zombie))
         move_speed = 1.0 if abs(difference_from_zombie) < 0.5 else 0  # move slower when turning faster - helps with "orbiting" problem
         self.agent_host.sendCommand("move -" + str(move_speed))
-        print("move -" + str(move_speed))
+        self.turning_diff = 0
+        # print("move -" + str(move_speed))
 
     def _attack(self):
         self.agent_host.sendCommand("attack 1")
         self.agent_host.sendCommand("attack 0")
-        print('attack')
+        self.turning_diff = 0
+        # print('attack')
 
     def _translate_actions(self, action_num, difference_from_zombie):
         if action_num == 0:
@@ -304,7 +332,9 @@ class MainKeras():
         elif action_num ==1:
             self._move_towards_zombies(difference_from_zombie)
         elif action_num == 2:
-            self._attack()    
+            self._attack()   
+        elif action_num == 3:
+            self._turn() 
     
     def _basic_observation_to_array(self, ob):
         obs_array = []
@@ -317,15 +347,12 @@ class MainKeras():
 
     def _complete_observation_to_array(self, observation):
         observation.append(self.num_zombies)
-        print(observation)
+        observation.append(self.turning_diff)
         return np.array(observation)
 
     def _observation_to_array(self, ob):
         ob = self._basic_observation_to_array(ob)
         return self._complete_observation_to_array(ob)
-
-    def _parse_entities(self, entities):
-        pass
 
     def _check_all_zombies_dead(self):
         zombies_alive = False
@@ -337,13 +364,105 @@ class MainKeras():
                     break
         if zombies_alive == False:
             print("quitting mission")
-            self.all_zombies_dead = True
-            self.agent_host.sendCommand("quit")
+            self.agent_host.sendCommand("chat /kill @e")
     
+    # parts of direction learner
+    def _findUs(self, entities):
+        if u'entities' in self.ob:   
+            for ent in self.ob['entities']:
+                if ent["name"] == 'Zombie':
+                    continue
+                else:
+                    return ent
 
+    def _getBestAngle(self, current_yaw):
+        '''Scan through 360 degrees, looking for the best direction in which to take the next step.'''
+        if u'entities' in self.ob:   
+            us = self._findUs(self.ob['entities'])
+            # Normalise current yaw:
+            while current_yaw < 0:
+                current_yaw += 360
+            while current_yaw > 360:
+                current_yaw -= 360
+            return us,  current_yaw
+
+    def _look_for_best_option(self, us, current_yaw):
+        scores=[]
+        for i in range(self.agent_search_resolution):
+            # Calculate cost of turning:
+            ang = 2 * math.pi * (old_div(i, float(self.agent_search_resolution)))
+            yaw = i * 360.0 / float(self.agent_search_resolution)
+            yawdist = min(abs(yaw-current_yaw), 360-abs(yaw-current_yaw))
+            turncost = self.agent_turn_weight * yawdist
+            score = turncost
+
+            # Calculate entity proximity cost for new (x,z):
+            x = us["x"] + self.agent_stepsize - math.sin(ang)
+            z = us["z"] + self.agent_stepsize * math.cos(ang)
+            if u'entities' in self.ob:
+                for ent in self.ob['entities']:
+                    dist = (ent["x"] - x)*(ent["x"] - x) + (ent["z"] - z)*(ent["z"] - z)
+                    if (dist == 0):
+                        continue
+                    weight = 0.0
+                    if ent["name"] == 'Zombie':
+                        weight = self.agent_mob_weight
+                        dist -= 1   # assume mobs are moving towards us
+                        if dist <= 0:
+                            dist = 0.1
+                    score += old_div(weight, float(dist))
+                    scores.append(self._calculate_turning_costs(score, x, z))
+                scores.append(score)
+        return scores 
+
+    def _calculate_turning_costs(self, score, x, z):
+        # Calculate cost of proximity to edges
+        distRight = (2+old_div(self.XSize,2)) - x
+        distLeft = (-2-old_div(self.XSize,2)) - x
+        distTop = (2+old_div(self.ZSize,2)) - z
+        distBottom = (-2-old_div(self.ZSize,2)) - z
+        if distRight > 0:
+            score += old_div(self.agent_edge_weight, float(distRight * distRight * distRight * distRight))
+        if distLeft > 0:
+            score += old_div(self.agent_edge_weight, float(distLeft * distLeft * distLeft * distLeft))
+        if distTop > 0:
+            score += old_div(self.agent_edge_weight, float(distTop * distTop * distTop * distTop))
+        if distBottom > 0:
+            score += old_div(self.agent_edge_weight, float(distBottom * distBottom * distBottom * distBottom))
+        return score
+    
+    def _find_best_score_get_angle(self, scores):
+        # Find best score:
+        i = scores.index(max(scores))
+        # Return as an angle in degrees:
+        return i * 360.0 / float(self.agent_search_resolution)
+
+    def _process_direction(self):
+        us, current_yaw = self._getBestAngle(self.current_yaw)
+        scores = self._look_for_best_option(us, current_yaw)
+        angle = self._find_best_score_get_angle(scores)
+        return angle
+    
+    def _turn(self):
+        if "entities" in self.ob:
+            entities = self.ob["entities"]
+            best_yaw = self._process_direction()
+            difference = best_yaw - self.current_yaw;
+            while difference < -180:
+                difference += 360;
+            while difference > 180:
+                difference -= 360;
+            difference /= 180.0;
+            self.agent_host.sendCommand("move 1") 
+            self.agent_host.sendCommand("turn " + str(difference))
+            self.turning_diff = difference
+            # print('turning')
+        else:
+            self.turning_diff = 0
 
     def _plot_dqn_results(self, scores, eps_history, filename='zombie_kill.png', lines=None):
         x = [i+1 for i in range(self.n_games)]
+        print("Plotting results...")
         self._plotLearning(x, scores, eps_history, filename, lines=None)
 
     def _plotLearning(self, x, scores, epsilons, filename, lines=None):
@@ -378,14 +497,14 @@ class MainKeras():
                 plt.axvline(x=line)
 
         plt.savefig(filename)
-
-
+    
     def run_dqn(self):
         for i in range(self.n_games):
             self.agent.tensorboard.step = i
             self._start_mission()
             score = 0
             done = False
+            self.ob = None
             while self.world_state.is_mission_running:
                 current_reward = 0
                 self.world_state = self.agent_host.getWorldState()
@@ -393,15 +512,18 @@ class MainKeras():
                 if self.ob != None:
                     self._get_position_and_orientation()
                     difference = self._calculate_turning_difference_from_zombies()
-
+                    #self.visual.drawMobs(self.ob['entities'], self.flash)
+                    
                     # agent chooses action
                     ob_array = self._observation_to_array(self.ob)
-                    print(f'prev_ob: {ob_array}')
+                    #print(f'prev_ob: {ob_array}')
+                    self._check_num_zombies()
                     action = self.agent.choose_action(ob_array)
                     self._translate_actions(action, difference)
                     
                     #keras calculations 
                     observation_ = self._get_next_observation()
+                    self._check_num_zombies()
                     new_ob_array  = self._observation_to_array(observation_)
                     # print(f'next_ob: {new_ob_array}')
                     current_reward += self._get_current_rewards(current_reward)
@@ -410,16 +532,11 @@ class MainKeras():
                     self.agent.learn(done)
 
                     self._check_all_zombies_dead()
-
-                elif self.all_zombies_dead == True:
-                    self.all_zombies_dead = False
-                            
-                    
             self.eps_history.append(self.agent.epsilon)
             self.scores.append(score)
 
             avg_score = np.mean(self.scores[max(0, i-100):(i+1)])
-            print('episode ', 1, 'score %.2f' % score, 'average score %.2f' % avg_score)
+            print('episode ', i, 'score %.2f' % score, 'average score %.2f' % avg_score)
 
             if not i % self.aggregate_episode_every or i == 1:
                 self.agent.tensorboard.update_stats(reward_avg=avg_score, 

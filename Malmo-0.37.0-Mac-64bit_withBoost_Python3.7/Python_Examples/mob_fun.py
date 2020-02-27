@@ -243,6 +243,8 @@ def drawMobs(entities, flash):
     canvas.create_rectangle(canvasX(old_div(-ARENA_WIDTH,2)), canvasY(old_div(-ARENA_BREADTH,2)), canvasX(old_div(ARENA_WIDTH,2)), canvasY(old_div(ARENA_BREADTH,2)), fill="#888888")
     for ent in entities:
         if ent["name"] == MOB_TYPE:
+            print(f'x : {canvasX(ent["x"])}')
+            print(f'z : {canvasY(ent["z"])}')
             canvas.create_oval(canvasX(ent["x"])-2, canvasY(ent["z"])-2, canvasX(ent["x"])+2, canvasY(ent["z"])+2, fill="#ff2244")
         elif ent["name"] == GOAL_TYPE:
             canvas.create_oval(canvasX(ent["x"])-3, canvasY(ent["z"])-3, canvasX(ent["x"])+3, canvasY(ent["z"])+3, fill="#4422ff")
