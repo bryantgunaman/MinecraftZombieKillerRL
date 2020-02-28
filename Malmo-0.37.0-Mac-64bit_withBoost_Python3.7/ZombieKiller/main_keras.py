@@ -79,7 +79,7 @@ class MainKeras():
         self.ZSize = ZSize
 
         # canvas
-       # self.visual = Visualizer(arena_width=self.XSize, arena_breadth=self.ZSize)
+        self.visual = Visualizer(arena_width=self.XSize, arena_breadth=self.ZSize)
 
         # direction learner variables
         self.agent_search_resolution = agent_search_resolution
@@ -498,6 +498,16 @@ class MainKeras():
 
         plt.savefig(filename)
     
+    """Count number of zombies remained under current observation"""
+    def _count_num_of_zombies(self):
+        count = 0
+        if u'entities' in self.ob:
+            entities = self.ob["entities"]
+            for e in entities:
+                if e["name"] == "Zombie":
+                    count += 1
+        return count
+    
     def run_dqn(self):
         for i in range(self.n_games):
             self.agent.tensorboard.step = i
@@ -528,6 +538,7 @@ class MainKeras():
                     # print(f'next_ob: {new_ob_array}')
                     current_reward += self._get_current_rewards(current_reward)
                     score += current_reward
+                    self.visual.drawStats(score, self._count_num_of_zombies(), i)
                     self.agent.remember(ob_array, action, current_reward, new_ob_array, done)
                     self.agent.learn(done)
 
