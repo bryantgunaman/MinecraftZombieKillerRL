@@ -350,7 +350,7 @@ while not world_state.has_mission_begun:
     time.sleep(0.1)
     world_state = agent_host.getWorldState()
 
-agent_host.sendCommand("use 1")
+agent_host. 1")
 agent_host.sendCommand("move 0.1")
 
 mob_list = friendlyMobs[0:6] + hostileMobs[10::-1] + friendlyMobs[6:12] + hostileMobs[21:10:-1] + friendlyMobs[12:] + hostileMobs[:21:-1]
