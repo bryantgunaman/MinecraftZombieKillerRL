@@ -479,8 +479,8 @@ class MainKeras():
             while difference > 180:
                 difference -= 360;
             difference /= 180.0;
-            self.agent_host.sendCommand("move 1") 
             self.agent_host.sendCommand("turn " + str(difference))
+            self.agent_host.sendCommand("move 1")
             self.turning_diff = difference
             # print('turning')
         else:
