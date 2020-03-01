@@ -37,7 +37,7 @@ class Visualizer:
             self.root.update()
         if cur_scores != None and num_zombies != None and iteration != None:
             self.score_stats = tk.Label(self.root, text="Current Scores: %d" %cur_scores)
-            self.zombie_stats = tk.Label(self.root, text="Zombie Remains: %d" % num_zombies)
+            self.zombie_stats = tk.Label(self.root, text="Zombies Remaining: %d" % num_zombies)
             self.iteration = tk.Label(self.root,text="Iteration: %d" % iteration)
             self.iteration.grid(row=0,column=0)
             self.score_stats.grid(row=1,column=0)

@@ -34,8 +34,8 @@ class MainKeras():
 
         # keras
         self.n_actions = 4
-        self.agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0005, input_dims=7,
-                  n_actions=4, mem_size=1000000, batch_size=64, epsilon_end=0.01)
+        self.agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0005, input_dims=8,
+                  n_actions=5, mem_size=1000000, batch_size=64, epsilon_end=0.01)
         self._load_dqn_model(load_model)
 
         self.scores = []
@@ -98,6 +98,7 @@ class MainKeras():
         self.ob = None
         self.all_zombies_dead = False
         self.num_heals = 0
+        self.healing_rewards = 0
 
     def _init_logger(self):
         self.logger = logging.getLogger(__name__)
@@ -165,7 +166,9 @@ class MainKeras():
     
     def _drawBoundaries(self):
         for i in range(len(self.xcoords)):
-            self.my_mission.drawLine(self.xcoords[i % len(self.xcoords)] , 4, self.zcoords[i % len(self.xcoords)], self.xcoords[(i+1) % len(self.xcoords)], 4, self.zcoords[(i+1) % len(self.xcoords)], "fence")
+            self.my_mission.drawLine(self.xcoords[i % len(self.xcoords)] , 4, 
+            self.zcoords[i % len(self.xcoords)], self.xcoords[(i+1) % len(self.xcoords)], 
+            4, self.zcoords[(i+1) % len(self.xcoords)], "lit_redstone_lamp")
 
 
     def _retry_start_mission(self):
@@ -287,6 +290,8 @@ class MainKeras():
         current_rewards += self._decrease_life_penalty()
         current_rewards += self._increase_time_reward()
         current_rewards += self._kill_zombie_reward()
+        current_rewards += self._check_all_zombies_dead()
+        current_rewards += self.healing_rewards
         return current_rewards
 
     def _decrease_life_penalty(self):
@@ -303,7 +308,7 @@ class MainKeras():
             ob = json.loads(self.world_state.observations[-1].text)
             ob2 = json.loads(self.world_state.observations[-2].text)
             if ob2['TimeAlive'] > ob['TimeAlive']:
-                return (ob2['TimeAlive'] - ob['TimeAlive']) * 2
+                return (ob2['TimeAlive'] - ob['TimeAlive']) * 6
         return 0
 
     def _kill_zombie_reward(self):
@@ -332,6 +337,12 @@ class MainKeras():
         if self.num_heals > 0:
             self.agent_host.sendCommand("chat /effect ZombieKiller instant_health 3")
             self.num_heals -= 1
+            if self.ob['Life'] >= 20:
+                self.healing_rewards = -100
+            else: 
+                self.healing_rewards = 100
+        self.healing_rewards = 0
+        
 
     def _translate_actions(self, action_num, difference_from_zombie):
         if action_num == 0:
@@ -342,6 +353,8 @@ class MainKeras():
             self._attack()   
         elif action_num == 3:
             self._turn() 
+        elif action_num == 4:
+            self._heal()
     
     def _basic_observation_to_array(self, ob):
         obs_array = []
@@ -355,6 +368,7 @@ class MainKeras():
     def _complete_observation_to_array(self, observation):
         observation.append(self.num_zombies)
         observation.append(self.turning_diff)
+        observation.append(self.num_heals)
         return np.array(observation)
 
     def _observation_to_array(self, ob):
@@ -368,10 +382,11 @@ class MainKeras():
             for e in entities:
                 if e["name"] == "Zombie":
                     zombies_alive = True
-                    break
+                    return 0
         if zombies_alive == False:
-            print("quitting mission")
-            self.agent_host.sendCommand("chat /kill @e")
+            self.all_zombies_dead = True
+            return 200
+        return 0
     
     # parts of direction learner
     def _findUs(self, entities):
@@ -535,10 +550,9 @@ class MainKeras():
                     
                     # agent chooses action
                     ob_array = self._observation_to_array(self.ob)
-                    #print(f'prev_ob: {ob_array}')
+                    # print(f'prev_ob: {ob_array}')
                     self._check_num_zombies()
                     action = self.agent.choose_action(ob_array)
-                    print("action",action)
                     self._translate_actions(action, difference)
 
                     #keras calculations
@@ -552,8 +566,13 @@ class MainKeras():
                     self.agent.remember(ob_array, action, current_reward, new_ob_array, done)
                     self.agent.learn(done)
                     
-                    self._check_all_zombies_dead()
                     
+                    if self.all_zombies_dead == True:
+                        self.all_zombies_dead = False
+                        print("quiting mission")
+                        self.agent_host.sendCommand("chat /kill @e")
+
+
             self.eps_history.append(self.agent.epsilon)
             self.scores.append(score)
 
