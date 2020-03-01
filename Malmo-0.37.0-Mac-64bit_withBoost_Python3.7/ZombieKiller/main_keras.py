@@ -331,7 +331,6 @@ class MainKeras():
     def _attack(self):
         self.agent_host.sendCommand("attack 1")
         self.agent_host.sendCommand("attack 0")
-        print('attack')
     
     def _heal(self):
         if self.num_heals > 0:
@@ -347,14 +346,19 @@ class MainKeras():
     def _translate_actions(self, action_num, difference_from_zombie):
         if action_num == 0:
             self._move_away_from_zombies(difference_from_zombie)
+            print("move away")
         elif action_num ==1:
             self._move_towards_zombies(difference_from_zombie)
+            print("move towards")
         elif action_num == 2:
             self._attack()   
+            print("attack")
         elif action_num == 3:
             self._turn() 
+            print("evade")
         elif action_num == 4:
             self._heal()
+            print("heal")
     
     def _basic_observation_to_array(self, ob):
         obs_array = []
