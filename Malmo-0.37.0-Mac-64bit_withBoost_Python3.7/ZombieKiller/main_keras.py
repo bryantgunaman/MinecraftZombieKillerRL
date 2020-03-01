@@ -96,6 +96,8 @@ class MainKeras():
         self.self_z = 0
         self.current_yaw = 0
         self.ob = None
+        self.all_zombies_dead = False
+        self.num_heals = 0
 
     def _init_logger(self):
         self.logger = logging.getLogger(__name__)
@@ -154,7 +156,7 @@ class MainKeras():
         # self.my_mission.removeAllCommandHandlers()
         self.my_mission.allowAllContinuousMovementCommands()
         self.my_mission.setViewpoint( 0 )
-        # self.my_mission.allowAllDiscreteMovementCommands()
+#        self.my_mission.allowAllDiscreteMovementCommands()
         #self.my_mission.requestVideo( 320, 240 )  use default size instead
     
     def _validate_mission(self):
@@ -275,6 +277,7 @@ class MainKeras():
         if new_num_zombies < self.num_zombies:
             self.zombie_difference = self.num_zombies - new_num_zombies
             self.num_zombies = new_num_zombies
+            self.num_heals += 1
         else:
             self.zombie_difference = 0
 
@@ -323,12 +326,16 @@ class MainKeras():
     def _attack(self):
         self.agent_host.sendCommand("attack 1")
         self.agent_host.sendCommand("attack 0")
-        self.turning_diff = 0
-        # print('attack')
+        print('attack')
+    
+    def _heal(self):
+        if self.num_heals > 0:
+            self.agent_host.sendCommand("chat /effect ZombieKiller instant_health 3")
+            self.num_heals -= 1
 
     def _translate_actions(self, action_num, difference_from_zombie):
         if action_num == 0:
-            self._move_away_from_zombies(difference_from_zombie)  
+            self._move_away_from_zombies(difference_from_zombie)
         elif action_num ==1:
             self._move_towards_zombies(difference_from_zombie)
         elif action_num == 2:
@@ -514,12 +521,14 @@ class MainKeras():
             self._start_mission()
             score = 0
             done = False
-            self.ob = None
+            self.num_heals = 1
+            time.sleep(0.5)
             while self.world_state.is_mission_running:
                 current_reward = 0
                 self.world_state = self.agent_host.getWorldState()
                 self._assign_observation()
                 if self.ob != None:
+                    
                     self._get_position_and_orientation()
                     difference = self._calculate_turning_difference_from_zombies()
                     #self.visual.drawMobs(self.ob['entities'], self.flash)
@@ -529,9 +538,10 @@ class MainKeras():
                     #print(f'prev_ob: {ob_array}')
                     self._check_num_zombies()
                     action = self.agent.choose_action(ob_array)
+                    print("action",action)
                     self._translate_actions(action, difference)
-                    
-                    #keras calculations 
+
+                    #keras calculations
                     observation_ = self._get_next_observation()
                     self._check_num_zombies()
                     new_ob_array  = self._observation_to_array(observation_)
@@ -541,8 +551,9 @@ class MainKeras():
                     self.visual.drawStats(score, self._count_num_of_zombies(), i)
                     self.agent.remember(ob_array, action, current_reward, new_ob_array, done)
                     self.agent.learn(done)
-
+                    
                     self._check_all_zombies_dead()
+                    
             self.eps_history.append(self.agent.epsilon)
             self.scores.append(score)
 
