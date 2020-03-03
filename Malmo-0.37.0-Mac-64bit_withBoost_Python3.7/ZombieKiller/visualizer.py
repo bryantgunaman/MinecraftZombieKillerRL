@@ -21,14 +21,14 @@ class Visualizer:
         self.mob_type = 'Zombie'
 
         self.root = tk.Tk()
-        self.root.wm_title("Kill or dodge the " + self.mob_type + "s!")
+        self.root.wm_title("Current Status")
 
         self.canvas = tk.Canvas(self.root, width=self.canvas_width, height=self.canvas_height, 
                       borderwidth=0, highlightthickness=0, bg="black")
 
         self.canvas.pack()
         self.root.update()
-        #self.root = None
+
     """Draw tkinter window for statistic information"""
     # def drawStats(self, cur_scores=None,num_zombies=None,iteration=None):
     #     if self.root is None:
@@ -59,19 +59,11 @@ class Visualizer:
                                      fill="#888888")
         for ent in entities:
             if ent["name"] == self.mob_type:
-                print("zombie!!")
-                print(f'x : {ent["x"]}')
-                print(f'z : {ent["z"]}')
-                print(f'x : {self.canvasX(ent["x"])}')
-                print(f'z : {self.canvasY(ent["z"])}')
-                self.canvas.create_oval(self.canvasX(ent["x"]-5), self.canvasY(ent["z"]-5), 
-                                        self.canvasX(ent["x"]+5), self.canvasY(ent["z"]+5), 
+                self.canvas.create_oval(self.canvasX(ent["x"]-10-.5), self.canvasY(ent["z"]-10-.5), 
+                                        self.canvasX(ent["x"]-10+.5), self.canvasY(ent["z"]-10+.5), 
                                         fill="#4422ff")
             elif ent["name"] == 'ZombieKiller':
-                print("Myself!!")
-                print(f'x : {ent["x"]}')
-                print(f'z : {ent["z"]}')
-                self.canvas.create_oval(self.canvasX(ent["x"]-5), self.canvasY(ent["z"]-5), 
-                                        self.canvasX(ent["x"]+5), self.canvasY(ent["z"]+5),
+                self.canvas.create_oval(self.canvasX(ent["x"]-10-.5), self.canvasY(ent["z"]-10-.5), 
+                                        self.canvasX(ent["x"]-10+.5), self.canvasY(ent["z"]-10+.5),
                                         fill="#22ff44")
         self.root.update()

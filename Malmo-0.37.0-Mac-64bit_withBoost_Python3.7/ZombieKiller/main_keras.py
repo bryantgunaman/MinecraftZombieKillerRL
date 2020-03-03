@@ -88,8 +88,12 @@ class MainKeras():
         self.agent_edge_weight = -100
         self.agent_mob_weight = -10
         self.agent_turn_weight = 0 # Negative values to penalise turning, positive to encourage.
-        self.flash = False
         self.turning_diff = 0
+        
+        # for visualization
+        self.flash = False
+        self.current_life = 0 
+        
 
         # main loop variables
         self.self_x = 0
@@ -291,7 +295,6 @@ class MainKeras():
             ob = json.loads(self.world_state.observations[-1].text)
             ob2 = json.loads(self.world_state.observations[-2].text)
             if ob2['Life'] < ob['Life']:
-                self.flash = True
                 return (ob2['Life'] - ob['Life']) * 5
         return 0
 
@@ -519,8 +522,18 @@ class MainKeras():
                 current_reward = 0
                 self.world_state = self.agent_host.getWorldState()
                 if self.world_state.number_of_observations_since_last_state > 0: 
+                    # get observation
                     msg = self.world_state.observations[-1].text
                     self.ob = json.loads(msg)
+                    
+                    # Check if life is dropped
+                    if "Life" in self.ob:
+                        life = self.ob[u'Life']
+                        if life < self.current_life:
+                            print("aaaaaaaaaaargh!!")
+                            self.flash = True
+                        self.current_life = life
+                        
                     self._get_position_and_orientation()
                     difference = self._calculate_turning_difference_from_zombies()
                     self.visual.drawMobs(self.ob['entities'], self.flash)
@@ -544,6 +557,7 @@ class MainKeras():
                     self.agent.learn(done)
 
                     self._check_all_zombies_dead()
+                self.flash = False
             self.eps_history.append(self.agent.epsilon)
             self.scores.append(score)
 
@@ -565,9 +579,10 @@ class MainKeras():
     def _act(self, world_state, agent_host, current_r ):
         """take 1 action in response to the current world state"""
         
-        # obs_text = world_state.observations[-1].text
-        # obs = json.loads(obs_text) # most recent observation
-        self._assign_observation()
+        obs_text = world_state.observations[-1].text
+        self.ob = json.loads(obs_text) # most recent observation
+        #self._assign_observation()
+        
         self.logger.debug(self.ob)
         if not u'XPos' in self.ob or not u'ZPos' in self.ob:
             self.logger.error("Incomplete observation received")
