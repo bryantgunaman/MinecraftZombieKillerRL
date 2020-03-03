@@ -522,7 +522,7 @@ class MainKeras():
                 if self.ob != None:
                     self._get_position_and_orientation()
                     difference = self._calculate_turning_difference_from_zombies()
-                    #self.visual.drawMobs(self.ob['entities'], self.flash)
+                    self.visual.drawMobs(self.ob['entities'], self.flash)
                     
                     # agent chooses action
                     ob_array = self._observation_to_array(self.ob)
@@ -538,7 +538,7 @@ class MainKeras():
                     # print(f'next_ob: {new_ob_array}')
                     current_reward += self._get_current_rewards(current_reward)
                     score += current_reward
-                    self.visual.drawStats(score, self._count_num_of_zombies(), i)
+                    #self.visual.drawStats(score, self._count_num_of_zombies(), i)
                     self.agent.remember(ob_array, action, current_reward, new_ob_array, done)
                     self.agent.learn(done)
 
