@@ -64,14 +64,14 @@ class Visualizer:
                 print(f'z : {ent["z"]}')
                 print(f'x : {self.canvasX(ent["x"])}')
                 print(f'z : {self.canvasY(ent["z"])}')
-                x = ent["x"] - 10
-                z = ent["z"] - 10
-                self.canvas.create_oval(self.canvasX(x-5), self.canvasY(z-5), 
-                                        self.canvasX(x+5), self.canvasY(z+5), 
+                self.canvas.create_oval(self.canvasX(ent["x"]-5), self.canvasY(ent["z"]-5), 
+                                        self.canvasX(ent["x"]+5), self.canvasY(ent["z"]+5), 
                                         fill="#4422ff")
             elif ent["name"] == 'ZombieKiller':
                 print("Myself!!")
-                self.canvas.create_oval(self.canvasX(x-5), self.canvasY(z-5), 
-                                        self.canvasX(x+5), self.canvasY(z+5),
+                print(f'x : {ent["x"]}')
+                print(f'z : {ent["z"]}')
+                self.canvas.create_oval(self.canvasX(ent["x"]-5), self.canvasY(ent["z"]-5), 
+                                        self.canvasX(ent["x"]+5), self.canvasY(ent["z"]+5),
                                         fill="#22ff44")
         self.root.update()

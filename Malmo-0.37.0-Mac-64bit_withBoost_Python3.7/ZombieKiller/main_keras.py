@@ -518,8 +518,9 @@ class MainKeras():
             while self.world_state.is_mission_running:
                 current_reward = 0
                 self.world_state = self.agent_host.getWorldState()
-                self._assign_observation()
-                if self.ob != None:
+                if self.world_state.number_of_observations_since_last_state > 0: 
+                    msg = self.world_state.observations[-1].text
+                    self.ob = json.loads(msg)
                     self._get_position_and_orientation()
                     difference = self._calculate_turning_difference_from_zombies()
                     self.visual.drawMobs(self.ob['entities'], self.flash)
