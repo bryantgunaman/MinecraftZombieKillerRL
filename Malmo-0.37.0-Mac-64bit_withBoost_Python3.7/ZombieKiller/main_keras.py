@@ -554,7 +554,7 @@ class MainKeras():
                     
                     # Visualization
                     self.visual.drawMobs(self.ob['entities'], self.flash,current_reward,self._count_num_of_zombies(),i)
-
+                    time.sleep(0.1)
                 if self.world_state.number_of_rewards_since_last_state > 0:
                     #keras calculations 
                     observation_ = self._get_next_observation()
