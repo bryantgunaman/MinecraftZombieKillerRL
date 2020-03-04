@@ -34,8 +34,8 @@ class MainKeras():
 
         # keras
         self.n_actions = 4
-        self.agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0005, input_dims=7,
-                  n_actions=4, mem_size=1000000, batch_size=64, epsilon_end=0.01)
+        self.agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0005, input_dims=6,
+                  n_actions=self.n_actions, mem_size=1000000, batch_size=64, epsilon_end=0.01)
         self._load_dqn_model(load_model)
 
         self.scores = []
@@ -100,6 +100,8 @@ class MainKeras():
         self.self_z = 0
         self.current_yaw = 0
         self.ob = None
+        self.all_zombies_dead = False
+        self.num_heals = 0
 
     def _init_logger(self):
         self.logger = logging.getLogger(__name__)
@@ -158,7 +160,7 @@ class MainKeras():
         # self.my_mission.removeAllCommandHandlers()
         self.my_mission.allowAllContinuousMovementCommands()
         self.my_mission.setViewpoint( 0 )
-        # self.my_mission.allowAllDiscreteMovementCommands()
+#        self.my_mission.allowAllDiscreteMovementCommands()
         #self.my_mission.requestVideo( 320, 240 )  use default size instead
     
     def _validate_mission(self):
@@ -279,6 +281,7 @@ class MainKeras():
         if new_num_zombies < self.num_zombies:
             self.zombie_difference = self.num_zombies - new_num_zombies
             self.num_zombies = new_num_zombies
+            self.num_heals += 1
         else:
             self.zombie_difference = 0
 
@@ -326,19 +329,23 @@ class MainKeras():
     def _attack(self):
         self.agent_host.sendCommand("attack 1")
         self.agent_host.sendCommand("attack 0")
-        self.turning_diff = 0
-        # print('attack')
+        print('attack')
+    
+    def _heal(self):
+        if self.num_heals > 0:
+            self.agent_host.sendCommand("chat /effect ZombieKiller instant_health 3")
+            self.num_heals -= 1
 
     def _translate_actions(self, action_num, difference_from_zombie):
         if action_num == 0:
-            self._move_away_from_zombies(difference_from_zombie)  
+            self._move_away_from_zombies(difference_from_zombie)
         elif action_num ==1:
             self._move_towards_zombies(difference_from_zombie)
         elif action_num == 2:
-            self._attack()   
+            self._attack()
         elif action_num == 3:
-            self._turn() 
-    
+            self._heal()
+
     def _basic_observation_to_array(self, ob):
         obs_array = []
         obs_array.append(ob['TimeAlive']) if 'TimeAlive' in ob else 0
@@ -540,9 +547,9 @@ class MainKeras():
                     
                     # agent chooses action
                     ob_array = self._observation_to_array(self.ob)
-                    #print(f'prev_ob: {ob_array}')
-                    self._check_num_zombies()
+#                    print(f'prev_ob: {ob_array}')
                     action = self.agent.choose_action(ob_array)
+                    print("action",action)
                     self._translate_actions(action, difference)
                     
                     # Visualization
@@ -561,12 +568,19 @@ class MainKeras():
                     self.agent.learn(done)
                     
                     self._check_all_zombies_dead()
-                self.flash = False
+                
+                elif self.all_zombies_dead == True:
+                    self.all_zombies_dead = False
+        
+            self.world_state = self.agent_host.getWorldState()
+            for reward in self.world_state.rewards:
+                score += reward.getValue()
+            
             self.eps_history.append(self.agent.epsilon)
             self.scores.append(score)
 
             avg_score = np.mean(self.scores[max(0, i-100):(i+1)])
-            print('episode ', i, 'score %.2f' % score, 'average score %.2f' % avg_score)
+            print('episode ', i+1, 'score %.2f' % score, 'average score %.2f' % avg_score)
 
             if not i % self.aggregate_episode_every or i == 1:
                 self.agent.tensorboard.update_stats(reward_avg=avg_score, 
