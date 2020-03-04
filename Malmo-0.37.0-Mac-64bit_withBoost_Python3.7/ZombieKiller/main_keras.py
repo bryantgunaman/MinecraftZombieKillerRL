@@ -34,7 +34,7 @@ class MainKeras():
 
         # keras
         self.n_actions = 4
-        self.agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0005, input_dims=6,
+        self.agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0005, input_dims=7,
                   n_actions=self.n_actions, mem_size=1000000, batch_size=64, epsilon_end=0.01)
         self._load_dqn_model(load_model)
 
@@ -297,7 +297,7 @@ class MainKeras():
         if len(self.world_state.observations) >= 2 and self.world_state.number_of_observations_since_last_state > 0:
             ob = json.loads(self.world_state.observations[-1].text)
             ob2 = json.loads(self.world_state.observations[-2].text)
-            if ob2['Life'] < ob['Life']:
+            if ob2['Life'] > ob['Life']:
                 return (ob2['Life'] - ob['Life']) * 5
         return 0
 
