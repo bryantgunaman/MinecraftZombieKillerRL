@@ -27,9 +27,9 @@ class Visualizer:
                       borderwidth=0, highlightthickness=0, bg="black")
 
         # for texts
-        self.score_stats = self.canvas.create_text(0,450,text="Current Scores: 0",anchor='nw',fill="white")
-        self.zombie_stats = self.canvas.create_text(200,450,text="Zombie Remains: 0",anchor='nw',fill="white")
-        self.iteration_stats = self.canvas.create_text(125,500,text="Iteration: ",anchor='nw',fill="white")
+        self.score_stats = self.canvas.create_text(50,425,text="Current Scores: 0",anchor='nw',fill="white")
+        self.zombie_stats = self.canvas.create_text(200,425,text="Zombie Remains: 0",anchor='nw',fill="white")
+        self.iteration_stats = self.canvas.create_text(125,450,text="Iteration: ",anchor='nw',fill="white")
 
         self.canvas.pack()
         self.root.update()
@@ -40,15 +40,6 @@ class Visualizer:
     def canvasY(self, y):
         return (old_div(self.canvas_border,2)) + (0.5 + old_div(y,float(self.arena_breadth))) * (self.canvas_height-self.canvas_border)
 
-    """refresh the canvas texts"""
-    def updateText(self):
-        try:
-            self.canvas.itemconfigure(self.score_stats, text="Current Scores: " + str(self.cur_scores))
-            self.canvas.itemconfig(self.zombie_stats, text="Zombie Remains: " + str(self.num_zombies))
-            self.canvas.itemconfig(self.iteration_stats, text="Iteration: " + str(self.iteration))
-            self.root.after(1, self.updateText)
-        except StopIteration:
-            pass
     def drawMobs(self,entities,flash,cur_scores=None,num_zombies=None,iteration=None):
         if cur_scores != None and num_zombies != None and iteration != None:
             self.canvas.delete("all")
@@ -66,8 +57,7 @@ class Visualizer:
                     self.canvas.create_oval(self.canvasX(ent["x"]-10-.5), self.canvasY(ent["z"]-10-.5), 
                                             self.canvasX(ent["x"]-10+.5), self.canvasY(ent["z"]-10+.5),
                                             fill="#22ff44")
-            self.cur_scores = cur_scores
-            self.num_zombies = num_zombies
-            self.iteration = iteration
-            self.updateText()
+            self.score_stats = self.canvas.create_text(0,450,text=f"Current Scores: {cur_scores}",anchor='nw',fill="white")
+            self.zombie_stats = self.canvas.create_text(200,450,text=f"Zombie Remains: {num_zombies}",anchor='nw',fill="white")
+            self.iteration_stats = self.canvas.create_text(125,500,text=f"Iteration: {iteration}",anchor='nw',fill="white")
         self.root.update()
