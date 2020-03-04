@@ -1,4 +1,7 @@
 from random import randrange
+from random import randint
+from past.utils import old_div
+
 class MissionGenerator():
     def __init__(self, xml_file):
         
@@ -8,6 +11,12 @@ class MissionGenerator():
         self._y = 4
         self._z = 10
         self._file = xml_file
+
+        # self.arena_width = arena_width
+        # self.arena_breadth = arena_breadth
+        # self.item = item
+        # self.num_items = num_items
+
         with open(self._file,'r') as f:
             self._initial_missionXML = f.read()
             self._missionXML = self._initial_missionXML
@@ -46,6 +55,16 @@ class MissionGenerator():
         len_agent_start = len(agent_start)
         agent_ind = len_agent_start + self._missionXML.find(agent_start)
         self._missionXML = self._missionXML[:agent_ind] + '\n\t\t\t<Placement x="{}" y="{}" z="{}" yaw="{}"/>'.format(randrange(2,self._x-1), self._y, randrange(2,self._z-1), randrange(360)) + self._missionXML[agent_ind:]
+
+    # Build an XML string that contains some randomly positioned goal items
+    # def spawnItems(self):
+    #     draw_decorator = '<DrawingDecorator>'
+    #     len_draw_decorator = len(draw_decorator)
+    #     draw_decorator_ind = len_draw_decorator + self._missionXML.find(draw_decorator)
+    #     for item in range(self.num_items):
+    #         x = str(randint(old_div(-self.arena_width,2),old_div(self.arena_width,2)))
+    #         z = str(randint(old_div(-self.arena_breadth,2),old_div(self.arena_breadth,2)))
+    #         self._missionXML = self._missionXML[:draw_decorator_ind] + '''\n\t\t\t<DrawItem x="''' + x + '''" y="210" z="''' + z + '''" type="''' + self.item + '''"/>''' + self._missionXML[draw_decorator_ind:]
 
     #writes XML into file
     def writeFile(self):

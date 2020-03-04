@@ -29,6 +29,7 @@
                     </Inventory>
                 </AgentStart>
                 <AgentHandlers>
+                <ContinuousMovementCommands turnSpeedDegs="360"/>
                 <MissionQuitCommands quitDescription="killed_zombies"/>
                 <ObservationFromRay/>
                  <RewardForDamagingEntity>
@@ -39,6 +40,8 @@
                     <Range name="entities" xrange="10" yrange="2" zrange="10" />
                 </ObservationFromNearbyEntities>
                 <ObservationFromFullStats/>
+                <ObservationFromFullInventory/> 
+                <ChatCommands/>
                 </AgentHandlers>
               </AgentSection>
             </Mission>
