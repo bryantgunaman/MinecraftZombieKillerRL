@@ -23,26 +23,16 @@ class Visualizer:
         self.root = tk.Tk()
         self.root.wm_title("Current Status")
 
-        self.canvas = tk.Canvas(self.root, width=self.canvas_width, height=self.canvas_height, 
+        self.canvas = tk.Canvas(self.root, width=self.canvas_width, height=self.canvas_height+150, 
                       borderwidth=0, highlightthickness=0, bg="black")
+
+        # for texts
+        self.score_stats = self.canvas.create_text(0,450,text="Current Scores: 0",anchor='nw',fill="white")
+        self.zombie_stats = self.canvas.create_text(200,450,text="Zombie Remains: 0",anchor='nw',fill="white")
+        self.iteration_stats = self.canvas.create_text(125,500,text="Iteration: ",anchor='nw',fill="white")
 
         self.canvas.pack()
         self.root.update()
-
-    """Draw tkinter window for statistic information"""
-    # def drawStats(self, cur_scores=None,num_zombies=None,iteration=None):
-    #     if self.root is None:
-    #         self.root = tk.Tk()
-    #         self.root.wm_title("Current Stats")
-    #         self.root.update()
-    #     if cur_scores != None and num_zombies != None and iteration != None:
-    #         self.score_stats = tk.Label(self.root, text="Current Scores: %d" %cur_scores)
-    #         self.zombie_stats = tk.Label(self.root, text="Zombie Remains: %d" % num_zombies)
-    #         self.iteration = tk.Label(self.root,text="Iteration: %d" % iteration)
-    #         self.iteration.grid(row=0,column=0)
-    #         self.score_stats.grid(row=1,column=0)
-    #         self.zombie_stats.grid(row=1,column=1)
-    #     self.root.update()
 
     def canvasX(self, x):
         return (old_div(self.canvas_border,2)) + (0.5 + old_div(x,float(self.arena_width))) * (self.canvas_width-self.canvas_border)
@@ -50,20 +40,34 @@ class Visualizer:
     def canvasY(self, y):
         return (old_div(self.canvas_border,2)) + (0.5 + old_div(y,float(self.arena_breadth))) * (self.canvas_height-self.canvas_border)
 
-    def drawMobs(self, entities, flash):
-        self.canvas.delete("all")
-        if flash:
-            self.canvas.create_rectangle(0,0,self.canvas_width,self.canvas_height,fill="#ff0000") # Pain.
-        self.canvas.create_rectangle(self.canvasX(old_div(-self.arena_width,2)), self.canvasY(old_div(-self.arena_breadth,2)), 
-                                     self.canvasX(old_div(self.arena_width,2)), self.canvasY(old_div(self.arena_breadth,2)), 
-                                     fill="#888888")
-        for ent in entities:
-            if ent["name"] == self.mob_type:
-                self.canvas.create_oval(self.canvasX(ent["x"]-10-.5), self.canvasY(ent["z"]-10-.5), 
-                                        self.canvasX(ent["x"]-10+.5), self.canvasY(ent["z"]-10+.5), 
-                                        fill="#4422ff")
-            elif ent["name"] == 'ZombieKiller':
-                self.canvas.create_oval(self.canvasX(ent["x"]-10-.5), self.canvasY(ent["z"]-10-.5), 
-                                        self.canvasX(ent["x"]-10+.5), self.canvasY(ent["z"]-10+.5),
-                                        fill="#22ff44")
+    """refresh the canvas texts"""
+    def updateText(self):
+        try:
+            self.canvas.itemconfigure(self.score_stats, text="Current Scores: " + str(self.cur_scores))
+            self.canvas.itemconfig(self.zombie_stats, text="Zombie Remains: " + str(self.num_zombies))
+            self.canvas.itemconfig(self.iteration_stats, text="Iteration: " + str(self.iteration))
+            self.root.after(1, self.updateText)
+        except StopIteration:
+            pass
+    def drawMobs(self,entities,flash,cur_scores=None,num_zombies=None,iteration=None):
+        if cur_scores != None and num_zombies != None and iteration != None:
+            self.canvas.delete("all")
+            if flash:
+                self.canvas.create_rectangle(0,0,self.canvas_width,self.canvas_height,fill="#ff0000") # Pain.
+            self.canvas.create_rectangle(self.canvasX(old_div(-self.arena_width,2)), self.canvasY(old_div(-self.arena_breadth,2)), 
+                                        self.canvasX(old_div(self.arena_width,2)), self.canvasY(old_div(self.arena_breadth,2)), 
+                                        fill="#888888")
+            for ent in entities:
+                if ent["name"] == self.mob_type:
+                    self.canvas.create_oval(self.canvasX(ent["x"]-10-.5), self.canvasY(ent["z"]-10-.5), 
+                                            self.canvasX(ent["x"]-10+.5), self.canvasY(ent["z"]-10+.5), 
+                                            fill="#4422ff")
+                elif ent["name"] == 'ZombieKiller':
+                    self.canvas.create_oval(self.canvasX(ent["x"]-10-.5), self.canvasY(ent["z"]-10-.5), 
+                                            self.canvasX(ent["x"]-10+.5), self.canvasY(ent["z"]-10+.5),
+                                            fill="#22ff44")
+            self.cur_scores = cur_scores
+            self.num_zombies = num_zombies
+            self.iteration = iteration
+            self.updateText()
         self.root.update()
