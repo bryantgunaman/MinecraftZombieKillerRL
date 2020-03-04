@@ -28,8 +28,8 @@ class Visualizer:
 
         # for texts
         self.score_stats = self.canvas.create_text(50,425,text="Current Scores: 0",anchor='nw',fill="white")
-        self.zombie_stats = self.canvas.create_text(200,425,text="Zombie Remains: 0",anchor='nw',fill="white")
-        self.iteration_stats = self.canvas.create_text(125,450,text="Iteration: ",anchor='nw',fill="white")
+        self.zombie_stats = self.canvas.create_text(225,425,text="Zombie Remains: 0",anchor='nw',fill="white")
+        self.iteration_stats = self.canvas.create_text(150,475,text="Iteration: ",anchor='nw',fill="white")
 
         self.canvas.pack()
         self.root.update()
@@ -57,7 +57,7 @@ class Visualizer:
                     self.canvas.create_oval(self.canvasX(ent["x"]-10-.5), self.canvasY(ent["z"]-10-.5), 
                                             self.canvasX(ent["x"]-10+.5), self.canvasY(ent["z"]-10+.5),
                                             fill="#22ff44")
-            self.score_stats = self.canvas.create_text(0,450,text=f"Current Scores: {cur_scores}",anchor='nw',fill="white")
-            self.zombie_stats = self.canvas.create_text(200,450,text=f"Zombie Remains: {num_zombies}",anchor='nw',fill="white")
-            self.iteration_stats = self.canvas.create_text(125,500,text=f"Iteration: {iteration}",anchor='nw',fill="white")
+            self.score_stats = self.canvas.create_text(50,425,text=f"Current Scores: {cur_scores}",anchor='nw',fill="white")
+            self.zombie_stats = self.canvas.create_text(225,425,text=f"Zombie Remains: {num_zombies}",anchor='nw',fill="white")
+            self.iteration_stats = self.canvas.create_text(150,475,text=f"Iteration: {iteration}",anchor='nw',fill="white")
         self.root.update()
