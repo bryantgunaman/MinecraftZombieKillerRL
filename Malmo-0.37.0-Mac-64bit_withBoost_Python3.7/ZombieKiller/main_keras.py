@@ -545,6 +545,10 @@ class MainKeras():
                     action = self.agent.choose_action(ob_array)
                     self._translate_actions(action, difference)
                     
+                    # Visualization
+                    self.visual.drawMobs(self.ob['entities'], self.flash,current_reward,self._count_num_of_zombies(),i)
+
+                if self.world_state.number_of_rewards_since_last_state > 0:
                     #keras calculations 
                     observation_ = self._get_next_observation()
                     self._check_num_zombies()
@@ -555,8 +559,7 @@ class MainKeras():
                     #self.visual.drawStats(score, self._count_num_of_zombies(), i)
                     self.agent.remember(ob_array, action, current_reward, new_ob_array, done)
                     self.agent.learn(done)
-                    self.visual.drawMobs(self.ob['entities'], self.flash,current_reward,self._count_num_of_zombies(),i)
-
+                    
                     self._check_all_zombies_dead()
                 self.flash = False
             self.eps_history.append(self.agent.epsilon)
