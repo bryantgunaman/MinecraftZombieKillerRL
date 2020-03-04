@@ -31,7 +31,6 @@
                     </Inventory>
                 </AgentStart>
                 <AgentHandlers>
-                <ChatCommands/>
                 <InventoryCommands/>
                 <MissionQuitCommands quitDescription="killed_zombies"/>
                 <RewardForMissionEnd rewardForDeath="-200">
