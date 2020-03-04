@@ -362,12 +362,77 @@ class MainKeras():
             self._start_mission()
             score = 0
             done = False
+
+            is_first_action = True
+
             print(f'Iteration Number: {i}')
             while self.world_state.is_mission_running:
                 current_reward = 0
+
+                if is_first_action:
+                    # wait until have received a valid observation
+                    while True:
+                        time.sleep(0.1)
+                        self.world_state = self.agent_host.getWorldState()
+                        for error in self.world_state.errors:
+                            self.logger.error("Error: %s" % error.text)
+                        for reward in self.world_state.rewards:
+                            current_reward += reward.getValue()
+                        if self.world_state.is_mission_running and len(self.world_state.observations)>0 and not self.world_state.observations[-1].text=="{}":
+                            msg = self.world_state.observations[-1].text
+                            self.ob = json.loads(msg)
+                            self._get_position_and_orientation()
+                            difference = self._calculate_turning_difference_from_zombies()
+                            # agent chooses action
+                            ob_array = self._basic_observation_to_array(self.ob)
+                            print(f'prev_ob: {ob_array}')
+                            action = self.agent.choose_action(ob_array)
+                            self._translate_actions(action, difference)
+                            break
+                        if not self.world_state.is_mission_running:
+                            break
+                    is_first_action = False
+                else:
+                    # wait for non-zero reward
+                    while self.world_state.is_mission_running and current_reward == 0:
+                        time.sleep(0.1)
+                        self.world_state = self.agent_host.getWorldState()
+                        for error in self.world_state.errors:
+                            self.logger.error("Error: %s" % error.text)
+                        for reward in self.world_state.rewards:
+                            current_reward += reward.getValue()
+                        current_reward += self._get_current_rewards(current_reward)
+                        score += current_reward
+                        self.agent.remember(ob_array, action, current_reward, new_ob_array, done)
+                        self.agent.learn(done)
+
+                    self._check_all_zombies_dead()
+                    # allow time to stabilise after action
+                    while True:
+                        time.sleep(0.1)
+                        self.world_state = self.agent_host.getWorldState()
+                        for error in self.world_state.errors:
+                            self.logger.error("Error: %s" % error.text)
+                        for reward in self.world_state.rewards:
+                            current_reward += reward.getValue()
+                        if self.world_state.is_mission_running and len(self.world_state.observations)>0 and not self.world_state.observations[-1].text=="{}":
+                            msg = self.world_state.observations[-1].text
+                            self.ob = json.loads(msg)
+                            self._get_position_and_orientation()
+                            difference = self._calculate_turning_difference_from_zombies()
+                            # agent chooses action
+                            ob_array = self._basic_observation_to_array(self.ob)
+                            print(f'prev_ob: {ob_array}')
+                            action = self.agent.choose_action(ob_array)
+                            self._translate_actions(action, difference)
+                            break
+                        if not self.world_state.is_mission_running:
+                            break
+                    
                 self.world_state = self.agent_host.getWorldState()
-                self._assign_observation()
-                if self.ob != None:
+                if self.world_state.number_of_observations_since_last_state > 0:
+                    msg = self.world_state.observations[-1].text
+                    self.ob = json.loads(msg)
                     self._get_position_and_orientation()
                     difference = self._calculate_turning_difference_from_zombies()
                     # self.ob['difference'] = difference # add this later as state maybe
@@ -384,6 +449,7 @@ class MainKeras():
                     print(f'next_ob: {new_ob_array }')
                     current_reward += self._get_current_rewards(current_reward)
                     score += current_reward
+
                     self.agent.remember(ob_array, action, current_reward, new_ob_array, done)
                     self.agent.learn(done)
 
