@@ -288,9 +288,13 @@ class MainKeras():
     def _get_current_rewards(self, current_rewards):
         for reward in self.world_state.rewards:
             current_rewards += reward.getValue()
+            print(f"INSIDE FOR: {reward.getValue()}")
         current_rewards += self._decrease_life_penalty()
+        print(f"life decrease penalty: {self._decrease_life_penalty()}")
         current_rewards += self._increase_time_reward()
+        print(f"increase_time: {self._increase_time_reward()}")
         current_rewards += self._kill_zombie_reward()
+        print(f"kill zombie reward: {self._kill_zombie_reward()}")
         return current_rewards
 
     def _decrease_life_penalty(self):
@@ -544,7 +548,6 @@ class MainKeras():
                     self._get_position_and_orientation()
                     difference = self._calculate_turning_difference_from_zombies()
                     
-                    
                     # agent chooses action
                     ob_array = self._observation_to_array(self.ob)
 #                    print(f'prev_ob: {ob_array}')
@@ -557,9 +560,9 @@ class MainKeras():
                     time.sleep(0.1)
                 if self.world_state.number_of_rewards_since_last_state > 0:
                     #keras calculations 
-                    observation_ = self._get_next_observation()
+                    #observation_ = self._get_next_observation()
                     self._check_num_zombies()
-                    new_ob_array  = self._observation_to_array(observation_)
+                    new_ob_array  = self._observation_to_array(self.ob)
                     # print(f'next_ob: {new_ob_array}')
                     current_reward += self._get_current_rewards(current_reward)
                     score += current_reward
