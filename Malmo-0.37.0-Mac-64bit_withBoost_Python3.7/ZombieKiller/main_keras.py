@@ -290,9 +290,11 @@ class MainKeras():
             current_rewards += reward.getValue()
             print(f"INSIDE FOR: {reward.getValue()}")
         current_rewards += self._decrease_life_penalty()
-        print(f"life decrease penalty: {self._decrease_life_penalty()}")
+        if self._decrease_life_penalty() != 0:
+            print(f"life decrease penalty: {self._decrease_life_penalty()}")
         current_rewards += self._increase_time_reward()
-        print(f"increase_time: {self._increase_time_reward()}")
+        if self._increase_time_reward() != 0:
+            print(f"increase_time: {self._increase_time_reward()}")
         current_rewards += self._kill_zombie_reward()
         print(f"kill zombie reward: {self._kill_zombie_reward()}")
         return current_rewards
@@ -532,6 +534,8 @@ class MainKeras():
             while self.world_state.is_mission_running:
                 current_reward = 0
                 self.world_state = self.agent_host.getWorldState()
+                print("length of observations1:")
+                print(len(self.world_state.observations))
                 if self.world_state.number_of_observations_since_last_state > 0: 
                     # get observation
                     msg = self.world_state.observations[-1].text
@@ -545,39 +549,40 @@ class MainKeras():
                             self.flash = True
                         self.current_life = life
                         
+                        
                     self._get_position_and_orientation()
                     difference = self._calculate_turning_difference_from_zombies()
                     
                     # agent chooses action
                     ob_array = self._observation_to_array(self.ob)
-#                    print(f'prev_ob: {ob_array}')
+                    #print(f'prev_ob: {ob_array}')
                     action = self.agent.choose_action(ob_array)
                     print("action",action)
                     self._translate_actions(action, difference)
                     
-                    # Visualization
-                    self.visual.drawMobs(self.ob['entities'], self.flash,current_reward,self._count_num_of_zombies(),i)
                     time.sleep(0.1)
-                if self.world_state.number_of_rewards_since_last_state > 0:
+                    
+                
                     #keras calculations 
-                    #observation_ = self._get_next_observation()
+                    observation_ = self._get_next_observation()
+                    print("length of observations2:")
+                    print(len(self.world_state.observations))
                     self._check_num_zombies()
-                    new_ob_array  = self._observation_to_array(self.ob)
+                    new_ob_array  = self._observation_to_array(observation_)
                     # print(f'next_ob: {new_ob_array}')
                     current_reward += self._get_current_rewards(current_reward)
                     score += current_reward
                     #self.visual.drawStats(score, self._count_num_of_zombies(), i)
                     self.agent.remember(ob_array, action, current_reward, new_ob_array, done)
                     self.agent.learn(done)
-                    
+                    # Visualization
+                    self.visual.drawMobs(self.ob['entities'], self.flash,current_reward,self._count_num_of_zombies(),i)
+                    self.flash = False
                     self._check_all_zombies_dead()
                 
                 elif self.all_zombies_dead == True:
                     self.all_zombies_dead = False
         
-            self.world_state = self.agent_host.getWorldState()
-            for reward in self.world_state.rewards:
-                score += reward.getValue()
             
             self.eps_history.append(self.agent.epsilon)
             self.scores.append(score)
@@ -714,3 +719,44 @@ class MainKeras():
             cumulative_rewards += [ total_reward ]
             print("Cumulative rewards for all %d runs:" % self.n_games)
             print(cumulative_rewards)
+
+
+{'entities': 
+[
+    {'yaw': 32.46967, 'x': 15.915883634951511, 'y': 4.0, 'z': 10.511329811947721, 'pitch': 0.0, 'id': '77d136ef-f887-385c-b50d-ad0674502b7c', 'motionX': -0.04364824723733278, 'motionY': -0.0784000015258789, 'motionZ': 0.06453784481319481, 'life': 14.0, 'name': 'ZombieKiller'}, 
+    {'yaw': -161.71875, 'x': 16.20361328125, 'y': 4.0, 'z': 11.350341796875, 'pitch': 5.625, 'id': 'f0407ac4-9799-43fe-b091-e8b83bda14ea', 'motionX': 0.017762499999999997, 'motionY': -0.0768075, 'motionZ': -0.051817499999999996, 'life': 20.0, 'name': 'Zombie'}, 
+    {'yaw': -184.21875, 'x': 16.597412109375, 'y': 4.0, 'z': 12.036865234375, 'pitch': 2.8125, 'id': '5455eeba-6f77-49dc-a4da-7c861f9ae065', 'motionX': -0.0143325, 'motionY': -0.0768075, 'motionZ': -0.056717500000000004, 'life': 13.1119995, 'name': 'Zombie'}], 
+ 'DistanceTravelled': 2394, 
+ 'TimeAlive': 194, 
+ 'MobsKilled': 0, 
+ 'PlayersKilled': 0, 
+ 'DamageTaken': 90, 
+ 'DamageDealt': 69, 
+ 'Life': 14.0, 
+ 'Score': 0, 
+ 'Food': 20, 
+ 'XP': 0, 
+ 'IsAlive': True, 
+ 'Air': 300, 
+ 'Name': 'ZombieKiller', 
+ 'XPos': 15.995825470423075, 
+ 'YPos': 4.0, 
+ 'ZPos': 10.393128644700552, 
+ 'Pitch': 0.0, 
+ 'Yaw': 35.453594, 
+ 'WorldTime': 18183, 
+ 'TotalTime': 199, 
+ 'InventorySlot_0_size': 1, 
+ 'InventorySlot_0_item': 'diamond_sword', 
+ 'InventorySlot_1_size': 0, 
+ 'InventorySlot_1_item': 'air', 
+ 'InventorySlot_2_size': 0, 
+ 'InventorySlot_2_item': 'air', 
+ 'InventorySlot_3_size': 0, 
+ 'InventorySlot_3_item': 'air', 
+ 'InventorySlot_4_size': 0, 
+ 'InventorySlot_4_item': 'air', 
+ 'InventorySlot_5_size': 0, 
+ 'InventorySlot_5_item': 'air', 
+ 'InventorySlot_6_size': 0, 
+ 'InventorySlot_6_item': 'air', 'InventorySlot_7_size': 0, 'InventorySlot_7_item': 'air', 'InventorySlot_8_size': 0, 'InventorySlot_8_item': 'air', 'InventorySlot_9_size': 0, 'InventorySlot_9_item': 'air', 'InventorySlot_10_size': 0, 'InventorySlot_10_item': 'air', 'InventorySlot_11_size': 0, 'InventorySlot_11_item': 'air', 'InventorySlot_12_size': 0, 'InventorySlot_12_item': 'air', 'InventorySlot_13_size': 0, 'InventorySlot_13_item': 'air', 'InventorySlot_14_size': 0, 'InventorySlot_14_item': 'air', 'InventorySlot_15_size': 0, 'InventorySlot_15_item': 'air', 'InventorySlot_16_size': 0, 'InventorySlot_16_item': 'air', 'InventorySlot_17_size': 0, 'InventorySlot_17_item': 'air', 'InventorySlot_18_size': 0, 'InventorySlot_18_item': 'air', 'InventorySlot_19_size': 0, 'InventorySlot_19_item': 'air', 'InventorySlot_20_size': 0, 'InventorySlot_20_item': 'air', 'InventorySlot_21_size': 0, 'InventorySlot_21_item': 'air', 'InventorySlot_22_size': 0, 'InventorySlot_22_item': 'air', 'InventorySlot_23_size': 0, 'InventorySlot_23_item': 'air', 'InventorySlot_24_size': 0, 'InventorySlot_24_item': 'air', 'InventorySlot_25_size': 0, 'InventorySlot_25_item': 'air', 'InventorySlot_26_size': 0, 'InventorySlot_26_item': 'air', 'InventorySlot_27_size': 0, 'InventorySlot_27_item': 'air', 'InventorySlot_28_size': 0, 'InventorySlot_28_item': 'air', 'InventorySlot_29_size': 0, 'InventorySlot_29_item': 'air', 'InventorySlot_30_size': 0, 'InventorySlot_30_item': 'air', 'InventorySlot_31_size': 0, 'InventorySlot_31_item': 'air', 'InventorySlot_32_size': 0, 'InventorySlot_32_item': 'air', 'InventorySlot_33_size': 0, 'InventorySlot_33_item': 'air', 'InventorySlot_34_size': 0, 'InventorySlot_34_item': 'air', 'InventorySlot_35_size': 0, 'InventorySlot_35_item': 'air', 'InventorySlot_36_size': 0, 'InventorySlot_36_item': 'air', 'InventorySlot_37_size': 0, 'InventorySlot_37_item': 'air', 'InventorySlot_38_size': 0, 'InventorySlot_38_item': 'air', 'InventorySlot_39_size': 0, 'InventorySlot_39_item': 'air', 'InventorySlot_40_size': 0, 'InventorySlot_40_item': 'air', 'inventoriesAvailable': [{'name': 'inventory', 'size': 41}], 'currentItemIndex': 0}
