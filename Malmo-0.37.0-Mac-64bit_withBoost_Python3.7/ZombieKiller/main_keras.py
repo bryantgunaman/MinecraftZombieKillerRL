@@ -297,7 +297,7 @@ class MainKeras():
         # print(f"increase_time: {self._increase_time_reward()}")
         current_rewards += self._kill_zombie_reward()
         # print(f"kill zombie reward: {self._kill_zombie_reward()}")
-        # current_rewards += self.move_backwards_reward
+        current_rewards += self.move_backwards_reward
         current_rewards += self.heal_rewards
         return current_rewards
 
@@ -332,7 +332,7 @@ class MainKeras():
         move_speed = 1.0 if abs(difference_from_zombie) < 0.5 else 0  # move slower when turning faster - helps with "orbiting" problem
         self.agent_host.sendCommand("move -" + str(move_speed))
         self.turning_diff = 0
-        self.move_backwards_reward = -20
+        self.move_backwards_reward = -12.5
         # print("move -" + str(move_speed))
 
     def _attack(self):
@@ -349,7 +349,7 @@ class MainKeras():
                 self.heal_rewards = 20
             self.num_heals -= 1
         else:
-            self.heal_rewards = -5
+            self.heal_rewards = -15
 
     def _translate_actions(self, action_num, difference_from_zombie):
         if action_num == 0:
@@ -534,7 +534,7 @@ class MainKeras():
         return count
     
     def run_dqn(self):
-        for i in range(self.n_games):
+        for i in range(1,self.n_games+1):
             self.agent.tensorboard.step = i
             self._start_mission()
             score = 0
@@ -543,7 +543,7 @@ class MainKeras():
             self.num_heals = 2
             while self.world_state.is_mission_running:
                 current_reward = 0
-                # self.move_backwards_reward = 0
+                self.move_backwards_reward = 0
                 self.heal_rewards = 0
                 self.world_state = self.agent_host.getWorldState()
                 if self.world_state.number_of_observations_since_last_state > 0: 
@@ -608,6 +608,7 @@ class MainKeras():
 
             if i%10 == 0 and i > 0:
                 self.agent.save_model()
+                print('Saved Model :D')
                 
         self._plot_dqn_results(self.scores, self.eps_history)
 
