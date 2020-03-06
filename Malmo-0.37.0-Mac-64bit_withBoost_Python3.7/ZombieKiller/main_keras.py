@@ -35,7 +35,7 @@ class MainKeras():
         # keras
         self.n_actions = 4
         self.agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0005, input_dims=7,
-                  n_actions=4, mem_size=1000000, batch_size=64, epsilon_end=0.01)
+                  n_actions=self.n_actions, mem_size=1000000, batch_size=64, epsilon_end=0.01)
         self._load_dqn_model(load_model)
 
         self.scores = []
@@ -100,6 +100,12 @@ class MainKeras():
         self.self_z = 0
         self.current_yaw = 0
         self.ob = None
+        self.all_zombies_dead = False
+        self.num_heals = 0
+        self.life_decrease_penalty = 0
+        self.TimeAlive = 0
+        self.time_rewards = 0
+        self.heal_rewards = 0
 
     def _init_logger(self):
         self.logger = logging.getLogger(__name__)
@@ -158,7 +164,7 @@ class MainKeras():
         # self.my_mission.removeAllCommandHandlers()
         self.my_mission.allowAllContinuousMovementCommands()
         self.my_mission.setViewpoint( 0 )
-        # self.my_mission.allowAllDiscreteMovementCommands()
+#        self.my_mission.allowAllDiscreteMovementCommands()
         #self.my_mission.requestVideo( 320, 240 )  use default size instead
     
     def _validate_mission(self):
@@ -279,32 +285,38 @@ class MainKeras():
         if new_num_zombies < self.num_zombies:
             self.zombie_difference = self.num_zombies - new_num_zombies
             self.num_zombies = new_num_zombies
+            self.num_heals += 1
         else:
             self.zombie_difference = 0
 
     def _get_current_rewards(self, current_rewards):
         for reward in self.world_state.rewards:
             current_rewards += reward.getValue()
-        current_rewards += self._decrease_life_penalty()
-        current_rewards += self._increase_time_reward()
+            print(f"INSIDE FOR: {reward.getValue()}")
+
+        # life decrease penalty
+        current_rewards += self.life_decrease_penalty
+        print("life decrease penalty: " + str(self.life_decrease_penalty))
+
+        # increase time rewards
+        self._increase_time_reward()
+        current_rewards += self.time_rewards
+        print(f"increase_time: {self.time_rewards}")
+
+        # healing rewards
+        current_rewards += self.heal_rewards
+        print(f"healing rewards: {self.heal_rewards}")
+        
         current_rewards += self._kill_zombie_reward()
+        print(f"kill zombie reward: {self._kill_zombie_reward()}")
         return current_rewards
 
-    def _decrease_life_penalty(self):
-        if len(self.world_state.observations) >= 2 and self.world_state.number_of_observations_since_last_state > 0:
-            ob = json.loads(self.world_state.observations[-1].text)
-            ob2 = json.loads(self.world_state.observations[-2].text)
-            if ob2['Life'] < ob['Life']:
-                return (ob2['Life'] - ob['Life']) * 5
-        return 0
-
     def _increase_time_reward(self):
-        if len(self.world_state.observations) >= 2 and self.world_state.number_of_observations_since_last_state > 0:
-            ob = json.loads(self.world_state.observations[-1].text)
-            ob2 = json.loads(self.world_state.observations[-2].text)
-            if ob2['TimeAlive'] > ob['TimeAlive']:
-                return (ob2['TimeAlive'] - ob['TimeAlive']) * 2
-        return 0
+        if "TimeAlive" in self.ob:
+            t = self.ob[u'TimeAlive']
+            if t > self.TimeAlive:
+                self.time_rewards += (t - self.TimeAlive) * .2 # life decrease penalty
+                self.TimeAlive = t
 
     def _kill_zombie_reward(self):
         return self.zombie_difference * 100
@@ -326,19 +338,27 @@ class MainKeras():
     def _attack(self):
         self.agent_host.sendCommand("attack 1")
         self.agent_host.sendCommand("attack 0")
-        self.turning_diff = 0
-        # print('attack')
+        print('attack')
+    
+    def _heal(self):
+        if self.num_heals > 0:
+            if self.current_life <= 14:
+                self.heal_rewards += 100
+            self.agent_host.sendCommand("chat /effect ZombieKiller instant_health 3")
+            self.num_heals -= 1
+        else:
+            self.heal_rewards -= 25
 
     def _translate_actions(self, action_num, difference_from_zombie):
         if action_num == 0:
-            self._move_away_from_zombies(difference_from_zombie)  
+            self._move_away_from_zombies(difference_from_zombie)
         elif action_num ==1:
             self._move_towards_zombies(difference_from_zombie)
         elif action_num == 2:
-            self._attack()   
+            self._attack()
         elif action_num == 3:
-            self._turn() 
-    
+            self._heal()
+
     def _basic_observation_to_array(self, ob):
         obs_array = []
         obs_array.append(ob['TimeAlive']) if 'TimeAlive' in ob else 0
@@ -520,31 +540,39 @@ class MainKeras():
             self.ob = None
             while self.world_state.is_mission_running:
                 current_reward = 0
+                # initialize rewards/penalties
+                self.life_decrease_penalty = 0
+                self.time_rewards = 0
+                self.heal_rewards = 0
                 self.world_state = self.agent_host.getWorldState()
                 if self.world_state.number_of_observations_since_last_state > 0: 
                     # get observation
                     msg = self.world_state.observations[-1].text
                     self.ob = json.loads(msg)
-                    
+
                     # Check if life is dropped
                     if "Life" in self.ob:
                         life = self.ob[u'Life']
                         if life < self.current_life:
                             print("aaaaaaaaaaargh!!")
+                            self.life_decrease_penalty += life - self.current_life # life decrease penalty
                             self.flash = True
                         self.current_life = life
+                        
                         
                     self._get_position_and_orientation()
                     difference = self._calculate_turning_difference_from_zombies()
                     
-                    
                     # agent chooses action
                     ob_array = self._observation_to_array(self.ob)
                     #print(f'prev_ob: {ob_array}')
-                    self._check_num_zombies()
                     action = self.agent.choose_action(ob_array)
+                    print("action",action)
                     self._translate_actions(action, difference)
                     
+                    time.sleep(0.1)
+                    
+                
                     #keras calculations 
                     observation_ = self._get_next_observation()
                     self._check_num_zombies()
@@ -555,15 +583,20 @@ class MainKeras():
                     #self.visual.drawStats(score, self._count_num_of_zombies(), i)
                     self.agent.remember(ob_array, action, current_reward, new_ob_array, done)
                     self.agent.learn(done)
-                    self.visual.drawMobs(self.ob['entities'], self.flash,current_reward,self._count_num_of_zombies(),i)
-
+                    # Visualization
+                    self.visual.drawMobs(self.ob['entities'], self.flash,score,self._count_num_of_zombies(),i)
+                    self.flash = False
                     self._check_all_zombies_dead()
-                self.flash = False
+                
+                elif self.all_zombies_dead == True:
+                    self.all_zombies_dead = False
+        
+            
             self.eps_history.append(self.agent.epsilon)
             self.scores.append(score)
 
             avg_score = np.mean(self.scores[max(0, i-100):(i+1)])
-            print('episode ', i, 'score %.2f' % score, 'average score %.2f' % avg_score)
+            print('episode ', i+1, 'score %.2f' % score, 'average score %.2f' % avg_score)
 
             if not i % self.aggregate_episode_every or i == 1:
                 self.agent.tensorboard.update_stats(reward_avg=avg_score, 

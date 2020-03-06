@@ -4,7 +4,9 @@
               <About>
                 <Summary>Kill Zombies!</Summary>
               </About>
-              
+              <ModSettings>
+                  <MsPerTick>20</MsPerTick>
+              </ModSettings>
               <ServerSection>
                 <ServerInitialConditions>
                     <Time>
@@ -29,15 +31,18 @@
                     </Inventory>
                 </AgentStart>
                 <AgentHandlers>
-                <ContinuousMovementCommands turnSpeedDegs="360"/>
+                <InventoryCommands/>
                 <MissionQuitCommands quitDescription="killed_zombies"/>
+                <RewardForMissionEnd rewardForDeath="-200">
+                    <Reward description="killed_zombies" reward="100" />
+                </RewardForMissionEnd>
                 <ObservationFromRay/>
                  <RewardForDamagingEntity>
-                    <Mob type="Zombie" reward="20"/>
+                    <Mob type="Zombie" reward="50"/>
                 </RewardForDamagingEntity>
                 <RewardForSendingCommand reward="-1" />
                 <ObservationFromNearbyEntities>
-                    <Range name="entities" xrange="10" yrange="2" zrange="10" />
+                    <Range name="entities" xrange="20" yrange="2" zrange="20" />
                 </ObservationFromNearbyEntities>
                 <ObservationFromFullStats/>
                 <ObservationFromFullInventory/> 
