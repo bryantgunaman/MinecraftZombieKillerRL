@@ -4,9 +4,7 @@
               <About>
                 <Summary>Kill Zombies!</Summary>
               </About>
-              <ModSettings>
-                  <MsPerTick>20</MsPerTick>
-              </ModSettings>
+              
               <ServerSection>
                 <ServerInitialConditions>
                     <Time>
@@ -18,7 +16,7 @@
                   <FlatWorldGenerator generatorString="3;7,2*3,2;1;"/>
                   <DrawingDecorator>
                   </DrawingDecorator>
-                  <ServerQuitFromTimeUp description="" timeLimitMs="50000"/>
+                  <ServerQuitFromTimeUp description="" timeLimitMs="5000000"/>
                   <ServerQuitWhenAnyAgentFinishes/>
                 </ServerHandlers>
               </ServerSection>
@@ -42,7 +40,7 @@
                 </RewardForDamagingEntity>
                 <RewardForSendingCommand reward="-1" />
                 <ObservationFromNearbyEntities>
-                    <Range name="entities" xrange="20" yrange="2" zrange="20" />
+                    <Range name="entities" xrange="50" yrange="2" zrange="50" />
                 </ObservationFromNearbyEntities>
                 <ObservationFromFullStats/>
                 <ObservationFromFullInventory/> 

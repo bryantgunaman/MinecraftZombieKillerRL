@@ -102,6 +102,8 @@ class MainKeras():
         self.ob = None
         self.all_zombies_dead = False
         self.num_heals = 0
+        self.move_backwards_reward = 0
+        self.heal_rewards = 0
 
     def _init_logger(self):
         self.logger = logging.getLogger(__name__)
@@ -288,13 +290,15 @@ class MainKeras():
     def _get_current_rewards(self, current_rewards):
         for reward in self.world_state.rewards:
             current_rewards += reward.getValue()
-            print(f"INSIDE FOR: {reward.getValue()}")
+            # print(f"INSIDE FOR: {reward.getValue()}")
         current_rewards += self._decrease_life_penalty()
-        print(f"life decrease penalty: {self._decrease_life_penalty()}")
+        # print(f"life decrease penalty: {self._decrease_life_penalty()}")
         current_rewards += self._increase_time_reward()
-        print(f"increase_time: {self._increase_time_reward()}")
+        # print(f"increase_time: {self._increase_time_reward()}")
         current_rewards += self._kill_zombie_reward()
-        print(f"kill zombie reward: {self._kill_zombie_reward()}")
+        # print(f"kill zombie reward: {self._kill_zombie_reward()}")
+        # current_rewards += self.move_backwards_reward
+        current_rewards += self.heal_rewards
         return current_rewards
 
     def _decrease_life_penalty(self):
@@ -328,6 +332,7 @@ class MainKeras():
         move_speed = 1.0 if abs(difference_from_zombie) < 0.5 else 0  # move slower when turning faster - helps with "orbiting" problem
         self.agent_host.sendCommand("move -" + str(move_speed))
         self.turning_diff = 0
+        self.move_backwards_reward = -20
         # print("move -" + str(move_speed))
 
     def _attack(self):
@@ -338,7 +343,13 @@ class MainKeras():
     def _heal(self):
         if self.num_heals > 0:
             self.agent_host.sendCommand("chat /effect ZombieKiller instant_health 3")
+            if self.ob['Life'] >= 15:
+                self.heal_rewards = -20
+            else:
+                self.heal_rewards = 20
             self.num_heals -= 1
+        else:
+            self.heal_rewards = -5
 
     def _translate_actions(self, action_num, difference_from_zombie):
         if action_num == 0:
@@ -529,8 +540,11 @@ class MainKeras():
             score = 0
             done = False
             self.ob = None
+            self.num_heals = 2
             while self.world_state.is_mission_running:
                 current_reward = 0
+                # self.move_backwards_reward = 0
+                self.heal_rewards = 0
                 self.world_state = self.agent_host.getWorldState()
                 if self.world_state.number_of_observations_since_last_state > 0: 
                     # get observation
