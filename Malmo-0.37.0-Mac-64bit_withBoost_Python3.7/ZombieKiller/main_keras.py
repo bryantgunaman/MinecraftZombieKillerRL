@@ -102,7 +102,9 @@ class MainKeras():
         self.ob = None
         self.all_zombies_dead = False
         self.num_heals = 0
-        self.move_backwards_reward = 0
+        self.life_decrease_penalty = 0
+        self.TimeAlive = 0
+        self.time_rewards = 0
         self.heal_rewards = 0
 
     def _init_logger(self):
@@ -290,32 +292,33 @@ class MainKeras():
     def _get_current_rewards(self, current_rewards):
         for reward in self.world_state.rewards:
             current_rewards += reward.getValue()
-            # print(f"INSIDE FOR: {reward.getValue()}")
-        current_rewards += self._decrease_life_penalty()
-        # print(f"life decrease penalty: {self._decrease_life_penalty()}")
-        current_rewards += self._increase_time_reward()
-        # print(f"increase_time: {self._increase_time_reward()}")
+            print(f"INSIDE FOR: {reward.getValue()}")
+
+        # life decrease penalty
+        current_rewards += self.life_decrease_penalty
+        print("life decrease penalty: " + str(self.life_decrease_penalty))
+
+        # increase time rewards
+        self._increase_time_reward()
+        current_rewards += self.time_rewards
+        print(f"increase_time: {self.time_rewards}")
+
+        # healing rewards
+        current_rewards += self.heal_rewards
+        print(f"healing rewards: {self.heal_rewards}")
+        
         current_rewards += self._kill_zombie_reward()
         # print(f"kill zombie reward: {self._kill_zombie_reward()}")
         current_rewards += self.move_backwards_reward
         current_rewards += self.heal_rewards
         return current_rewards
 
-    def _decrease_life_penalty(self):
-        if len(self.world_state.observations) >= 2 and self.world_state.number_of_observations_since_last_state > 0:
-            ob = json.loads(self.world_state.observations[-1].text)
-            ob2 = json.loads(self.world_state.observations[-2].text)
-            if ob2['Life'] > ob['Life']:
-                return (ob2['Life'] - ob['Life']) * 5
-        return 0
-
     def _increase_time_reward(self):
-        if len(self.world_state.observations) >= 2 and self.world_state.number_of_observations_since_last_state > 0:
-            ob = json.loads(self.world_state.observations[-1].text)
-            ob2 = json.loads(self.world_state.observations[-2].text)
-            if ob2['TimeAlive'] > ob['TimeAlive']:
-                return (ob2['TimeAlive'] - ob['TimeAlive']) * 2
-        return 0
+        if "TimeAlive" in self.ob:
+            t = self.ob[u'TimeAlive']
+            if t > self.TimeAlive:
+                self.time_rewards += (t - self.TimeAlive) * .2 # life decrease penalty
+                self.TimeAlive = t
 
     def _kill_zombie_reward(self):
         return self.zombie_difference * 100
@@ -342,6 +345,8 @@ class MainKeras():
     
     def _heal(self):
         if self.num_heals > 0:
+            if self.current_life <= 14:
+                self.heal_rewards += 100
             self.agent_host.sendCommand("chat /effect ZombieKiller instant_health 3")
             if self.ob['Life'] >= 15:
                 self.heal_rewards = -20
@@ -349,7 +354,7 @@ class MainKeras():
                 self.heal_rewards = 20
             self.num_heals -= 1
         else:
-            self.heal_rewards = -15
+            self.heal_rewards -= 25
 
     def _translate_actions(self, action_num, difference_from_zombie):
         if action_num == 0:
@@ -543,55 +548,57 @@ class MainKeras():
             self.num_heals = 2
             while self.world_state.is_mission_running:
                 current_reward = 0
-                self.move_backwards_reward = 0
+                # initialize rewards/penalties
+                self.life_decrease_penalty = 0
+                self.time_rewards = 0
                 self.heal_rewards = 0
                 self.world_state = self.agent_host.getWorldState()
                 if self.world_state.number_of_observations_since_last_state > 0: 
                     # get observation
                     msg = self.world_state.observations[-1].text
                     self.ob = json.loads(msg)
-                    
+
                     # Check if life is dropped
                     if "Life" in self.ob:
                         life = self.ob[u'Life']
                         if life < self.current_life:
                             print("aaaaaaaaaaargh!!")
+                            self.life_decrease_penalty += life - self.current_life # life decrease penalty
                             self.flash = True
                         self.current_life = life
+                        
                         
                     self._get_position_and_orientation()
                     difference = self._calculate_turning_difference_from_zombies()
                     
                     # agent chooses action
                     ob_array = self._observation_to_array(self.ob)
-#                    print(f'prev_ob: {ob_array}')
+                    #print(f'prev_ob: {ob_array}')
                     action = self.agent.choose_action(ob_array)
                     print("action",action)
                     self._translate_actions(action, difference)
                     
-                    # Visualization
-                    self.visual.drawMobs(self.ob['entities'], self.flash,current_reward,self._count_num_of_zombies(),i)
                     time.sleep(0.1)
-                if self.world_state.number_of_rewards_since_last_state > 0:
+                    
+                
                     #keras calculations 
-                    #observation_ = self._get_next_observation()
+                    observation_ = self._get_next_observation()
                     self._check_num_zombies()
-                    new_ob_array  = self._observation_to_array(self.ob)
+                    new_ob_array  = self._observation_to_array(observation_)
                     # print(f'next_ob: {new_ob_array}')
                     current_reward += self._get_current_rewards(current_reward)
                     score += current_reward
                     #self.visual.drawStats(score, self._count_num_of_zombies(), i)
                     self.agent.remember(ob_array, action, current_reward, new_ob_array, done)
                     self.agent.learn(done)
-                    
+                    # Visualization
+                    self.visual.drawMobs(self.ob['entities'], self.flash,score,self._count_num_of_zombies(),i)
+                    self.flash = False
                     self._check_all_zombies_dead()
                 
                 elif self.all_zombies_dead == True:
                     self.all_zombies_dead = False
         
-            self.world_state = self.agent_host.getWorldState()
-            for reward in self.world_state.rewards:
-                score += reward.getValue()
             
             self.eps_history.append(self.agent.epsilon)
             self.scores.append(score)
