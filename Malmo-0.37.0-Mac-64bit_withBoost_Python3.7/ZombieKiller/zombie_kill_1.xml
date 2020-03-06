@@ -38,7 +38,7 @@
                 </RewardForMissionEnd>
                 <ObservationFromRay/>
                  <RewardForDamagingEntity>
-                    <Mob type="Zombie" reward="20"/>
+                    <Mob type="Zombie" reward="50"/>
                 </RewardForDamagingEntity>
                 <RewardForSendingCommand reward="-1" />
                 <ObservationFromNearbyEntities>
