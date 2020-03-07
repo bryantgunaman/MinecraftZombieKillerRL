@@ -260,7 +260,7 @@ class MainKeras():
         if u'XPos' in self.ob:
             self.self_x = self.ob[u'XPos']
         if u'ZPos' in self.ob:
-            self_z = self.ob[u'ZPos']
+            self.self_z = self.ob[u'ZPos']
         num_zombie, x_pull, z_pull = 0, 0, 0
         for e in entities:
             if e["name"] == "Zombie":
@@ -268,7 +268,7 @@ class MainKeras():
                 # Each zombie contributes to the direction we should head in...
                 dist = max(0.0001, (e["x"] - self.self_x) * (e["x"] - self.self_x) + (e["z"] - self.self_z) * (e["z"] - self.self_z))
                 # Prioritise going after wounded sheep. Max zombie health is 20, according to Minecraft wiki...
-                weight = 21.0 - e["life"]
+                weight = 20/dist
                 x_pull += weight * (e["x"] - self.self_x) / dist
                 z_pull += weight * (e["z"] - self.self_z) / dist
         return x_pull, z_pull, current_yaw
@@ -347,15 +347,15 @@ class MainKeras():
     def _heal(self):
         if self.num_heals > 0:
             if self.current_life <= 14:
-                self.heal_rewards += 100
+                self.heal_rewards += 20
             self.agent_host.sendCommand("chat /effect ZombieKiller instant_health 3")
-            if self.ob['Life'] >= 15:
-                self.heal_rewards = -20
+            if self.ob[u'Life'] >= 15:
+                self.heal_rewards = -25
             else:
                 self.heal_rewards = 20
             self.num_heals -= 1
         else:
-            self.heal_rewards -= 25
+            self.heal_rewards -= 20
 
     def _translate_actions(self, action_num, difference_from_zombie):
         if action_num == 0:
@@ -547,6 +547,7 @@ class MainKeras():
             done = False
             self.ob = None
             self.num_heals = 2
+            self.agent_host.sendCommand("chat /effect ZombieKiller strength 500000")
             while self.world_state.is_mission_running:
                 current_reward = 0
                 # initialize rewards/penalties
