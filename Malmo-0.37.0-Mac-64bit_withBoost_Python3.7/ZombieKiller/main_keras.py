@@ -106,6 +106,7 @@ class MainKeras():
         self.TimeAlive = 0
         self.time_rewards = 0
         self.heal_rewards = 0
+        self.move_backwards_reward = 0
 
     def _init_logger(self):
         self.logger = logging.getLogger(__name__)
@@ -335,7 +336,7 @@ class MainKeras():
         move_speed = 1.0 if abs(difference_from_zombie) < 0.5 else 0  # move slower when turning faster - helps with "orbiting" problem
         self.agent_host.sendCommand("move -" + str(move_speed))
         self.turning_diff = 0
-        self.move_backwards_reward = -12.5
+        # self.move_backwards_reward = -0.45
         # print("move -" + str(move_speed))
 
     def _attack(self):
@@ -549,6 +550,7 @@ class MainKeras():
             while self.world_state.is_mission_running:
                 current_reward = 0
                 # initialize rewards/penalties
+                self.move_backwards_reward = 0
                 self.life_decrease_penalty = 0
                 self.time_rewards = 0
                 self.heal_rewards = 0
