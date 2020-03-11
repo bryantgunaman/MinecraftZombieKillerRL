@@ -5,41 +5,34 @@ Team Members: Bryant Gunaman (21268398), Rafael Tuazon (31238954),  George Zhong
 
 ### Project Summary
 
-  Zombie Killer is a Minecraft bot that we are going to train to kill zombies. To teach our bot, we begin by placing him in a small, flat, bounded environment equipped with weapons (melee and ranged weapons).  When we spawn our bot,  we will also spawn a zombie. As our bot becomes smarter, we will increase the number of zombies and their difficulties. 
-
-  Furthermore, we will also iteratively increase the area of the environment and place obstacles. To prevent our bot from jumping into water bodies to kill zombies, we decided to start with environments that contain no water bodies. 
+  Our project aims to train a Minecraft agent to kill all zombies presented to it. The agent should actively look for zombies to kill whenever possible, and evade zombies in situations that they might die. There are some commands that the agent needs to know and use at the right times. However, simply using commands at the correct times is not enough. When fighting multiple zombies, being damaged is almost inevitable. Therefore, it is also essential that our  agent is capable of healing itself. 
   
-  Ultimately, we are committed to training a bot that is capable of killing any number of zombies given any environments. If our bot learns faster than expected, we will extend to having our bot start with no weapon and train him to build weapons that will help him kill zombies.
-  
-  The main tools we will use are Minecraft, Malmo and Curriculum Learning.
+  The main tools we will use are Minecraft Malmo, Keras Tensorflow, Python3, TKInterface, and Numpy.
 
 ### Evaluation Plan
 
-We are currently at the planning stage of our project. While we are going to suggest several metrics to evaluate our project, they are subject to change depending on how our project progresses. For now the basic rewards should be given as the agent had maintained/improved his health status for a certain amount of time (say 1 hour in the game), had killed a zombie; possible actions for the agent should be movements to 8 directions, searching through the toolbar and using/consuming items (attacking or eating foods); we will keep tracking the agent’s health status and the number of zombies.
+The project is divided into three milestones. Milestone 1 consists of the agent being able to kill a zombie. We have completed Milestone 1 successfully with 
+h our Tabular Q Learning and Deep Q Network Models. Milestone 2 consists of the agent being able to kill multiple zombies and heal itself; this is still a work in progress. Milestone 3 is an ambitious milestone which aims to train the agent to collect materials to build weapons in the day, and use the built weapons to kill zombies at night. 
 
 
-```markdown
 ## Quantitative Evaluation:
 
 - To assess the ability to kill:
-	We will start with one easy zombie, then iteratively increase the number of zombies up to ten. When our bot can kill ten easy zombies, we will conclude that our bot is capable of killing.
+	We will start with one easy zombie, then iteratively increase the number of zombies up to three. When our agent can kill three zombies, we will conclude that our agent is capable of killing.
 
 - To assess the ability to fight:
-	We will start with one easy zombie, then iteratively increase the difficulty to hard. When our bot can kill three hard zombies, we will conclude that our bot is capable of fighting.
+	We will start with one easy zombie, then iteratively increase the difficulty to hard. When our agent can kill three hard zombies, we will conclude that our agent is capable of fighting.
 
 ## Qualitative Analysis:
 
 - To assess the ability to fight and kill:
-	We will randomize our maps, bot spawn locations, and zombie spawn locations. If our bot can consistently kill zombies in randomized environments, we conclude that our bot can fight and kill.
-
-- To assess the ability to use different weapons:
-    We will test our bot to use melee and ranged weapons separately. If our bot is capable of killing zombies regardless of the type of weapon they are using, we conclude that it can use different weapons.
+	We will randomize our maps, agent spawn locations, and zombie spawn locations. If our agent can consistently kill zombies in randomized environments, we conclude that our agent can fight and kill.
 
 - To assess the ability to heal:
-	If when the bot's health is low, it consistently uses items that zombies dropped to heal himself, we conclude that our bot can heal.
-```
+	If when the agent's health is low, it consistently uses items that zombies dropped to heal himself, we conclude that our agent can heal.
 
-```markdown
+
+
 ## Goals
 
 **Milestone 1 (Minimum):**
@@ -51,22 +44,27 @@ Implemented Q-Table learning agent from `hit_test.py`, giving the agent three po
 
 Instructions:
 
+- Install the required dependencies:
+```
+pip install numpy
+pip install matplotlib
+pip install tensorflow
+pip install keras
+```
+- Set up your MalmoXSD path
 - Run the game ~/Minecraft/launchClient.sh 
-- Run the training script ~/Python_Examples/kill_zombie.py
-
-Updated by Feb, 7th, 2020.
+- Run the training script ~/ZombieKiller/main_keras.py
 
 
 **Milestone 2 (Realistic):**
 
-1) Survive through a night regardless of the environment (zombie quantity, zombie difficulty, types of worlds)
-2) Be able to use loots from zombies to heal
+1) Be able to consistently kill multiple zombies.
+2) Be able to heal at the right timings.
 
 **Milestone 3 (Ambitious):**
 
 1) Be able to build weapons and gather resources at day time to prepare against surviving against zombies at night
 2) Be able to use ranged typed weapons.
-```
 
-## Appointment with Instructor
-Appointment reserved for 1:00pm - 1:15pm, Tuesday, January 28, 2020
+***Presentation Link: https://tinyurl.com/swdb3u9***
+
