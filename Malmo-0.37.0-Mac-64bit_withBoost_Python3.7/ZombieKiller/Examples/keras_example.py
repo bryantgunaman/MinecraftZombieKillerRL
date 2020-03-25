@@ -1,3 +1,4 @@
+# adapted from: https://github.com/philtabor/Youtube-Code-Repository/blob/master/ReinforcementLearning/DeepQLearning/main_tf2_dqn_lunar_lander.py
 from simple_dqn_keras import Agent
 
 import numpy as np
